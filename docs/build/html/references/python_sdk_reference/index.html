@@ -1,0 +1,935 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python SDK Reference &mdash; llama-stack  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/my_theme.css?v=f1163765" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="canonical" href="https://github.com/meta-llama/llama-stackreferences/python_sdk_reference/index.html"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=09bf800d"></script>
+      <script src="../../_static/js/detect_theme.js?v=76226c80"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="llama (server-side) CLI Reference" href="../llama_cli_reference/index.html" />
+    <link rel="prev" title="API Reference" href="../api_reference/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            llama-stack
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Llama Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started/index.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html#step-1-install-and-setup">Step 1: Install and setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html#step-2-run-the-llama-stack-server">Step 2: Run the Llama Stack server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html#step-3-run-the-demo">Step 3: Run the demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started/detailed_tutorial.html">Detailed Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/detailed_tutorial.html#step-1-installation-and-setup">Step 1: Installation and Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/detailed_tutorial.html#step-2-run-llama-stack">Step 2:  Run Llama Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/detailed_tutorial.html#step-3-run-client-cli">Step 3: Run Client CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/detailed_tutorial.html#step-4-run-the-demos">Step 4: Run the Demos</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/index.html">Why Llama Stack?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/index.html#our-solution-a-universal-stack">Our Solution: A Universal Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/index.html#our-philosophy">Our Philosophy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/index.html">Core Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#apis">APIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#api-providers">API Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#resources">Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#distributions">Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#evaluation-concepts">Evaluation Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts/index.html#open-benchmark-eval">Open-benchmark Eval</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#list-of-open-benchmarks-llama-stack-support">List of open-benchmarks Llama Stack support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#run-evaluation-on-open-benchmarks-via-cli">Run evaluation on open-benchmarks via CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#spin-up-llama-stack-server">Spin up Llama Stack server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#run-eval-cli">Run eval CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#whats-next">What’s Next?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../openai/index.html">OpenAI API Compatibility</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../openai/index.html#server-path">Server path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../openai/index.html#clients">Clients</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#llama-stack-client">Llama Stack Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#openai-client">OpenAI Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../openai/index.html#apis-implemented">APIs implemented</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#models">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#responses">Responses</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#simple-inference">Simple inference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#structured-output">Structured Output</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#chat-completions">Chat Completions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#id1">Simple inference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#id2">Structured Output</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#completions">Completions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#id3">Simple inference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../providers/index.html">Providers Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#external-providers">External Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#agents">Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#datasetio">DatasetIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#eval">Eval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#inference">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#post-training">Post Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../providers/index.html#post-training-providers">Post Training Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/external.html">External Providers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/post_training/huggingface.html">HuggingFace SFTTrainer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/post_training/torchtune.html">TorchTune</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/post_training/nvidia_nemo.html">NVIDIA NEMO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#safety">Safety</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#scoring">Scoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#telemetry">Telemetry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#tool-runtime">Tool Runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#vector-io">Vector IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../providers/index.html#vector-io-providers">Vector IO Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/external.html">External Providers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/faiss.html">Faiss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/sqlite-vec.html">SQLite-Vec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/chromadb.html">Chroma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/pgvector.html">Postgres PGVector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/qdrant.html">Qdrant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/milvus.html">Milvus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/weaviate.html">Weaviate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../distributions/importing_as_library.html">Using Llama Stack as a Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/importing_as_library.html#setup-llama-stack-without-a-server">Setup Llama Stack without a Server</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../distributions/configuration.html">Configuring a “Stack”</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/configuration.html#providers">Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/configuration.html#resources">Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/configuration.html#server-configuration">Server Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../distributions/configuration.html#authentication-configuration">Authentication Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../distributions/configuration.html#quota-configuration">Quota Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/configuration.html#extending-to-handle-safety">Extending to handle Safety</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../distributions/list_of_distributions.html">Available List of Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/list_of_distributions.html#selection-of-a-distribution-template">Selection of a Distribution / Template</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../distributions/list_of_distributions.html#distribution-details">Distribution Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../distributions/list_of_distributions.html#on-device-distributions">On-Device Distributions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../distributions/kubernetes_deployment.html">Kubernetes Deployment Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/kubernetes_deployment.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/kubernetes_deployment.html#deploying-llama-stack-server-in-kubernetes">Deploying Llama Stack Server in Kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/kubernetes_deployment.html#verifying-the-deployment">Verifying the Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../distributions/building_distro.html">Build your own Distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/building_distro.html#setting-your-log-level">Setting your log level</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/building_distro.html#llama-stack-build">Llama Stack Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/building_distro.html#running-your-stack-server">Running your Stack server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/building_distro.html#listing-distributions">Listing Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/building_distro.html#removing-a-distribution">Removing a Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/building_distro.html#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../building_applications/index.html">Building AI Applications (Examples)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/rag.html">Retrieval Augmented Generation (RAG)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#setting-up-vector-dbs">Setting up Vector DBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#ingesting-documents">Ingesting Documents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/rag.html#using-precomputed-embeddings">Using Precomputed Embeddings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#retrieval">Retrieval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#using-the-rag-tool">Using the RAG Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#building-rag-enhanced-agents">Building RAG-Enhanced Agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#unregistering-vector-dbs">Unregistering Vector DBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#appendix">Appendix</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/rag.html#more-ragdocument-examples">More RAGDocument Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/agent.html">Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/agent.html#core-concepts">Core Concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#agent-configuration">1. Agent Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#sessions">2. Sessions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#turns">3. Turns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#non-streaming">Non-Streaming</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#steps">4. Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/agent.html#agent-execution-loop">Agent Execution Loop</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/agent_execution_loop.html">Agent Execution Loop</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/agent_execution_loop.html#steps-in-the-agent-workflow">Steps in the Agent Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/agent_execution_loop.html#agent-execution-loop-example">Agent Execution Loop Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/tools.html">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#server-side-vs-client-side-tool-execution">Server-side vs. client-side tool execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/tools.html#server-side-tools">Server-side tools</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#model-context-protocol-mcp">Model Context Protocol (MCP)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/tools.html#using-remote-mcp-servers">Using Remote MCP Servers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/tools.html#running-your-own-mcp-server">Running your own MCP server</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#adding-custom-client-side-tools">Adding Custom (Client-side) Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#tool-invocation">Tool Invocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#listing-available-tools">Listing Available Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#simple-example-2-using-an-agent-with-the-web-search-tool">Simple Example 2: Using an Agent with the Web Search Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#simple-example3-using-an-agent-with-the-wolframalpha-tool">Simple Example3: Using an Agent with the WolframAlpha Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/evals.html">Evaluations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/evals.html#application-evaluation">Application Evaluation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/evals.html#building-a-search-agent">Building a Search Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/evals.html#query-agent-execution-steps">Query Agent Execution Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/evals.html#evaluate-agent-responses">Evaluate Agent Responses</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/telemetry.html">Telemetry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#events">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#spans-and-traces">Spans and Traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#sinks">Sinks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#providers">Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/telemetry.html#meta-reference-provider">Meta-Reference Provider</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/telemetry.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#jaeger-to-visualize-traces">Jaeger to visualize traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#querying-traces-stored-in-sqlite">Querying Traces Stored in SQLite</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/safety.html">Safety Guardrails</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../playground/index.html">Llama Stack Playground</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../playground/index.html#key-features">Key Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../playground/index.html#playground">Playground</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../playground/index.html#chatbot">Chatbot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../playground/index.html#evaluations">Evaluations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../playground/index.html#inspect">Inspect</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../playground/index.html#starting-the-llama-stack-playground">Starting the Llama Stack Playground</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/new_api_provider.html">Adding a New API Provider</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/new_api_provider.html#testing-the-provider">Testing the Provider</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing/new_api_provider.html#integration-testing">1. Integration Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing/new_api_provider.html#unit-testing">2. Unit Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing/new_api_provider.html#additional-end-to-end-testing">3. Additional end-to-end testing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/new_api_provider.html#submitting-your-pr">Submitting Your PR</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">References</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api_reference/index.html">API Reference</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Python SDK Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#shared-types">Shared Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#toolgroups">Toolgroups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tools">Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#toolruntime">ToolRuntime</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ragtool">RagTool</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#agents">Agents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#session">Session</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#steps">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#turn">Turn</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#batchinference">BatchInference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasets">Datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eval">Eval</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#jobs">Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#inspect">Inspect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inference">Inference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vectorio">VectorIo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vectordbs">VectorDBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#models">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#posttraining">PostTraining</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#job">Job</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#providers">Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#routes">Routes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#safety">Safety</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shields">Shields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#syntheticdatageneration">SyntheticDataGeneration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#telemetry">Telemetry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datasetio">Datasetio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scoring">Scoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scoringfunctions">ScoringFunctions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#benchmarks">Benchmarks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../llama_cli_reference/index.html">llama (server-side) CLI Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/index.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/index.html#llama-subcommands"><code class="docutils literal notranslate"><span class="pre">llama</span></code> subcommands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/index.html#sample-usage">Sample Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/index.html#downloading-models">Downloading models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/index.html#downloading-from-meta">Downloading from Meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/index.html#downloading-from-hugging-face">Downloading from Hugging Face</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/index.html#list-the-downloaded-models">List the downloaded models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/index.html#understand-the-models">Understand the models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/index.html#id1">Sample Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/index.html#describe">Describe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/index.html#prompt-format">Prompt Format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/index.html#remove-model">Remove model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../llama_stack_client_cli_reference.html">llama (client-side) CLI Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../llama_stack_client_cli_reference.html#basic-commands">Basic Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-configure"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">configure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-providers-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">providers</span> <span class="pre">list</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_stack_client_cli_reference.html#model-management">Model Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-models-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-models-get"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">get</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-models-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-models-update"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-models-delete"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">delete</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_stack_client_cli_reference.html#vector-db-management">Vector DB Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-unregister"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">unregister</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_stack_client_cli_reference.html#shield-management">Shield Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-shields-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">shields</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-shields-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">shields</span> <span class="pre">register</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_stack_client_cli_reference.html#eval-task-management">Eval Task Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-benchmarks-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">benchmarks</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-benchmarks-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">benchmarks</span> <span class="pre">register</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_stack_client_cli_reference.html#eval-execution">Eval execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-eval-run-benchmark"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">eval</span> <span class="pre">run-benchmark</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-eval-run-scoring"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">eval</span> <span class="pre">run-scoring</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_stack_client_cli_reference.html#tool-group-management">Tool Group Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-get"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">get</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-unregister"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">unregister</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../llama_cli_reference/download_models.html">Downloading Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/download_models.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/download_models.html#downloading-models-via-cli">Downloading models via CLI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/download_models.html#downloading-from-meta">Downloading from Meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/download_models.html#downloading-from-hugging-face">Downloading from Hugging Face</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/download_models.html#list-the-downloaded-models">List the downloaded models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../evals_reference/index.html">Evaluations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../evals_reference/index.html#evaluation-concepts">Evaluation Concepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../evals_reference/index.html#evaluation-examples-walkthrough">Evaluation Examples Walkthrough</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../evals_reference/index.html#open-benchmark-model-evaluation">1. Open Benchmark Model Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../evals_reference/index.html#agentic-evaluation">2. Agentic Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../evals_reference/index.html#agentic-application-dataset-scoring">3. Agentic Application Dataset Scoring</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../evals_reference/index.html#running-evaluations-via-cli">Running Evaluations via CLI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../evals_reference/index.html#benchmark-evaluation-cli">Benchmark Evaluation CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../evals_reference/index.html#application-evaluation-cli">Application Evaluation CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../evals_reference/index.html#defining-benchmarkconfig">Defining BenchmarkConfig</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../evals_reference/index.html#open-benchmark-contributing-guide">Open-benchmark Contributing Guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../evals_reference/index.html#create-the-new-dataset-for-your-new-benchmark">Create the new dataset for your new benchmark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../evals_reference/index.html#find-scoring-function-for-your-new-benchmark">Find scoring function for your new benchmark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../evals_reference/index.html#add-new-benchmark-into-template">Add new benchmark into template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../evals_reference/index.html#test-the-new-benchmark">Test the new benchmark</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">llama-stack</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">References</a></li>
+      <li class="breadcrumb-item active">Python SDK Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/references/python_sdk_reference/index.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="python-sdk-reference">
+<h1>Python SDK Reference<a class="headerlink" href="#python-sdk-reference" title="Link to this heading"></a></h1>
+<section id="shared-types">
+<h2>Shared Types<a class="headerlink" href="#shared-types" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AgentConfig</span><span class="p">,</span>
+    <span class="n">BatchCompletion</span><span class="p">,</span>
+    <span class="n">CompletionMessage</span><span class="p">,</span>
+    <span class="n">ContentDelta</span><span class="p">,</span>
+    <span class="n">Document</span><span class="p">,</span>
+    <span class="n">InterleavedContent</span><span class="p">,</span>
+    <span class="n">InterleavedContentItem</span><span class="p">,</span>
+    <span class="n">Message</span><span class="p">,</span>
+    <span class="n">ParamType</span><span class="p">,</span>
+    <span class="n">QueryConfig</span><span class="p">,</span>
+    <span class="n">QueryResult</span><span class="p">,</span>
+    <span class="n">ReturnType</span><span class="p">,</span>
+    <span class="n">SafetyViolation</span><span class="p">,</span>
+    <span class="n">SamplingParams</span><span class="p">,</span>
+    <span class="n">ScoringResult</span><span class="p">,</span>
+    <span class="n">SystemMessage</span><span class="p">,</span>
+    <span class="n">ToolCall</span><span class="p">,</span>
+    <span class="n">ToolParamDefinition</span><span class="p">,</span>
+    <span class="n">ToolResponseMessage</span><span class="p">,</span>
+    <span class="n">URL</span><span class="p">,</span>
+    <span class="n">UserMessage</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="toolgroups">
+<h2>Toolgroups<a class="headerlink" href="#toolgroups" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ListToolGroupsResponse</span><span class="p">,</span>
+    <span class="n">ToolGroup</span><span class="p">,</span>
+    <span class="n">ToolgroupListResponse</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/toolgroups">client.toolgroups.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/toolgroups.py">list</a>() -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/toolgroup_list_response.py">ToolgroupListResponse</a></code></p></li>
+<li><p><code title="get /v1/toolgroups/{toolgroup_id}">client.toolgroups.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/toolgroups.py">get</a>(toolgroup_id) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/tool_group.py">ToolGroup</a></code></p></li>
+<li><p><code title="post /v1/toolgroups">client.toolgroups.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/toolgroups.py">register</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/toolgroup_register_params.py">params</a>) -&gt; None</code></p></li>
+<li><p><code title="delete /v1/toolgroups/{toolgroup_id}">client.toolgroups.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/toolgroups.py">unregister</a>(toolgroup_id) -&gt; None</code></p></li>
+</ul>
+</section>
+<section id="tools">
+<h2>Tools<a class="headerlink" href="#tools" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">ListToolsResponse</span><span class="p">,</span> <span class="n">Tool</span><span class="p">,</span> <span class="n">ToolListResponse</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/tools">client.tools.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/tools.py">list</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/tool_list_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/tool_list_response.py">ToolListResponse</a></code></p></li>
+<li><p><code title="get /v1/tools/{tool_name}">client.tools.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/tools.py">get</a>(tool_name) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/tool.py">Tool</a></code></p></li>
+</ul>
+</section>
+<section id="toolruntime">
+<h2>ToolRuntime<a class="headerlink" href="#toolruntime" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">ToolDef</span><span class="p">,</span> <span class="n">ToolInvocationResult</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="post /v1/tool-runtime/invoke">client.tool_runtime.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/tool_runtime/tool_runtime.py">invoke_tool</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/tool_runtime_invoke_tool_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/tool_invocation_result.py">ToolInvocationResult</a></code></p></li>
+<li><p><code title="get /v1/tool-runtime/list-tools">client.tool_runtime.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/tool_runtime/tool_runtime.py">list_tools</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/tool_runtime_list_tools_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/tool_def.py">JSONLDecoder[ToolDef]</a></code></p></li>
+</ul>
+<section id="ragtool">
+<h3>RagTool<a class="headerlink" href="#ragtool" title="Link to this heading"></a></h3>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="post /v1/tool-runtime/rag-tool/insert">client.tool_runtime.rag_tool.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/tool_runtime/rag_tool.py">insert</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/tool_runtime/rag_tool_insert_params.py">params</a>) -&gt; None</code></p></li>
+<li><p><code title="post /v1/tool-runtime/rag-tool/query">client.tool_runtime.rag_tool.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/tool_runtime/rag_tool.py">query</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/tool_runtime/rag_tool_query_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/shared/query_result.py">QueryResult</a></code></p></li>
+</ul>
+</section>
+</section>
+<section id="agents">
+<h2>Agents<a class="headerlink" href="#agents" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">InferenceStep</span><span class="p">,</span>
+    <span class="n">MemoryRetrievalStep</span><span class="p">,</span>
+    <span class="n">ShieldCallStep</span><span class="p">,</span>
+    <span class="n">ToolExecutionStep</span><span class="p">,</span>
+    <span class="n">ToolResponse</span><span class="p">,</span>
+    <span class="n">AgentCreateResponse</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="post /v1/agents">client.agents.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/agents/agents.py">create</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/agent_create_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/agent_create_response.py">AgentCreateResponse</a></code></p></li>
+<li><p><code title="delete /v1/agents/{agent_id}">client.agents.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/agents/agents.py">delete</a>(agent_id) -&gt; None</code></p></li>
+</ul>
+<section id="session">
+<h3>Session<a class="headerlink" href="#session" title="Link to this heading"></a></h3>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types.agents</span> <span class="kn">import</span> <span class="n">Session</span><span class="p">,</span> <span class="n">SessionCreateResponse</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="post /v1/agents/{agent_id}/session">client.agents.session.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/agents/session.py">create</a>(agent_id, **<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/agents/session_create_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/agents/session_create_response.py">SessionCreateResponse</a></code></p></li>
+<li><p><code title="get /v1/agents/{agent_id}/session/{session_id}">client.agents.session.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/agents/session.py">retrieve</a>(session_id, *, agent_id, **<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/agents/session_retrieve_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/agents/session.py">Session</a></code></p></li>
+<li><p><code title="delete /v1/agents/{agent_id}/session/{session_id}">client.agents.session.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/agents/session.py">delete</a>(session_id, *, agent_id) -&gt; None</code></p></li>
+</ul>
+</section>
+<section id="steps">
+<h3>Steps<a class="headerlink" href="#steps" title="Link to this heading"></a></h3>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types.agents</span> <span class="kn">import</span> <span class="n">StepRetrieveResponse</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}/step/{step_id}">client.agents.steps.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/agents/steps.py">retrieve</a>(step_id, *, agent_id, session_id, turn_id) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/agents/step_retrieve_response.py">StepRetrieveResponse</a></code></p></li>
+</ul>
+</section>
+<section id="turn">
+<h3>Turn<a class="headerlink" href="#turn" title="Link to this heading"></a></h3>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types.agents</span> <span class="kn">import</span> <span class="n">Turn</span><span class="p">,</span> <span class="n">TurnCreateResponse</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="post /v1/agents/{agent_id}/session/{session_id}/turn">client.agents.turn.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/agents/turn.py">create</a>(session_id, *, agent_id, **<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/agents/turn_create_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/agents/turn_create_response.py">TurnCreateResponse</a></code></p></li>
+<li><p><code title="get /v1/agents/{agent_id}/session/{session_id}/turn/{turn_id}">client.agents.turn.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/agents/turn.py">retrieve</a>(turn_id, *, agent_id, session_id) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/agents/turn.py">Turn</a></code></p></li>
+</ul>
+</section>
+</section>
+<section id="batchinference">
+<h2>BatchInference<a class="headerlink" href="#batchinference" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">BatchInferenceChatCompletionResponse</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="post /v1/batch-inference/chat-completion">client.batch_inference.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/batch_inference.py">chat_completion</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/batch_inference_chat_completion_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/batch_inference_chat_completion_response.py">BatchInferenceChatCompletionResponse</a></code></p></li>
+<li><p><code title="post /v1/batch-inference/completion">client.batch_inference.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/batch_inference.py">completion</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/batch_inference_completion_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/shared/batch_completion.py">BatchCompletion</a></code></p></li>
+</ul>
+</section>
+<section id="datasets">
+<h2>Datasets<a class="headerlink" href="#datasets" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ListDatasetsResponse</span><span class="p">,</span>
+    <span class="n">DatasetRetrieveResponse</span><span class="p">,</span>
+    <span class="n">DatasetListResponse</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/datasets/{dataset_id}">client.datasets.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/datasets.py">retrieve</a>(dataset_id) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/dataset_retrieve_response.py">Optional[DatasetRetrieveResponse]</a></code></p></li>
+<li><p><code title="get /v1/datasets">client.datasets.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/datasets.py">list</a>() -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/dataset_list_response.py">DatasetListResponse</a></code></p></li>
+<li><p><code title="post /v1/datasets">client.datasets.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/datasets.py">register</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/dataset_register_params.py">params</a>) -&gt; None</code></p></li>
+<li><p><code title="delete /v1/datasets/{dataset_id}">client.datasets.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/datasets.py">unregister</a>(dataset_id) -&gt; None</code></p></li>
+</ul>
+</section>
+<section id="eval">
+<h2>Eval<a class="headerlink" href="#eval" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">EvaluateResponse</span><span class="p">,</span> <span class="n">Job</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="post /v1/eval/tasks/{benchmark_id}/evaluations">client.eval.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/eval/eval.py">evaluate_rows</a>(benchmark_id, **<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/eval_evaluate_rows_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/evaluate_response.py">EvaluateResponse</a></code></p></li>
+<li><p><code title="post /v1/eval/tasks/{benchmark_id}/jobs">client.eval.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/eval/eval.py">run_eval</a>(benchmark_id, **<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/eval_run_eval_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/job.py">Job</a></code></p></li>
+</ul>
+<section id="jobs">
+<h3>Jobs<a class="headerlink" href="#jobs" title="Link to this heading"></a></h3>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types.eval</span> <span class="kn">import</span> <span class="n">JobStatusResponse</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/eval/tasks/{benchmark_id}/jobs/{job_id}/result">client.eval.jobs.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/eval/jobs.py">retrieve</a>(job_id, *, benchmark_id) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/evaluate_response.py">EvaluateResponse</a></code></p></li>
+<li><p><code title="delete /v1/eval/tasks/{benchmark_id}/jobs/{job_id}">client.eval.jobs.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/eval/jobs.py">cancel</a>(job_id, *, benchmark_id) -&gt; None</code></p></li>
+<li><p><code title="get /v1/eval/tasks/{benchmark_id}/jobs/{job_id}">client.eval.jobs.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/eval/jobs.py">status</a>(job_id, *, benchmark_id) -&gt; Optional[JobStatusResponse]</code></p></li>
+</ul>
+</section>
+</section>
+<section id="inspect">
+<h2>Inspect<a class="headerlink" href="#inspect" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">HealthInfo</span><span class="p">,</span> <span class="n">ProviderInfo</span><span class="p">,</span> <span class="n">RouteInfo</span><span class="p">,</span> <span class="n">VersionInfo</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/health">client.inspect.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/inspect.py">health</a>() -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/health_info.py">HealthInfo</a></code></p></li>
+<li><p><code title="get /v1/version">client.inspect.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/inspect.py">version</a>() -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/version_info.py">VersionInfo</a></code></p></li>
+</ul>
+</section>
+<section id="inference">
+<h2>Inference<a class="headerlink" href="#inference" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CompletionResponse</span><span class="p">,</span>
+    <span class="n">EmbeddingsResponse</span><span class="p">,</span>
+    <span class="n">TokenLogProbs</span><span class="p">,</span>
+    <span class="n">InferenceChatCompletionResponse</span><span class="p">,</span>
+    <span class="n">InferenceCompletionResponse</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="post /v1/inference/chat-completion">client.inference.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/inference.py">chat_completion</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/inference_chat_completion_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/inference_chat_completion_response.py">InferenceChatCompletionResponse</a></code></p></li>
+<li><p><code title="post /v1/inference/completion">client.inference.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/inference.py">completion</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/inference_completion_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/inference_completion_response.py">InferenceCompletionResponse</a></code></p></li>
+<li><p><code title="post /v1/inference/embeddings">client.inference.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/inference.py">embeddings</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/inference_embeddings_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/embeddings_response.py">EmbeddingsResponse</a></code></p></li>
+</ul>
+</section>
+<section id="vectorio">
+<h2>VectorIo<a class="headerlink" href="#vectorio" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">QueryChunksResponse</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="post /v1/vector-io/insert">client.vector_io.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/vector_io.py">insert</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/vector_io_insert_params.py">params</a>) -&gt; None</code></p></li>
+<li><p><code title="post /v1/vector-io/query">client.vector_io.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/vector_io.py">query</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/vector_io_query_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/query_chunks_response.py">QueryChunksResponse</a></code></p></li>
+</ul>
+</section>
+<section id="vectordbs">
+<h2>VectorDBs<a class="headerlink" href="#vectordbs" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ListVectorDBsResponse</span><span class="p">,</span>
+    <span class="n">VectorDBRetrieveResponse</span><span class="p">,</span>
+    <span class="n">VectorDBListResponse</span><span class="p">,</span>
+    <span class="n">VectorDBRegisterResponse</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/vector-dbs/{vector_db_id}">client.vector_dbs.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/vector_dbs.py">retrieve</a>(vector_db_id) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/vector_db_retrieve_response.py">Optional[VectorDBRetrieveResponse]</a></code></p></li>
+<li><p><code title="get /v1/vector-dbs">client.vector_dbs.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/vector_dbs.py">list</a>() -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/vector_db_list_response.py">VectorDBListResponse</a></code></p></li>
+<li><p><code title="post /v1/vector-dbs">client.vector_dbs.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/vector_dbs.py">register</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/vector_db_register_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/vector_db_register_response.py">VectorDBRegisterResponse</a></code></p></li>
+<li><p><code title="delete /v1/vector-dbs/{vector_db_id}">client.vector_dbs.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/vector_dbs.py">unregister</a>(vector_db_id) -&gt; None</code></p></li>
+</ul>
+</section>
+<section id="models">
+<h2>Models<a class="headerlink" href="#models" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">ListModelsResponse</span><span class="p">,</span> <span class="n">Model</span><span class="p">,</span> <span class="n">ModelListResponse</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/models/{model_id}">client.models.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/models.py">retrieve</a>(model_id) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/model.py">Optional[Model]</a></code></p></li>
+<li><p><code title="get /v1/models">client.models.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/models.py">list</a>() -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/model_list_response.py">ModelListResponse</a></code></p></li>
+<li><p><code title="post /v1/models">client.models.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/models.py">register</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/model_register_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/model.py">Model</a></code></p></li>
+<li><p><code title="delete /v1/models/{model_id}">client.models.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/models.py">unregister</a>(model_id) -&gt; None</code></p></li>
+</ul>
+</section>
+<section id="posttraining">
+<h2>PostTraining<a class="headerlink" href="#posttraining" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">ListPostTrainingJobsResponse</span><span class="p">,</span> <span class="n">PostTrainingJob</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="post /v1/post-training/preference-optimize">client.post_training.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/post_training/post_training.py">preference_optimize</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/post_training_preference_optimize_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/post_training_job.py">PostTrainingJob</a></code></p></li>
+<li><p><code title="post /v1/post-training/supervised-fine-tune">client.post_training.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/post_training/post_training.py">supervised_fine_tune</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/post_training_supervised_fine_tune_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/post_training_job.py">PostTrainingJob</a></code></p></li>
+</ul>
+<section id="job">
+<h3>Job<a class="headerlink" href="#job" title="Link to this heading"></a></h3>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types.post_training</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">JobListResponse</span><span class="p">,</span>
+    <span class="n">JobArtifactsResponse</span><span class="p">,</span>
+    <span class="n">JobStatusResponse</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/post-training/jobs">client.post_training.job.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/post_training/job.py">list</a>() -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/post_training/job_list_response.py">JobListResponse</a></code></p></li>
+<li><p><code title="get /v1/post-training/job/artifacts">client.post_training.job.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/post_training/job.py">artifacts</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/post_training/job_artifacts_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/post_training/job_artifacts_response.py">Optional[JobArtifactsResponse]</a></code></p></li>
+<li><p><code title="post /v1/post-training/job/cancel">client.post_training.job.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/post_training/job.py">cancel</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/post_training/job_cancel_params.py">params</a>) -&gt; None</code></p></li>
+<li><p><code title="get /v1/post-training/job/status">client.post_training.job.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/post_training/job.py">status</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/post_training/job_status_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/post_training/job_status_response.py">Optional[JobStatusResponse]</a></code></p></li>
+</ul>
+</section>
+</section>
+<section id="providers">
+<h2>Providers<a class="headerlink" href="#providers" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">ListProvidersResponse</span><span class="p">,</span> <span class="n">ProviderListResponse</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/inspect/providers">client.providers.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/providers.py">list</a>() -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/provider_list_response.py">ProviderListResponse</a></code></p></li>
+</ul>
+</section>
+<section id="routes">
+<h2>Routes<a class="headerlink" href="#routes" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">ListRoutesResponse</span><span class="p">,</span> <span class="n">RouteListResponse</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/inspect/routes">client.routes.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/routes.py">list</a>() -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/route_list_response.py">RouteListResponse</a></code></p></li>
+</ul>
+</section>
+<section id="safety">
+<h2>Safety<a class="headerlink" href="#safety" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">RunShieldResponse</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="post /v1/safety/run-shield">client.safety.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/safety.py">run_shield</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/safety_run_shield_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/run_shield_response.py">RunShieldResponse</a></code></p></li>
+</ul>
+</section>
+<section id="shields">
+<h2>Shields<a class="headerlink" href="#shields" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">ListShieldsResponse</span><span class="p">,</span> <span class="n">Shield</span><span class="p">,</span> <span class="n">ShieldListResponse</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/shields/{identifier}">client.shields.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/shields.py">retrieve</a>(identifier) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/shield.py">Optional[Shield]</a></code></p></li>
+<li><p><code title="get /v1/shields">client.shields.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/shields.py">list</a>() -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/shield_list_response.py">ShieldListResponse</a></code></p></li>
+<li><p><code title="post /v1/shields">client.shields.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/shields.py">register</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/shield_register_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/shield.py">Shield</a></code></p></li>
+</ul>
+</section>
+<section id="syntheticdatageneration">
+<h2>SyntheticDataGeneration<a class="headerlink" href="#syntheticdatageneration" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">SyntheticDataGenerationResponse</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="post /v1/synthetic-data-generation/generate">client.synthetic_data_generation.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/synthetic_data_generation.py">generate</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/synthetic_data_generation_generate_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/synthetic_data_generation_response.py">SyntheticDataGenerationResponse</a></code></p></li>
+</ul>
+</section>
+<section id="telemetry">
+<h2>Telemetry<a class="headerlink" href="#telemetry" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">QuerySpansResponse</span><span class="p">,</span>
+    <span class="n">SpanWithStatus</span><span class="p">,</span>
+    <span class="n">Trace</span><span class="p">,</span>
+    <span class="n">TelemetryGetSpanResponse</span><span class="p">,</span>
+    <span class="n">TelemetryGetSpanTreeResponse</span><span class="p">,</span>
+    <span class="n">TelemetryQuerySpansResponse</span><span class="p">,</span>
+    <span class="n">TelemetryQueryTracesResponse</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/telemetry/traces/{trace_id}/spans/{span_id}">client.telemetry.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/telemetry.py">get_span</a>(span_id, *, trace_id) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/telemetry_get_span_response.py">TelemetryGetSpanResponse</a></code></p></li>
+<li><p><code title="get /v1/telemetry/spans/{span_id}/tree">client.telemetry.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/telemetry.py">get_span_tree</a>(span_id, **<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/telemetry_get_span_tree_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/telemetry_get_span_tree_response.py">TelemetryGetSpanTreeResponse</a></code></p></li>
+<li><p><code title="get /v1/telemetry/traces/{trace_id}">client.telemetry.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/telemetry.py">get_trace</a>(trace_id) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/trace.py">Trace</a></code></p></li>
+<li><p><code title="post /v1/telemetry/events">client.telemetry.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/telemetry.py">log_event</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/telemetry_log_event_params.py">params</a>) -&gt; None</code></p></li>
+<li><p><code title="get /v1/telemetry/spans">client.telemetry.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/telemetry.py">query_spans</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/telemetry_query_spans_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/telemetry_query_spans_response.py">TelemetryQuerySpansResponse</a></code></p></li>
+<li><p><code title="get /v1/telemetry/traces">client.telemetry.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/telemetry.py">query_traces</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/telemetry_query_traces_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/telemetry_query_traces_response.py">TelemetryQueryTracesResponse</a></code></p></li>
+<li><p><code title="post /v1/telemetry/spans/export">client.telemetry.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/telemetry.py">save_spans_to_dataset</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/telemetry_save_spans_to_dataset_params.py">params</a>) -&gt; None</code></p></li>
+</ul>
+</section>
+<section id="datasetio">
+<h2>Datasetio<a class="headerlink" href="#datasetio" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">PaginatedRowsResult</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="post /v1/datasetio/rows">client.datasetio.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/datasetio.py">append_rows</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/datasetio_append_rows_params.py">params</a>) -&gt; None</code></p></li>
+<li><p><code title="get /v1/datasetio/rows">client.datasetio.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/datasetio.py">get_rows_paginated</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/datasetio_get_rows_paginated_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/paginated_rows_result.py">PaginatedRowsResult</a></code></p></li>
+</ul>
+</section>
+<section id="scoring">
+<h2>Scoring<a class="headerlink" href="#scoring" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">ScoringScoreResponse</span><span class="p">,</span> <span class="n">ScoringScoreBatchResponse</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="post /v1/scoring/score">client.scoring.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/scoring.py">score</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/scoring_score_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/scoring_score_response.py">ScoringScoreResponse</a></code></p></li>
+<li><p><code title="post /v1/scoring/score-batch">client.scoring.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/scoring.py">score_batch</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/scoring_score_batch_params.py">params</a>) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/scoring_score_batch_response.py">ScoringScoreBatchResponse</a></code></p></li>
+</ul>
+</section>
+<section id="scoringfunctions">
+<h2>ScoringFunctions<a class="headerlink" href="#scoringfunctions" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ListScoringFunctionsResponse</span><span class="p">,</span>
+    <span class="n">ScoringFn</span><span class="p">,</span>
+    <span class="n">ScoringFunctionListResponse</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/scoring-functions/{scoring_fn_id}">client.scoring_functions.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/scoring_functions.py">retrieve</a>(scoring_fn_id) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/scoring_fn.py">Optional[ScoringFn]</a></code></p></li>
+<li><p><code title="get /v1/scoring-functions">client.scoring_functions.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/scoring_functions.py">list</a>() -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/scoring_function_list_response.py">ScoringFunctionListResponse</a></code></p></li>
+<li><p><code title="post /v1/scoring-functions">client.scoring_functions.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/scoring_functions.py">register</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/scoring_function_register_params.py">params</a>) -&gt; None</code></p></li>
+</ul>
+</section>
+<section id="benchmarks">
+<h2>Benchmarks<a class="headerlink" href="#benchmarks" title="Link to this heading"></a></h2>
+<p>Types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Benchmark</span><span class="p">,</span>
+    <span class="n">ListBenchmarksResponse</span><span class="p">,</span>
+    <span class="n">BenchmarkListResponse</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Methods:</p>
+<ul class="simple">
+<li><p><code title="get /v1/eval-tasks/{benchmark_id}">client.benchmarks.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/benchmarks.py">retrieve</a>(benchmark_id) -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/benchmark.py">Optional[Benchmark]</a></code></p></li>
+<li><p><code title="get /v1/eval-tasks">client.benchmarks.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/benchmarks.py">list</a>() -&gt; <a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/benchmark_list_response.py">BenchmarkListResponse</a></code></p></li>
+<li><p><code title="post /v1/eval-tasks">client.benchmarks.<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/resources/benchmarks.py">register</a>(**<a href="https://github.com/meta-llama/llama-stack-client-python/tree/main/src/llama_stack_client/types/benchmark_register_params.py">params</a>) -&gt; None</code></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../api_reference/index.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../llama_cli_reference/index.html" class="btn btn-neutral float-right" title="llama (server-side) CLI Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Meta.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,907 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evaluations &mdash; llama-stack  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/my_theme.css?v=f1163765" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="canonical" href="https://github.com/meta-llama/llama-stackreferences/evals_reference/index.html"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=09bf800d"></script>
+      <script src="../../_static/js/detect_theme.js?v=76226c80"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Downloading Models" href="../llama_cli_reference/download_models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            llama-stack
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Llama Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started/index.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html#step-1-install-and-setup">Step 1: Install and setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html#step-2-run-the-llama-stack-server">Step 2: Run the Llama Stack server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html#step-3-run-the-demo">Step 3: Run the demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started/detailed_tutorial.html">Detailed Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/detailed_tutorial.html#step-1-installation-and-setup">Step 1: Installation and Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/detailed_tutorial.html#step-2-run-llama-stack">Step 2:  Run Llama Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/detailed_tutorial.html#step-3-run-client-cli">Step 3: Run Client CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/detailed_tutorial.html#step-4-run-the-demos">Step 4: Run the Demos</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/index.html">Why Llama Stack?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/index.html#our-solution-a-universal-stack">Our Solution: A Universal Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/index.html#our-philosophy">Our Philosophy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/index.html">Core Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#apis">APIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#api-providers">API Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#resources">Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#distributions">Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#evaluation-concepts">Evaluation Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts/index.html#open-benchmark-eval">Open-benchmark Eval</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#list-of-open-benchmarks-llama-stack-support">List of open-benchmarks Llama Stack support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#run-evaluation-on-open-benchmarks-via-cli">Run evaluation on open-benchmarks via CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#spin-up-llama-stack-server">Spin up Llama Stack server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#run-eval-cli">Run eval CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#whats-next">What’s Next?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../openai/index.html">OpenAI API Compatibility</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../openai/index.html#server-path">Server path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../openai/index.html#clients">Clients</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#llama-stack-client">Llama Stack Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#openai-client">OpenAI Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../openai/index.html#apis-implemented">APIs implemented</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#models">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#responses">Responses</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#simple-inference">Simple inference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#structured-output">Structured Output</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#chat-completions">Chat Completions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#id1">Simple inference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#id2">Structured Output</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#completions">Completions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#id3">Simple inference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../providers/index.html">Providers Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#external-providers">External Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#agents">Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#datasetio">DatasetIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#eval">Eval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#inference">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#post-training">Post Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../providers/index.html#post-training-providers">Post Training Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/external.html">External Providers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/post_training/huggingface.html">HuggingFace SFTTrainer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/post_training/torchtune.html">TorchTune</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/post_training/nvidia_nemo.html">NVIDIA NEMO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#safety">Safety</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#scoring">Scoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#telemetry">Telemetry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#tool-runtime">Tool Runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#vector-io">Vector IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../providers/index.html#vector-io-providers">Vector IO Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/external.html">External Providers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/faiss.html">Faiss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/sqlite-vec.html">SQLite-Vec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/chromadb.html">Chroma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/pgvector.html">Postgres PGVector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/qdrant.html">Qdrant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/milvus.html">Milvus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/weaviate.html">Weaviate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../distributions/index.html">Distributions Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../distributions/importing_as_library.html">Using Llama Stack as a Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/importing_as_library.html#setup-llama-stack-without-a-server">Setup Llama Stack without a Server</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../distributions/configuration.html">Configuring a “Stack”</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/configuration.html#providers">Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/configuration.html#resources">Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/configuration.html#server-configuration">Server Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../distributions/configuration.html#authentication-configuration">Authentication Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../distributions/configuration.html#quota-configuration">Quota Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/configuration.html#extending-to-handle-safety">Extending to handle Safety</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../distributions/list_of_distributions.html">Available List of Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/list_of_distributions.html#selection-of-a-distribution-template">Selection of a Distribution / Template</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../distributions/list_of_distributions.html#distribution-details">Distribution Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../distributions/list_of_distributions.html#on-device-distributions">On-Device Distributions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../distributions/kubernetes_deployment.html">Kubernetes Deployment Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/kubernetes_deployment.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/kubernetes_deployment.html#deploying-llama-stack-server-in-kubernetes">Deploying Llama Stack Server in Kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/kubernetes_deployment.html#verifying-the-deployment">Verifying the Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../distributions/building_distro.html">Build your own Distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/building_distro.html#setting-your-log-level">Setting your log level</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/building_distro.html#llama-stack-build">Llama Stack Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/building_distro.html#running-your-stack-server">Running your Stack server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/building_distro.html#listing-distributions">Listing Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/building_distro.html#removing-a-distribution">Removing a Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../distributions/building_distro.html#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../building_applications/index.html">Building AI Applications (Examples)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/rag.html">Retrieval Augmented Generation (RAG)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#setting-up-vector-dbs">Setting up Vector DBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#ingesting-documents">Ingesting Documents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/rag.html#using-precomputed-embeddings">Using Precomputed Embeddings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#retrieval">Retrieval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#using-the-rag-tool">Using the RAG Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#building-rag-enhanced-agents">Building RAG-Enhanced Agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#unregistering-vector-dbs">Unregistering Vector DBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#appendix">Appendix</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/rag.html#more-ragdocument-examples">More RAGDocument Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/agent.html">Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/agent.html#core-concepts">Core Concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#agent-configuration">1. Agent Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#sessions">2. Sessions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#turns">3. Turns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#non-streaming">Non-Streaming</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#steps">4. Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/agent.html#agent-execution-loop">Agent Execution Loop</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/agent_execution_loop.html">Agent Execution Loop</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/agent_execution_loop.html#steps-in-the-agent-workflow">Steps in the Agent Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/agent_execution_loop.html#agent-execution-loop-example">Agent Execution Loop Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/tools.html">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#server-side-vs-client-side-tool-execution">Server-side vs. client-side tool execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/tools.html#server-side-tools">Server-side tools</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#model-context-protocol-mcp">Model Context Protocol (MCP)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/tools.html#using-remote-mcp-servers">Using Remote MCP Servers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/tools.html#running-your-own-mcp-server">Running your own MCP server</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#adding-custom-client-side-tools">Adding Custom (Client-side) Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#tool-invocation">Tool Invocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#listing-available-tools">Listing Available Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#simple-example-2-using-an-agent-with-the-web-search-tool">Simple Example 2: Using an Agent with the Web Search Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#simple-example3-using-an-agent-with-the-wolframalpha-tool">Simple Example3: Using an Agent with the WolframAlpha Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/evals.html">Evaluations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/evals.html#application-evaluation">Application Evaluation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/evals.html#building-a-search-agent">Building a Search Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/evals.html#query-agent-execution-steps">Query Agent Execution Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/evals.html#evaluate-agent-responses">Evaluate Agent Responses</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/telemetry.html">Telemetry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#events">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#spans-and-traces">Spans and Traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#sinks">Sinks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#providers">Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/telemetry.html#meta-reference-provider">Meta-Reference Provider</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/telemetry.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#jaeger-to-visualize-traces">Jaeger to visualize traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#querying-traces-stored-in-sqlite">Querying Traces Stored in SQLite</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/safety.html">Safety Guardrails</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../playground/index.html">Llama Stack Playground</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../playground/index.html#key-features">Key Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../playground/index.html#playground">Playground</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../playground/index.html#chatbot">Chatbot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../playground/index.html#evaluations">Evaluations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../playground/index.html#inspect">Inspect</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../playground/index.html#starting-the-llama-stack-playground">Starting the Llama Stack Playground</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/new_api_provider.html">Adding a New API Provider</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/new_api_provider.html#testing-the-provider">Testing the Provider</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing/new_api_provider.html#integration-testing">1. Integration Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing/new_api_provider.html#unit-testing">2. Unit Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing/new_api_provider.html#additional-end-to-end-testing">3. Additional end-to-end testing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/new_api_provider.html#submitting-your-pr">Submitting Your PR</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">References</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api_reference/index.html">API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python_sdk_reference/index.html">Python SDK Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#shared-types">Shared Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#toolgroups">Toolgroups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#tools">Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#toolruntime">ToolRuntime</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../python_sdk_reference/index.html#ragtool">RagTool</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#agents">Agents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../python_sdk_reference/index.html#session">Session</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python_sdk_reference/index.html#steps">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../python_sdk_reference/index.html#turn">Turn</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#batchinference">BatchInference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#datasets">Datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#eval">Eval</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../python_sdk_reference/index.html#jobs">Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#inspect">Inspect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#inference">Inference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#vectorio">VectorIo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#vectordbs">VectorDBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#models">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#posttraining">PostTraining</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../python_sdk_reference/index.html#job">Job</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#providers">Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#routes">Routes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#safety">Safety</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#shields">Shields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#syntheticdatageneration">SyntheticDataGeneration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#telemetry">Telemetry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#datasetio">Datasetio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#scoring">Scoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#scoringfunctions">ScoringFunctions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python_sdk_reference/index.html#benchmarks">Benchmarks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../llama_cli_reference/index.html">llama (server-side) CLI Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/index.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/index.html#llama-subcommands"><code class="docutils literal notranslate"><span class="pre">llama</span></code> subcommands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/index.html#sample-usage">Sample Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/index.html#downloading-models">Downloading models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/index.html#downloading-from-meta">Downloading from Meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/index.html#downloading-from-hugging-face">Downloading from Hugging Face</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/index.html#list-the-downloaded-models">List the downloaded models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/index.html#understand-the-models">Understand the models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/index.html#id1">Sample Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/index.html#describe">Describe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/index.html#prompt-format">Prompt Format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/index.html#remove-model">Remove model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../llama_stack_client_cli_reference.html">llama (client-side) CLI Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../llama_stack_client_cli_reference.html#basic-commands">Basic Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-configure"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">configure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-providers-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">providers</span> <span class="pre">list</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_stack_client_cli_reference.html#model-management">Model Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-models-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-models-get"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">get</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-models-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-models-update"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-models-delete"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">delete</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_stack_client_cli_reference.html#vector-db-management">Vector DB Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-unregister"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">unregister</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_stack_client_cli_reference.html#shield-management">Shield Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-shields-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">shields</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-shields-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">shields</span> <span class="pre">register</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_stack_client_cli_reference.html#eval-task-management">Eval Task Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-benchmarks-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">benchmarks</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-benchmarks-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">benchmarks</span> <span class="pre">register</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_stack_client_cli_reference.html#eval-execution">Eval execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-eval-run-benchmark"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">eval</span> <span class="pre">run-benchmark</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-eval-run-scoring"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">eval</span> <span class="pre">run-scoring</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_stack_client_cli_reference.html#tool-group-management">Tool Group Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-get"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">get</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-unregister"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">unregister</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../llama_cli_reference/download_models.html">Downloading Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/download_models.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/download_models.html#downloading-models-via-cli">Downloading models via CLI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/download_models.html#downloading-from-meta">Downloading from Meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../llama_cli_reference/download_models.html#downloading-from-hugging-face">Downloading from Hugging Face</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../llama_cli_reference/download_models.html#list-the-downloaded-models">List the downloaded models</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Evaluations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#evaluation-concepts">Evaluation Concepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#evaluation-examples-walkthrough">Evaluation Examples Walkthrough</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#open-benchmark-model-evaluation">1. Open Benchmark Model Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agentic-evaluation">2. Agentic Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#agentic-application-dataset-scoring">3. Agentic Application Dataset Scoring</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#running-evaluations-via-cli">Running Evaluations via CLI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#benchmark-evaluation-cli">Benchmark Evaluation CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-evaluation-cli">Application Evaluation CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#defining-benchmarkconfig">Defining BenchmarkConfig</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#open-benchmark-contributing-guide">Open-benchmark Contributing Guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#create-the-new-dataset-for-your-new-benchmark">Create the new dataset for your new benchmark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#find-scoring-function-for-your-new-benchmark">Find scoring function for your new benchmark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#add-new-benchmark-into-template">Add new benchmark into template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#test-the-new-benchmark">Test the new benchmark</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">llama-stack</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">References</a></li>
+      <li class="breadcrumb-item active">Evaluations</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/references/evals_reference/index.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="evaluations">
+<h1>Evaluations<a class="headerlink" href="#evaluations" title="Link to this heading"></a></h1>
+<p>The Llama Stack Evaluation flow allows you to run evaluations on your GenAI application datasets or pre-registered benchmarks.</p>
+<p>We introduce a set of APIs in Llama Stack for supporting running evaluations of LLM applications.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/datasetio</span></code> + <code class="docutils literal notranslate"><span class="pre">/datasets</span></code> API</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/scoring</span></code> + <code class="docutils literal notranslate"><span class="pre">/scoring_functions</span></code> API</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/eval</span></code> + <code class="docutils literal notranslate"><span class="pre">/benchmarks</span></code> API</p></li>
+</ul>
+<p>This guide goes over the sets of APIs and developer experience flow of using Llama Stack to run evaluations for different use cases. Checkout our Colab notebook on working examples with evaluations <a class="reference external" href="https://colab.research.google.com/drive/10CHyykee9j2OigaIcRv47BKG9mrNm0tJ?usp=sharing">here</a>.</p>
+<section id="evaluation-concepts">
+<h2>Evaluation Concepts<a class="headerlink" href="#evaluation-concepts" title="Link to this heading"></a></h2>
+<p>The Evaluation APIs are associated with a set of Resources as shown in the following diagram. Please visit the Resources section in our <a class="reference internal" href="../../concepts/index.html"><span class="std std-doc">Core Concepts</span></a> guide for better high-level understanding.</p>
+<p><img alt="Eval Concepts" src="../../_images/eval-concept.png" /></p>
+<ul class="simple">
+<li><p><strong>DatasetIO</strong>: defines interface with datasets and data loaders.</p>
+<ul>
+<li><p>Associated with <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> resource.</p></li>
+</ul>
+</li>
+<li><p><strong>Scoring</strong>: evaluate outputs of the system.</p>
+<ul>
+<li><p>Associated with <code class="docutils literal notranslate"><span class="pre">ScoringFunction</span></code> resource. We provide a suite of out-of-the box scoring functions and also the ability for you to add custom evaluators. These scoring functions are the core part of defining an evaluation task to output evaluation metrics.</p></li>
+</ul>
+</li>
+<li><p><strong>Eval</strong>: generate outputs (via Inference or Agents) and perform scoring.</p>
+<ul>
+<li><p>Associated with <code class="docutils literal notranslate"><span class="pre">Benchmark</span></code> resource.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="evaluation-examples-walkthrough">
+<h2>Evaluation Examples Walkthrough<a class="headerlink" href="#evaluation-examples-walkthrough" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="https://colab.research.google.com/github/meta-llama/llama-stack/blob/main/docs/notebooks/Llama_Stack_Benchmark_Evals.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>It is best to open this notebook in Colab to follow along with the examples.</p>
+<section id="open-benchmark-model-evaluation">
+<h3>1. Open Benchmark Model Evaluation<a class="headerlink" href="#open-benchmark-model-evaluation" title="Link to this heading"></a></h3>
+<p>This first example walks you through how to evaluate a model candidate served by Llama Stack on open benchmarks. We will use the following benchmark:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/2311.16502">MMMU</a> (A Massive Multi-discipline Multimodal Understanding and Reasoning Benchmark for Expert AGI)]: Benchmark designed to evaluate multimodal models.</p></li>
+<li><p><a class="reference external" href="https://openai.com/index/introducing-simpleqa/">SimpleQA</a>: Benchmark designed to access models to answer short, fact-seeking questions.</p></li>
+</ul>
+<section id="running-mmmu">
+<h4>1.1 Running MMMU<a class="headerlink" href="#running-mmmu" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>We will use a pre-processed MMMU dataset from <a class="reference external" href="https://huggingface.co/datasets/llamastack/mmmu">llamastack/mmmu</a>. The preprocessing code is shown in this <a class="reference external" href="https://gist.github.com/yanxi0830/118e9c560227d27132a7fd10e2c92840">GitHub Gist</a>. The dataset is obtained by transforming the original <a class="reference external" href="https://huggingface.co/datasets/MMMU/MMMU">MMMU/MMMU</a> dataset into correct format by <code class="docutils literal notranslate"><span class="pre">inference/chat-completion</span></code> API.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">datasets</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;llamastack/mmmu&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Agriculture&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;dev&quot;</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">select_columns</span><span class="p">([</span><span class="s2">&quot;chat_completion_input&quot;</span><span class="p">,</span> <span class="s2">&quot;input_query&quot;</span><span class="p">,</span> <span class="s2">&quot;expected_answer&quot;</span><span class="p">])</span>
+<span class="n">eval_rows</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="n">orient</span><span class="o">=</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Next, we will run evaluation on an model candidate, we will need to:</p>
+<ul>
+<li><p>Define a system prompt</p></li>
+<li><p>Define an EvalCandidate</p></li>
+<li><p>Run evaluate on the dataset</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rich.pretty</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="n">SYSTEM_PROMPT_TEMPLATE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">You are an expert in </span><span class="si">{subject}</span><span class="s2"> whose job is to answer questions from the user using images.</span>
+
+<span class="s2">First, reason about the correct answer.</span>
+
+<span class="s2">Then write the answer in the following format where X is exactly one of A,B,C,D:</span>
+
+<span class="s2">Answer: X</span>
+
+<span class="s2">Make sure X is one of A,B,C,D.</span>
+
+<span class="s2">If you are uncertain of the correct answer, guess the most likely one.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">system_message</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">SYSTEM_PROMPT_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">subject</span><span class="o">=</span><span class="n">subset</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="c1"># register the evaluation benchmark task with the dataset and scoring function</span>
+<span class="n">client</span><span class="o">.</span><span class="n">benchmarks</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">benchmark_id</span><span class="o">=</span><span class="s2">&quot;meta-reference::mmmu&quot;</span><span class="p">,</span>
+    <span class="n">dataset_id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;mmmu-</span><span class="si">{</span><span class="n">subset</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">scoring_functions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;basic::regex_parser_multiple_choice_answer&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">eval</span><span class="o">.</span><span class="n">evaluate_rows</span><span class="p">(</span>
+    <span class="n">benchmark_id</span><span class="o">=</span><span class="s2">&quot;meta-reference::mmmu&quot;</span><span class="p">,</span>
+    <span class="n">input_rows</span><span class="o">=</span><span class="n">eval_rows</span><span class="p">,</span>
+    <span class="n">scoring_functions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;basic::regex_parser_multiple_choice_answer&quot;</span><span class="p">],</span>
+    <span class="n">benchmark_config</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;eval_candidate&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;model&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;meta-llama/Llama-3.2-90B-Vision-Instruct&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sampling_params&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;strategy&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;top_p&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                    <span class="s2">&quot;top_p&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;max_tokens&quot;</span><span class="p">:</span> <span class="mi">4096</span><span class="p">,</span>
+                <span class="s2">&quot;repeat_penalty&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;system_message&quot;</span><span class="p">:</span> <span class="n">system_message</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="running-simpleqa">
+<h4>1.2. Running SimpleQA<a class="headerlink" href="#running-simpleqa" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>We will use a pre-processed SimpleQA dataset from <a class="reference external" href="https://huggingface.co/datasets/llamastack/evals/viewer/evals__simpleqa">llamastack/evals</a> which is obtained by transforming the input query into correct format accepted by <code class="docutils literal notranslate"><span class="pre">inference/chat-completion</span></code> API.</p></li>
+<li><p>Since we will be using this same dataset in our next example for Agentic evaluation, we will register it using the <code class="docutils literal notranslate"><span class="pre">/datasets</span></code> API, and interact with it through <code class="docutils literal notranslate"><span class="pre">/datasetio</span></code> API.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">simpleqa_dataset_id</span> <span class="o">=</span> <span class="s2">&quot;huggingface::simpleqa&quot;</span>
+
+<span class="n">_</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">purpose</span><span class="o">=</span><span class="s2">&quot;eval/messages-answer&quot;</span><span class="p">,</span>
+    <span class="n">source</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;uri&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;uri&quot;</span><span class="p">:</span> <span class="s2">&quot;huggingface://datasets/llamastack/simpleqa?split=train&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">dataset_id</span><span class="o">=</span><span class="n">simpleqa_dataset_id</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">eval_rows</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">iterrows</span><span class="p">(</span>
+    <span class="n">dataset_id</span><span class="o">=</span><span class="n">simpleqa_dataset_id</span><span class="p">,</span>
+    <span class="n">limit</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">client</span><span class="o">.</span><span class="n">benchmarks</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">benchmark_id</span><span class="o">=</span><span class="s2">&quot;meta-reference::simpleqa&quot;</span><span class="p">,</span>
+    <span class="n">dataset_id</span><span class="o">=</span><span class="n">simpleqa_dataset_id</span><span class="p">,</span>
+    <span class="n">scoring_functions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;llm-as-judge::405b-simpleqa&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">eval</span><span class="o">.</span><span class="n">evaluate_rows</span><span class="p">(</span>
+    <span class="n">benchmark_id</span><span class="o">=</span><span class="s2">&quot;meta-reference::simpleqa&quot;</span><span class="p">,</span>
+    <span class="n">input_rows</span><span class="o">=</span><span class="n">eval_rows</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">scoring_functions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;llm-as-judge::405b-simpleqa&quot;</span><span class="p">],</span>
+    <span class="n">benchmark_config</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;eval_candidate&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;model&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;meta-llama/Llama-3.2-90B-Vision-Instruct&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sampling_params&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;strategy&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;greedy&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="s2">&quot;max_tokens&quot;</span><span class="p">:</span> <span class="mi">4096</span><span class="p">,</span>
+                <span class="s2">&quot;repeat_penalty&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="agentic-evaluation">
+<h3>2. Agentic Evaluation<a class="headerlink" href="#agentic-evaluation" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>In this example, we will demonstrate how to evaluate a agent candidate served by Llama Stack via <code class="docutils literal notranslate"><span class="pre">/agent</span></code> API.</p></li>
+<li><p>We will continue to use the SimpleQA dataset we used in previous example.</p></li>
+<li><p>Instead of running evaluation on model, we will run the evaluation on a Search Agent with access to search tool. We will define our agent evaluation candidate through <code class="docutils literal notranslate"><span class="pre">AgentConfig</span></code>.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">agent_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="s2">&quot;meta-llama/Llama-3.3-70B-Instruct&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;instructions&quot;</span><span class="p">:</span> <span class="s2">&quot;You are a helpful assistant that have access to tool to search the web. &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sampling_params&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;strategy&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;top_p&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;temperature&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+            <span class="s2">&quot;top_p&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;toolgroups&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;builtin::websearch&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;tool_choice&quot;</span><span class="p">:</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tool_prompt_format&quot;</span><span class="p">:</span> <span class="s2">&quot;json&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;input_shields&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;output_shields&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;enable_session_persistence&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">eval</span><span class="o">.</span><span class="n">evaluate_rows</span><span class="p">(</span>
+    <span class="n">benchmark_id</span><span class="o">=</span><span class="s2">&quot;meta-reference::simpleqa&quot;</span><span class="p">,</span>
+    <span class="n">input_rows</span><span class="o">=</span><span class="n">eval_rows</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+    <span class="n">scoring_functions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;llm-as-judge::405b-simpleqa&quot;</span><span class="p">],</span>
+    <span class="n">benchmark_config</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;eval_candidate&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;agent&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;config&quot;</span><span class="p">:</span> <span class="n">agent_config</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="agentic-application-dataset-scoring">
+<h3>3. Agentic Application Dataset Scoring<a class="headerlink" href="#agentic-application-dataset-scoring" title="Link to this heading"></a></h3>
+<p><a class="reference external" href="https://colab.research.google.com/github/meta-llama/llama-stack/blob/main/docs/getting_started.ipynb"><img alt="Open In Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p>Llama Stack offers a library of scoring functions and the <code class="docutils literal notranslate"><span class="pre">/scoring</span></code> API, allowing you to run evaluations on your pre-annotated AI application datasets.</p>
+<p>In this example, we will work with an example RAG dataset you have built previously, label with an annotation, and use LLM-As-Judge with custom judge prompt for scoring. Please checkout our <a class="reference external" href="https://llama-stack.readthedocs.io/en/latest/playground/index.html">Llama Stack Playground</a> for an interactive interface to upload datasets and run scorings.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">judge_model_id</span> <span class="o">=</span> <span class="s2">&quot;meta-llama/Llama-3.1-405B-Instruct-FP8&quot;</span>
+
+<span class="n">JUDGE_PROMPT</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Given a QUESTION and GENERATED_RESPONSE and EXPECTED_RESPONSE.</span>
+
+<span class="s2">Compare the factual content of the GENERATED_RESPONSE with the EXPECTED_RESPONSE. Ignore any differences in style, grammar, or punctuation.</span>
+<span class="s2">  The GENERATED_RESPONSE may either be a subset or superset of the EXPECTED_RESPONSE, or it may conflict with it. Determine which case applies. Answer the question by selecting one of the following options:</span>
+<span class="s2">  (A) The GENERATED_RESPONSE is a subset of the EXPECTED_RESPONSE and is fully consistent with it.</span>
+<span class="s2">  (B) The GENERATED_RESPONSE is a superset of the EXPECTED_RESPONSE and is fully consistent with it.</span>
+<span class="s2">  (C) The GENERATED_RESPONSE contains all the same details as the EXPECTED_RESPONSE.</span>
+<span class="s2">  (D) There is a disagreement between the GENERATED_RESPONSE and the EXPECTED_RESPONSE.</span>
+<span class="s2">  (E) The answers differ, but these differences don&#39;t matter from the perspective of factuality.</span>
+
+<span class="s2">Give your answer in the format &quot;Answer: One of ABCDE, Explanation: &quot;.</span>
+
+<span class="s2">Your actual task:</span>
+
+<span class="s2">QUESTION: </span><span class="si">{input_query}</span>
+<span class="s2">GENERATED_RESPONSE: </span><span class="si">{generated_answer}</span>
+<span class="s2">EXPECTED_RESPONSE: </span><span class="si">{expected_answer}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">input_query</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;What are the top 5 topics that were explained? Only list succinct bullet points.&quot;</span>
+<span class="p">)</span>
+<span class="n">generated_answer</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Here are the top 5 topics that were explained in the documentation for Torchtune:</span>
+
+<span class="s2">* What is LoRA and how does it work?</span>
+<span class="s2">* Fine-tuning with LoRA: memory savings and parameter-efficient finetuning</span>
+<span class="s2">* Running a LoRA finetune with Torchtune: overview and recipe</span>
+<span class="s2">* Experimenting with different LoRA configurations: rank, alpha, and attention modules</span>
+<span class="s2">* LoRA finetuning</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">expected_answer</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;LoRA&quot;&quot;&quot;</span>
+
+<span class="n">dataset_rows</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;input_query&quot;</span><span class="p">:</span> <span class="n">input_query</span><span class="p">,</span>
+        <span class="s2">&quot;generated_answer&quot;</span><span class="p">:</span> <span class="n">generated_answer</span><span class="p">,</span>
+        <span class="s2">&quot;expected_answer&quot;</span><span class="p">:</span> <span class="n">expected_answer</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">]</span>
+
+<span class="n">scoring_params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;llm-as-judge::base&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;judge_model&quot;</span><span class="p">:</span> <span class="n">judge_model_id</span><span class="p">,</span>
+        <span class="s2">&quot;prompt_template&quot;</span><span class="p">:</span> <span class="n">JUDGE_PROMPT</span><span class="p">,</span>
+        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;llm_as_judge&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;judge_score_regexes&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Answer: (A|B|C|D|E)&quot;</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;basic::subset_of&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;braintrust::factuality&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">scoring</span><span class="o">.</span><span class="n">score</span><span class="p">(</span>
+    <span class="n">input_rows</span><span class="o">=</span><span class="n">dataset_rows</span><span class="p">,</span> <span class="n">scoring_functions</span><span class="o">=</span><span class="n">scoring_params</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="running-evaluations-via-cli">
+<h2>Running Evaluations via CLI<a class="headerlink" href="#running-evaluations-via-cli" title="Link to this heading"></a></h2>
+<p>The following examples give the quick steps to start running evaluations using the llama-stack-client CLI.</p>
+<section id="benchmark-evaluation-cli">
+<h3>Benchmark Evaluation CLI<a class="headerlink" href="#benchmark-evaluation-cli" title="Link to this heading"></a></h3>
+<p>There are 3 necessary input for running a benchmark eval</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">list</span> <span class="pre">of</span> <span class="pre">benchmark_ids</span></code>: The list of benchmark ids to run evaluation on</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model-id</span></code>: The model id to evaluate on</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">utput_dir</span></code>: Path to store the evaluate results</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">llama</span><span class="o">-</span><span class="n">stack</span><span class="o">-</span><span class="n">client</span> <span class="nb">eval</span> <span class="n">run</span><span class="o">-</span><span class="n">benchmark</span> <span class="o">&lt;</span><span class="n">benchmark_id_1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">benchmark_id_2</span><span class="o">&gt;</span> <span class="o">...</span> \
+<span class="o">--</span><span class="n">model_id</span> <span class="o">&lt;</span><span class="n">model</span> <span class="nb">id</span> <span class="n">to</span> <span class="n">evaluate</span> <span class="n">on</span><span class="o">&gt;</span> \
+<span class="o">--</span><span class="n">output_dir</span> <span class="o">&lt;</span><span class="n">directory</span> <span class="n">to</span> <span class="n">store</span> <span class="n">the</span> <span class="n">evaluate</span> <span class="n">results</span><span class="o">&gt;</span> \
+</pre></div>
+</div>
+<p>You can run</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">llama</span><span class="o">-</span><span class="n">stack</span><span class="o">-</span><span class="n">client</span> <span class="nb">eval</span> <span class="n">run</span><span class="o">-</span><span class="n">benchmark</span> <span class="n">help</span>
+</pre></div>
+</div>
+<p>to see the description of all the flags to run benckmark eval</p>
+<p>In the output log, you can find the path to the file that has your evaluation results. Open that file and you can see you aggrgate
+evaluation results over there.</p>
+</section>
+<section id="application-evaluation-cli">
+<h3>Application Evaluation CLI<a class="headerlink" href="#application-evaluation-cli" title="Link to this heading"></a></h3>
+<p>Usage: For running application evals, you will already have available datasets in hand from your application. You will need to specify:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">scoring-fn-id</span></code>: List of ScoringFunction identifiers you wish to use to run on your application.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Dataset</span></code> used for evaluation:</p>
+<ul>
+<li><p>(1) <code class="docutils literal notranslate"><span class="pre">--dataset-path</span></code>: path to local file system containing datasets to run evaluation on</p></li>
+<li><p>(2) <code class="docutils literal notranslate"><span class="pre">--dataset-id</span></code>: pre-registered dataset in Llama Stack</p></li>
+</ul>
+</li>
+<li><p>(Optional) <code class="docutils literal notranslate"><span class="pre">--scoring-params-config</span></code>: optionally parameterize scoring functions with custom params (e.g. <code class="docutils literal notranslate"><span class="pre">judge_prompt</span></code>, <code class="docutils literal notranslate"><span class="pre">judge_model</span></code>, <code class="docutils literal notranslate"><span class="pre">parsing_regexes</span></code>).</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">llama</span><span class="o">-</span><span class="n">stack</span><span class="o">-</span><span class="n">client</span> <span class="nb">eval</span> <span class="n">run_scoring</span> <span class="o">&lt;</span><span class="n">scoring_fn_id_1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">scoring_fn_id_2</span><span class="o">&gt;</span> <span class="o">...</span> <span class="o">&lt;</span><span class="n">scoring_fn_id_n</span><span class="o">&gt;</span>
+<span class="o">--</span><span class="n">dataset</span><span class="o">-</span><span class="n">path</span> <span class="o">&lt;</span><span class="n">path</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">local</span><span class="o">-</span><span class="n">dataset</span><span class="o">&gt;</span> \
+<span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="nb">dir</span> <span class="o">./</span>
+</pre></div>
+</div>
+</section>
+<section id="defining-benchmarkconfig">
+<h3>Defining BenchmarkConfig<a class="headerlink" href="#defining-benchmarkconfig" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">BenchmarkConfig</span></code> are user specified config to define:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">EvalCandidate</span></code> to run generation on:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ModelCandidate</span></code>: The model will be used for generation through LlamaStack /inference API.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AgentCandidate</span></code>: The agentic system specified by AgentConfig will be used for generation through LlamaStack  /agents API.</p></li>
+</ul>
+</li>
+<li><p>Optionally scoring function params to allow customization of scoring function behaviour. This is useful to parameterize generic scoring functions such as LLMAsJudge with custom <code class="docutils literal notranslate"><span class="pre">judge_model</span></code> / <code class="docutils literal notranslate"><span class="pre">judge_prompt</span></code>.</p></li>
+</ol>
+<p><strong>Example BenchmarkConfig</strong></p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;eval_candidate&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;model&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Llama3.1-405B-Instruct&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;sampling_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;strategy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;greedy&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;max_tokens&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;repetition_penalty&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;scoring_params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;llm-as-judge::llm_as_judge_base&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;llm_as_judge&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;judge_model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;meta-llama/Llama-3.1-8B-Instruct&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;prompt_template&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Your job is to look at a question, a gold target ........&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;judge_score_regexes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;(A|B|C)&quot;</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="open-benchmark-contributing-guide">
+<h2>Open-benchmark Contributing Guide<a class="headerlink" href="#open-benchmark-contributing-guide" title="Link to this heading"></a></h2>
+<section id="create-the-new-dataset-for-your-new-benchmark">
+<h3>Create the new dataset for your new benchmark<a class="headerlink" href="#create-the-new-dataset-for-your-new-benchmark" title="Link to this heading"></a></h3>
+<p>An eval open-benchmark essentially contains 2 parts:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">raw</span> <span class="pre">data</span></code>: The raw dataset associated with the benchmark. You typically need to search the original paper that introduces the benchmark and find the canonical dataset (usually hosted on huggingface)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prompt</span> <span class="pre">template</span></code>: How to ask the candidate model to generate the answer (prompt template plays a critical role to the evaluation results). Tyically, you can find the reference prompt template associated with the benchmark in benchmarks author’s repo (<a class="reference external" href="https://github.com/idavidrein/gpqa/blob/main/prompts/chain_of_thought.txt">exmaple</a>) or some other popular open source repos (<a class="reference external" href="https://github.com/openai/simple-evals/blob/0a6e8f62e52bc5ae915f752466be3af596caf392/common.py#L14">example</a>)</p></li>
+</ul>
+<p>To create new open-benmark in llama stack, you need to combine the prompt template and the raw data into the <code class="docutils literal notranslate"><span class="pre">chat_completion_input</span></code> column in the evaluation dataset.</p>
+<p>Llama stack enforeces the evaluate dataset schema to contain at least 3 columns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">chat_completion_input</span></code>: The actual input to the model to run the generation for eval</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input_query</span></code>: The raw input from the raw dataset without the prompt template</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">expected_answer</span></code>: The ground truth for scoring functions to calcalate the score from.</p></li>
+</ul>
+<p>You need to write a script <a class="reference external" href="https://gist.github.com/yanxi0830/118e9c560227d27132a7fd10e2c92840">example convert script</a> to convert the benchmark raw dataset to llama stack format eval dataset and update the dataset to huggingface <a class="reference external" href="https://huggingface.co/datasets/llamastack/mmmu">example benchmark dataset</a></p>
+</section>
+<section id="find-scoring-function-for-your-new-benchmark">
+<h3>Find scoring function for your new benchmark<a class="headerlink" href="#find-scoring-function-for-your-new-benchmark" title="Link to this heading"></a></h3>
+<p>The purpose of scoring function is to calculate the score for each example based on candidate model generation result and expected_answer. It also aggregates the scores from all the examples and generate the final evaluate results.</p>
+<p>Firstly, you can see if the existing <a class="reference external" href="https://github.com/meta-llama/llama-stack/tree/main/llama_stack/providers/inline/scoring">llama stack scoring functions</a> can fulfill your need. If not, you need to write a new scoring function based on what benchmark author / other open source repo describe.</p>
+</section>
+<section id="add-new-benchmark-into-template">
+<h3>Add new benchmark into template<a class="headerlink" href="#add-new-benchmark-into-template" title="Link to this heading"></a></h3>
+<p>Firstly, you need to add the evaluation dataset associated with your benchmark under <code class="docutils literal notranslate"><span class="pre">datasets</span></code> resource in the <a class="reference external" href="https://github.com/meta-llama/llama-stack/blob/main/llama_stack/templates/open-benchmark/run.yaml">open-benchmark</a></p>
+<p>Secondly, you need to add the new benchmark you just created under the <code class="docutils literal notranslate"><span class="pre">benchmarks</span></code> resource in the same template. To add the new benchmark, you need to have</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">benchmark_id</span></code>: identifier of the benchmark</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dataset_id</span></code>: identifier of the dataset associated with your benchmark</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scoring_functions</span></code>: scoring function to calculate the score based on generation results and expected_answer</p></li>
+</ul>
+</section>
+<section id="test-the-new-benchmark">
+<h3>Test the new benchmark<a class="headerlink" href="#test-the-new-benchmark" title="Link to this heading"></a></h3>
+<p>Spin up llama stack server with ‘open-benchmark’ templates</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">llama</span> <span class="n">stack</span> <span class="n">run</span> <span class="n">llama_stack</span><span class="o">/</span><span class="n">templates</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">benchmark</span><span class="o">/</span><span class="n">run</span><span class="o">.</span><span class="n">yaml</span>
+
+</pre></div>
+</div>
+<p>Run eval benchmark CLI with your new benchmark id</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">llama</span><span class="o">-</span><span class="n">stack</span><span class="o">-</span><span class="n">client</span> <span class="nb">eval</span> <span class="n">run</span><span class="o">-</span><span class="n">benchmark</span> <span class="o">&lt;</span><span class="n">new_benchmark_id</span><span class="o">&gt;</span> \
+<span class="o">--</span><span class="n">model_id</span> <span class="o">&lt;</span><span class="n">model</span> <span class="nb">id</span> <span class="n">to</span> <span class="n">evaluate</span> <span class="n">on</span><span class="o">&gt;</span> \
+<span class="o">--</span><span class="n">output_dir</span> <span class="o">&lt;</span><span class="n">directory</span> <span class="n">to</span> <span class="n">store</span> <span class="n">the</span> <span class="n">evaluate</span> <span class="n">results</span><span class="o">&gt;</span> \
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../llama_cli_reference/download_models.html" class="btn btn-neutral float-left" title="Downloading Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Meta.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

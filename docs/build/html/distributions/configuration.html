@@ -1,0 +1,909 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuring a “Stack” &mdash; llama-stack  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/my_theme.css?v=f1163765" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="canonical" href="https://github.com/meta-llama/llama-stackdistributions/configuration.html"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=09bf800d"></script>
+      <script src="../_static/js/detect_theme.js?v=76226c80"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Available List of Distributions" href="list_of_distributions.html" />
+    <link rel="prev" title="Using Llama Stack as a Library" href="importing_as_library.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            llama-stack
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Llama Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#step-1-install-and-setup">Step 1: Install and setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#step-2-run-the-llama-stack-server">Step 2: Run the Llama Stack server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#step-3-run-the-demo">Step 3: Run the demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/index.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/detailed_tutorial.html">Detailed Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/detailed_tutorial.html#step-1-installation-and-setup">Step 1: Installation and Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/detailed_tutorial.html#step-2-run-llama-stack">Step 2:  Run Llama Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/detailed_tutorial.html#step-3-run-client-cli">Step 3: Run Client CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/detailed_tutorial.html#step-4-run-the-demos">Step 4: Run the Demos</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Why Llama Stack?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/index.html#our-solution-a-universal-stack">Our Solution: A Universal Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/index.html#our-philosophy">Our Philosophy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/index.html">Core Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/index.html#apis">APIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/index.html#api-providers">API Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/index.html#resources">Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/index.html#distributions">Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/index.html#evaluation-concepts">Evaluation Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#open-benchmark-eval">Open-benchmark Eval</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../concepts/index.html#list-of-open-benchmarks-llama-stack-support">List of open-benchmarks Llama Stack support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../concepts/index.html#run-evaluation-on-open-benchmarks-via-cli">Run evaluation on open-benchmarks via CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../concepts/index.html#spin-up-llama-stack-server">Spin up Llama Stack server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../concepts/index.html#run-eval-cli">Run eval CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../concepts/index.html#whats-next">What’s Next?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../openai/index.html">OpenAI API Compatibility</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../openai/index.html#server-path">Server path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openai/index.html#clients">Clients</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../openai/index.html#llama-stack-client">Llama Stack Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../openai/index.html#openai-client">OpenAI Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../openai/index.html#apis-implemented">APIs implemented</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../openai/index.html#models">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../openai/index.html#responses">Responses</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../openai/index.html#simple-inference">Simple inference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../openai/index.html#structured-output">Structured Output</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../openai/index.html#chat-completions">Chat Completions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../openai/index.html#id1">Simple inference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../openai/index.html#id2">Structured Output</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../openai/index.html#completions">Completions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../openai/index.html#id3">Simple inference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../providers/index.html">Providers Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#external-providers">External Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#agents">Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#datasetio">DatasetIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#eval">Eval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#inference">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#post-training">Post Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../providers/index.html#post-training-providers">Post Training Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../providers/external.html">External Providers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/post_training/huggingface.html">HuggingFace SFTTrainer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/post_training/torchtune.html">TorchTune</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/post_training/nvidia_nemo.html">NVIDIA NEMO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#safety">Safety</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#scoring">Scoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#telemetry">Telemetry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#tool-runtime">Tool Runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#vector-io">Vector IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../providers/index.html#vector-io-providers">Vector IO Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../providers/external.html">External Providers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/vector_io/faiss.html">Faiss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/vector_io/sqlite-vec.html">SQLite-Vec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/vector_io/chromadb.html">Chroma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/vector_io/pgvector.html">Postgres PGVector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/vector_io/qdrant.html">Qdrant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/vector_io/milvus.html">Milvus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/vector_io/weaviate.html">Weaviate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Distributions Overview</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="importing_as_library.html">Using Llama Stack as a Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="importing_as_library.html#setup-llama-stack-without-a-server">Setup Llama Stack without a Server</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Configuring a “Stack”</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#providers">Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resources">Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#server-configuration">Server Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#authentication-configuration">Authentication Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#quota-configuration">Quota Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#extending-to-handle-safety">Extending to handle Safety</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="list_of_distributions.html">Available List of Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="list_of_distributions.html#selection-of-a-distribution-template">Selection of a Distribution / Template</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="list_of_distributions.html#distribution-details">Distribution Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="list_of_distributions.html#on-device-distributions">On-Device Distributions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kubernetes_deployment.html">Kubernetes Deployment Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_deployment.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_deployment.html#deploying-llama-stack-server-in-kubernetes">Deploying Llama Stack Server in Kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kubernetes_deployment.html#verifying-the-deployment">Verifying the Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="building_distro.html">Build your own Distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="building_distro.html#setting-your-log-level">Setting your log level</a></li>
+<li class="toctree-l3"><a class="reference internal" href="building_distro.html#llama-stack-build">Llama Stack Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="building_distro.html#running-your-stack-server">Running your Stack server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="building_distro.html#listing-distributions">Listing Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="building_distro.html#removing-a-distribution">Removing a Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="building_distro.html#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../building_applications/index.html">Building AI Applications (Examples)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../building_applications/rag.html">Retrieval Augmented Generation (RAG)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/rag.html#setting-up-vector-dbs">Setting up Vector DBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/rag.html#ingesting-documents">Ingesting Documents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/rag.html#using-precomputed-embeddings">Using Precomputed Embeddings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/rag.html#retrieval">Retrieval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/rag.html#using-the-rag-tool">Using the RAG Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/rag.html#building-rag-enhanced-agents">Building RAG-Enhanced Agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/rag.html#unregistering-vector-dbs">Unregistering Vector DBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/rag.html#appendix">Appendix</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/rag.html#more-ragdocument-examples">More RAGDocument Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../building_applications/agent.html">Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/agent.html#core-concepts">Core Concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/agent.html#agent-configuration">1. Agent Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/agent.html#sessions">2. Sessions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/agent.html#turns">3. Turns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/agent.html#non-streaming">Non-Streaming</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/agent.html#steps">4. Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/agent.html#agent-execution-loop">Agent Execution Loop</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../building_applications/agent_execution_loop.html">Agent Execution Loop</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/agent_execution_loop.html#steps-in-the-agent-workflow">Steps in the Agent Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/agent_execution_loop.html#agent-execution-loop-example">Agent Execution Loop Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../building_applications/tools.html">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/tools.html#server-side-vs-client-side-tool-execution">Server-side vs. client-side tool execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/tools.html#server-side-tools">Server-side tools</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/tools.html#model-context-protocol-mcp">Model Context Protocol (MCP)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/tools.html#using-remote-mcp-servers">Using Remote MCP Servers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/tools.html#running-your-own-mcp-server">Running your own MCP server</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/tools.html#adding-custom-client-side-tools">Adding Custom (Client-side) Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/tools.html#tool-invocation">Tool Invocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/tools.html#listing-available-tools">Listing Available Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/tools.html#simple-example-2-using-an-agent-with-the-web-search-tool">Simple Example 2: Using an Agent with the Web Search Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/tools.html#simple-example3-using-an-agent-with-the-wolframalpha-tool">Simple Example3: Using an Agent with the WolframAlpha Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../building_applications/evals.html">Evaluations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/evals.html#application-evaluation">Application Evaluation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/evals.html#building-a-search-agent">Building a Search Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/evals.html#query-agent-execution-steps">Query Agent Execution Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/evals.html#evaluate-agent-responses">Evaluate Agent Responses</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../building_applications/telemetry.html">Telemetry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/telemetry.html#events">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/telemetry.html#spans-and-traces">Spans and Traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/telemetry.html#sinks">Sinks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/telemetry.html#providers">Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/telemetry.html#meta-reference-provider">Meta-Reference Provider</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/telemetry.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/telemetry.html#jaeger-to-visualize-traces">Jaeger to visualize traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/telemetry.html#querying-traces-stored-in-sqlite">Querying Traces Stored in SQLite</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../building_applications/safety.html">Safety Guardrails</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../playground/index.html">Llama Stack Playground</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../playground/index.html#key-features">Key Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../playground/index.html#playground">Playground</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../playground/index.html#chatbot">Chatbot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../playground/index.html#evaluations">Evaluations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../playground/index.html#inspect">Inspect</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../playground/index.html#starting-the-llama-stack-playground">Starting the Llama Stack Playground</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/new_api_provider.html">Adding a New API Provider</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/new_api_provider.html#testing-the-provider">Testing the Provider</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../contributing/new_api_provider.html#integration-testing">1. Integration Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing/new_api_provider.html#unit-testing">2. Unit Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing/new_api_provider.html#additional-end-to-end-testing">3. Additional end-to-end testing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/new_api_provider.html#submitting-your-pr">Submitting Your PR</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../references/index.html">References</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../references/api_reference/index.html">API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../references/python_sdk_reference/index.html">Python SDK Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#shared-types">Shared Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#toolgroups">Toolgroups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#tools">Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#toolruntime">ToolRuntime</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/python_sdk_reference/index.html#ragtool">RagTool</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#agents">Agents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/python_sdk_reference/index.html#session">Session</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/python_sdk_reference/index.html#steps">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/python_sdk_reference/index.html#turn">Turn</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#batchinference">BatchInference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#datasets">Datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#eval">Eval</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/python_sdk_reference/index.html#jobs">Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#inspect">Inspect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#inference">Inference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#vectorio">VectorIo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#vectordbs">VectorDBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#models">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#posttraining">PostTraining</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/python_sdk_reference/index.html#job">Job</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#providers">Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#routes">Routes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#safety">Safety</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#shields">Shields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#syntheticdatageneration">SyntheticDataGeneration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#telemetry">Telemetry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#datasetio">Datasetio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#scoring">Scoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#scoringfunctions">ScoringFunctions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#benchmarks">Benchmarks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references/llama_cli_reference/index.html">llama (server-side) CLI Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/index.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/index.html#llama-subcommands"><code class="docutils literal notranslate"><span class="pre">llama</span></code> subcommands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/index.html#sample-usage">Sample Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/index.html#downloading-models">Downloading models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/index.html#downloading-from-meta">Downloading from Meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/index.html#downloading-from-hugging-face">Downloading from Hugging Face</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/index.html#list-the-downloaded-models">List the downloaded models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/index.html#understand-the-models">Understand the models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/index.html#id1">Sample Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/index.html#describe">Describe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/index.html#prompt-format">Prompt Format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/index.html#remove-model">Remove model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html">llama (client-side) CLI Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#basic-commands">Basic Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-configure"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">configure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-providers-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">providers</span> <span class="pre">list</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#model-management">Model Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-models-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-models-get"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">get</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-models-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-models-update"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-models-delete"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">delete</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#vector-db-management">Vector DB Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-unregister"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">unregister</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#shield-management">Shield Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-shields-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">shields</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-shields-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">shields</span> <span class="pre">register</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#eval-task-management">Eval Task Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-benchmarks-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">benchmarks</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-benchmarks-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">benchmarks</span> <span class="pre">register</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#eval-execution">Eval execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-eval-run-benchmark"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">eval</span> <span class="pre">run-benchmark</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-eval-run-scoring"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">eval</span> <span class="pre">run-scoring</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#tool-group-management">Tool Group Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-get"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">get</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-unregister"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">unregister</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references/llama_cli_reference/download_models.html">Downloading Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/download_models.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/download_models.html#downloading-models-via-cli">Downloading models via CLI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/download_models.html#downloading-from-meta">Downloading from Meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/download_models.html#downloading-from-hugging-face">Downloading from Hugging Face</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/download_models.html#list-the-downloaded-models">List the downloaded models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references/evals_reference/index.html">Evaluations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references/evals_reference/index.html#evaluation-concepts">Evaluation Concepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/evals_reference/index.html#evaluation-examples-walkthrough">Evaluation Examples Walkthrough</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#open-benchmark-model-evaluation">1. Open Benchmark Model Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#agentic-evaluation">2. Agentic Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#agentic-application-dataset-scoring">3. Agentic Application Dataset Scoring</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/evals_reference/index.html#running-evaluations-via-cli">Running Evaluations via CLI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#benchmark-evaluation-cli">Benchmark Evaluation CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#application-evaluation-cli">Application Evaluation CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#defining-benchmarkconfig">Defining BenchmarkConfig</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/evals_reference/index.html#open-benchmark-contributing-guide">Open-benchmark Contributing Guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#create-the-new-dataset-for-your-new-benchmark">Create the new dataset for your new benchmark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#find-scoring-function-for-your-new-benchmark">Find scoring function for your new benchmark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#add-new-benchmark-into-template">Add new benchmark into template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#test-the-new-benchmark">Test the new benchmark</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">llama-stack</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Distributions Overview</a></li>
+      <li class="breadcrumb-item active">Configuring a “Stack”</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/distributions/configuration.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="configuring-a-stack">
+<h1>Configuring a “Stack”<a class="headerlink" href="#configuring-a-stack" title="Link to this heading"></a></h1>
+<p>The Llama Stack runtime configuration is specified as a YAML file. Here is a simplified version of an example configuration file for the Ollama distribution:</p>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">👋 Click here for a Sample Configuration File</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="nt">conda_env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ollama</span>
+<span class="nt">apis</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">agents</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">inference</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vector_io</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">safety</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">telemetry</span>
+<span class="nt">providers</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">inference</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ollama</span>
+<span class="w">    </span><span class="nt">provider_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">remote::ollama</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.OLLAMA_URL:http://localhost:11434}</span>
+<span class="w">  </span><span class="nt">vector_io</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">faiss</span>
+<span class="w">    </span><span class="nt">provider_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">inline::faiss</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">kvstore</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sqlite</span>
+<span class="w">        </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<span class="w">        </span><span class="nt">db_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.SQLITE_STORE_DIR:~/.llama/distributions/ollama}/faiss_store.db</span>
+<span class="w">  </span><span class="nt">safety</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">llama-guard</span>
+<span class="w">    </span><span class="nt">provider_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">inline::llama-guard</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">agents</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meta-reference</span>
+<span class="w">    </span><span class="nt">provider_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">inline::meta-reference</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">persistence_store</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sqlite</span>
+<span class="w">        </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<span class="w">        </span><span class="nt">db_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.SQLITE_STORE_DIR:~/.llama/distributions/ollama}/agents_store.db</span>
+<span class="w">  </span><span class="nt">telemetry</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">meta-reference</span>
+<span class="w">    </span><span class="nt">provider_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">inline::meta-reference</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="nt">metadata_store</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sqlite</span>
+<span class="w">  </span><span class="nt">db_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.SQLITE_STORE_DIR:~/.llama/distributions/ollama}/registry.db</span>
+<span class="nt">models</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">metadata</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">model_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.INFERENCE_MODEL}</span>
+<span class="w">  </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ollama</span>
+<span class="w">  </span><span class="nt">provider_model_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<span class="nt">shields</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<span class="nt">server</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8321</span>
+<span class="w">  </span><span class="nt">auth</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;oauth2_token&quot;</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">jwks</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://my-token-issuing-svc.com/jwks&quot;</span>
+</pre></div>
+</div>
+</div>
+</details><p>Let’s break this down into the different sections. The first section specifies the set of APIs that the stack server will serve:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apis</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">agents</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">inference</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">memory</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">safety</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">telemetry</span>
+</pre></div>
+</div>
+<section id="providers">
+<h2>Providers<a class="headerlink" href="#providers" title="Link to this heading"></a></h2>
+<p>Next up is the most critical part: the set of providers that the stack will use to serve the above APIs. Consider the <code class="docutils literal notranslate"><span class="pre">inference</span></code> API:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">providers</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">inference</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># provider_id is a string you can choose freely</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ollama</span>
+<span class="w">    </span><span class="c1"># provider_type is a string that specifies the type of provider.</span>
+<span class="w">    </span><span class="c1"># in this case, the provider for inference is ollama and it is run remotely (outside of the distribution)</span>
+<span class="w">    </span><span class="nt">provider_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">remote::ollama</span>
+<span class="w">    </span><span class="c1"># config is a dictionary that contains the configuration for the provider.</span>
+<span class="w">    </span><span class="c1"># in this case, the configuration is the url of the ollama server</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.OLLAMA_URL:http://localhost:11434}</span>
+</pre></div>
+</div>
+<p>A few things to note:</p>
+<ul class="simple">
+<li><p>A <em>provider instance</em> is identified with an (id, type, configuration) triplet.</p></li>
+<li><p>The id is a string you can choose freely.</p></li>
+<li><p>You can instantiate any number of provider instances of the same type.</p></li>
+<li><p>The configuration dictionary is provider-specific.</p></li>
+<li><p>Notice that configuration can reference environment variables (with default values), which are expanded at runtime. When you run a stack server (via docker or via <code class="docutils literal notranslate"><span class="pre">llama</span> <span class="pre">stack</span> <span class="pre">run</span></code>), you can specify <code class="docutils literal notranslate"><span class="pre">--env</span> <span class="pre">OLLAMA_URL=http://my-server:11434</span></code> to override the default value.</p></li>
+</ul>
+</section>
+<section id="resources">
+<h2>Resources<a class="headerlink" href="#resources" title="Link to this heading"></a></h2>
+<p>Finally, let’s look at the <code class="docutils literal notranslate"><span class="pre">models</span></code> section:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">models</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">metadata</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">model_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.INFERENCE_MODEL}</span>
+<span class="w">  </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ollama</span>
+<span class="w">  </span><span class="nt">provider_model_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+</pre></div>
+</div>
+<p>A Model is an instance of a “Resource” (see <a class="reference internal" href="../concepts/index.html"><span class="doc std std-doc">Concepts</span></a>) and is associated with a specific inference provider (in this case, the provider with identifier <code class="docutils literal notranslate"><span class="pre">ollama</span></code>). This is an instance of a “pre-registered” model. While we always encourage the clients to always register models before using them, some Stack servers may come up a list of “already known and available” models.</p>
+<p>What’s with the <code class="docutils literal notranslate"><span class="pre">provider_model_id</span></code> field? This is an identifier for the model inside the provider’s model catalog. Contrast it with <code class="docutils literal notranslate"><span class="pre">model_id</span></code> which is the identifier for the same model for Llama Stack’s purposes. For example, you may want to name “llama3.2:vision-11b” as “image_captioning_model” when you use it in your Stack interactions. When omitted, the server will set <code class="docutils literal notranslate"><span class="pre">provider_model_id</span></code> to be the same as <code class="docutils literal notranslate"><span class="pre">model_id</span></code>.</p>
+</section>
+<section id="server-configuration">
+<h2>Server Configuration<a class="headerlink" href="#server-configuration" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">server</span></code> section configures the HTTP server that serves the Llama Stack APIs:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">server</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8321</span><span class="w">  </span><span class="c1"># Port to listen on (default: 8321)</span>
+<span class="w">  </span><span class="nt">tls_certfile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/cert.pem&quot;</span><span class="w">  </span><span class="c1"># Optional: Path to TLS certificate for HTTPS</span>
+<span class="w">  </span><span class="nt">tls_keyfile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/key.pem&quot;</span><span class="w">    </span><span class="c1"># Optional: Path to TLS key for HTTPS</span>
+</pre></div>
+</div>
+<section id="authentication-configuration">
+<h3>Authentication Configuration<a class="headerlink" href="#authentication-configuration" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">auth</span></code> section configures authentication for the server. When configured, all API requests must include a valid Bearer token in the Authorization header:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Authorization</span><span class="p">:</span> <span class="n">Bearer</span> <span class="o">&lt;</span><span class="n">token</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The server supports multiple authentication providers:</p>
+<section id="oauth-2-0-openid-connect-provider-with-kubernetes">
+<h4>OAuth 2.0/OpenID Connect Provider with Kubernetes<a class="headerlink" href="#oauth-2-0-openid-connect-provider-with-kubernetes" title="Link to this heading"></a></h4>
+<p>The server can be configured to use service account tokens for authorization, validating these against the Kubernetes API server, e.g.:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">server</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">auth</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;oauth2_token&quot;</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">jwks</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://kubernetes.default.svc:8443/openid/v1/jwks&quot;</span>
+<span class="w">        </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${env.TOKEN:}&quot;</span>
+<span class="w">        </span><span class="nt">key_recheck_period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3600</span>
+<span class="w">      </span><span class="nt">tls_cafile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/ca.crt&quot;</span>
+<span class="w">      </span><span class="nt">issuer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://kubernetes.default.svc&quot;</span>
+<span class="w">      </span><span class="nt">audience</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://kubernetes.default.svc&quot;</span>
+</pre></div>
+</div>
+<p>To find your cluster’s jwks uri (from which the public key(s) to verify the token signature are obtained), run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kubectl</span> <span class="n">get</span> <span class="o">--</span><span class="n">raw</span> <span class="o">/.</span><span class="n">well</span><span class="o">-</span><span class="n">known</span><span class="o">/</span><span class="n">openid</span><span class="o">-</span><span class="n">configuration</span><span class="o">|</span> <span class="n">jq</span> <span class="o">-</span><span class="n">r</span> <span class="o">.</span><span class="n">jwks_uri</span>
+</pre></div>
+</div>
+<p>For the tls_cafile, you can use the CA certificate of the OIDC provider:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span>--minify<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.clusters[0].cluster.certificate-authority}&#39;</span>
+</pre></div>
+</div>
+<p>For the issuer, you can use the OIDC provider’s URL:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>get<span class="w"> </span>--raw<span class="w"> </span>/.well-known/openid-configuration<span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.issuer
+</pre></div>
+</div>
+<p>The audience can be obtained from a token, e.g. run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>create<span class="w"> </span>token<span class="w"> </span>default<span class="w"> </span>--duration<span class="o">=</span>1h<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d.<span class="w"> </span>-f2<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.aud
+</pre></div>
+</div>
+<p>The jwks token is used to authorize access to the jwks endpoint. You can obtain a token by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>llama-stack
+kubectl<span class="w"> </span>create<span class="w"> </span>serviceaccount<span class="w"> </span>llama-stack-auth<span class="w"> </span>-n<span class="w"> </span>llama-stack
+kubectl<span class="w"> </span>create<span class="w"> </span>token<span class="w"> </span>llama-stack-auth<span class="w"> </span>-n<span class="w"> </span>llama-stack<span class="w"> </span>&gt;<span class="w"> </span>llama-stack-auth-token
+<span class="nb">export</span><span class="w"> </span><span class="nv">TOKEN</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>llama-stack-auth-token<span class="k">)</span>
+</pre></div>
+</div>
+<p>Alternatively, you can configure the jwks endpoint to allow anonymous access. To do this, make sure
+the <code class="docutils literal notranslate"><span class="pre">kube-apiserver</span></code> runs with <code class="docutils literal notranslate"><span class="pre">--anonymous-auth=true</span></code> to allow unauthenticated requests
+and that the correct RoleBinding is created to allow the service account to access the necessary
+resources. If that is not the case, you can create a RoleBinding for the service account to access
+the necessary resources:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># allow-anonymous-openid.yaml</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterRole</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">allow-anonymous-openid</span>
+<span class="nt">rules</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">nonResourceURLs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;/openid/v1/jwks&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">]</span>
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterRoleBinding</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">allow-anonymous-openid</span>
+<span class="nt">roleRef</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">apiGroup</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io</span>
+<span class="w">  </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterRole</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">allow-anonymous-openid</span>
+<span class="nt">subjects</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">User</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">system:anonymous</span>
+<span class="w">  </span><span class="nt">apiGroup</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io</span>
+</pre></div>
+</div>
+<p>And then apply the configuration:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>allow-anonymous-openid.yaml
+</pre></div>
+</div>
+<p>The provider extracts user information from the JWT token:</p>
+<ul class="simple">
+<li><p>Username from the <code class="docutils literal notranslate"><span class="pre">sub</span></code> claim becomes a role</p></li>
+<li><p>Kubernetes groups become teams</p></li>
+</ul>
+<p>You can easily validate a request by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-s<span class="w"> </span>-L<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="k">$(</span>cat<span class="w"> </span>llama-stack-auth-token<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>http://127.0.0.1:8321/v1/providers
+</pre></div>
+</div>
+</section>
+<section id="custom-provider">
+<h4>Custom Provider<a class="headerlink" href="#custom-provider" title="Link to this heading"></a></h4>
+<p>Validates tokens against a custom authentication endpoint:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">server</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">auth</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;custom&quot;</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://auth.example.com/validate&quot;</span><span class="w">  </span><span class="c1"># URL of the auth endpoint</span>
+</pre></div>
+</div>
+<p>The custom endpoint receives a POST request with:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;api_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;token&gt;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;request&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/api/v1/endpoint&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;headers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;content-type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;user-agent&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;curl/7.64.1&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>And must respond with:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;access_attributes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;roles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;admin&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;user&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;teams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;ml-team&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;nlp-team&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;projects&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;llama-3&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;project-x&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;namespaces&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;research&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Authentication successful&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If no access attributes are returned, the token is used as a namespace.</p>
+</section>
+</section>
+<section id="quota-configuration">
+<h3>Quota Configuration<a class="headerlink" href="#quota-configuration" title="Link to this heading"></a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">quota</span></code> section allows you to enable server-side request throttling for both
+authenticated and anonymous clients. This is useful for preventing abuse, enforcing
+fairness across tenants, and controlling infrastructure costs without requiring
+client-side rate limiting or external proxies.</p>
+<p>Quotas are disabled by default. When enabled, each client is tracked using either:</p>
+<ul class="simple">
+<li><p>Their authenticated <code class="docutils literal notranslate"><span class="pre">client_id</span></code> (derived from the Bearer token), or</p></li>
+<li><p>Their IP address (fallback for anonymous requests)</p></li>
+</ul>
+<p>Quota state is stored in a SQLite-backed key-value store, and rate limits are applied
+within a configurable time window (currently only <code class="docutils literal notranslate"><span class="pre">day</span></code> is supported).</p>
+<section id="example">
+<h4>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h4>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">server</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">quota</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kvstore</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sqlite</span>
+<span class="w">      </span><span class="nt">db_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./quotas.db</span>
+<span class="w">    </span><span class="nt">anonymous_max_requests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="w">    </span><span class="nt">authenticated_max_requests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">day</span>
+</pre></div>
+</div>
+</section>
+<section id="configuration-options">
+<h4>Configuration Options<a class="headerlink" href="#configuration-options" title="Link to this heading"></a></h4>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kvstore</span></code></p></td>
+<td><p>Required. Backend storage config for tracking request counts.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">kvstore.type</span></code></p></td>
+<td><p>Must be <code class="docutils literal notranslate"><span class="pre">&quot;sqlite&quot;</span></code> for now. Other backends may be supported in the future.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">kvstore.db_path</span></code></p></td>
+<td><p>File path to the SQLite database.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">anonymous_max_requests</span></code></p></td>
+<td><p>Max requests per period for unauthenticated clients.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">authenticated_max_requests</span></code></p></td>
+<td><p>Max requests per period for authenticated clients.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">period</span></code></p></td>
+<td><p>Time window for quota enforcement. Only <code class="docutils literal notranslate"><span class="pre">&quot;day&quot;</span></code> is supported.</p></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div><p>Note: if <code class="docutils literal notranslate"><span class="pre">authenticated_max_requests</span></code> is set but no authentication provider is
+configured, the server will fall back to applying <code class="docutils literal notranslate"><span class="pre">anonymous_max_requests</span></code> to all
+clients.</p>
+</div></blockquote>
+</section>
+<section id="example-with-authentication-enabled">
+<h4>Example with Authentication Enabled<a class="headerlink" href="#example-with-authentication-enabled" title="Link to this heading"></a></h4>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">server</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8321</span>
+<span class="w">  </span><span class="nt">auth</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">provider_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">custom</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://auth.example.com/validate</span>
+<span class="w">  </span><span class="nt">quota</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kvstore</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sqlite</span>
+<span class="w">      </span><span class="nt">db_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./quotas.db</span>
+<span class="w">    </span><span class="nt">anonymous_max_requests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<span class="w">    </span><span class="nt">authenticated_max_requests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">day</span>
+</pre></div>
+</div>
+<p>If a client exceeds their limit, the server responds with:</p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">429</span> <span class="ne">Too Many Requests</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Quota exceeded&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="extending-to-handle-safety">
+<h2>Extending to handle Safety<a class="headerlink" href="#extending-to-handle-safety" title="Link to this heading"></a></h2>
+<p>Configuring Safety can be a little involved so it is instructive to go through an example.</p>
+<p>The Safety API works with the associated Resource called a <code class="docutils literal notranslate"><span class="pre">Shield</span></code>. Providers can support various kinds of Shields. Good examples include the <a class="reference external" href="https://ai.meta.com/research/publications/llama-guard-llm-based-input-output-safeguard-for-human-ai-conversations/">Llama Guard</a> system-safety models, or <a class="reference external" href="https://aws.amazon.com/bedrock/guardrails/">Bedrock Guardrails</a>.</p>
+<p>To configure a Bedrock Shield, you would need to add:</p>
+<ul class="simple">
+<li><p>A Safety API provider instance with type <code class="docutils literal notranslate"><span class="pre">remote::bedrock</span></code></p></li>
+<li><p>A Shield resource served by this provider.</p></li>
+</ul>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">...</span>
+<span class="nt">providers</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">safety</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bedrock</span>
+<span class="w">    </span><span class="nt">provider_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">remote::bedrock</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">aws_access_key_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.AWS_ACCESS_KEY_ID}</span>
+<span class="w">      </span><span class="nt">aws_secret_access_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.AWS_SECRET_ACCESS_KEY}</span>
+<span class="nn">...</span>
+<span class="nt">shields</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bedrock</span>
+<span class="w">  </span><span class="nt">params</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">guardrailVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.GUARDRAIL_VERSION}</span>
+<span class="w">  </span><span class="nt">provider_shield_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.GUARDRAIL_ID}</span>
+<span class="nn">...</span>
+</pre></div>
+</div>
+<p>The situation is more involved if the Shield needs <em>Inference</em> of an associated model. This is the case with Llama Guard. In that case, you would need to add:</p>
+<ul class="simple">
+<li><p>A Safety API provider instance with type <code class="docutils literal notranslate"><span class="pre">inline::llama-guard</span></code></p></li>
+<li><p>An Inference API provider instance for serving the model.</p></li>
+<li><p>A Model resource associated with this provider.</p></li>
+<li><p>A Shield resource served by the Safety provider.</p></li>
+</ul>
+<p>The yaml configuration for this setup, assuming you were using vLLM as your inference server, would look like:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">...</span>
+<span class="nt">providers</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">safety</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">llama-guard</span>
+<span class="w">    </span><span class="nt">provider_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">inline::llama-guard</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">inference</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># this vLLM server serves the &quot;normal&quot; inference model (e.g., llama3.2:3b)</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vllm-0</span>
+<span class="w">    </span><span class="nt">provider_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">remote::vllm</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.VLLM_URL:http://localhost:8000}</span>
+<span class="w">  </span><span class="c1"># this vLLM server serves the llama-guard model (e.g., llama-guard:3b)</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vllm-1</span>
+<span class="w">    </span><span class="nt">provider_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">remote::vllm</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.SAFETY_VLLM_URL:http://localhost:8001}</span>
+<span class="nn">...</span>
+<span class="nt">models</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">metadata</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">model_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.INFERENCE_MODEL}</span>
+<span class="w">  </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vllm-0</span>
+<span class="w">  </span><span class="nt">provider_model_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">metadata</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">model_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.SAFETY_MODEL}</span>
+<span class="w">  </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vllm-1</span>
+<span class="w">  </span><span class="nt">provider_model_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<span class="nt">shields</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">provider_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">llama-guard</span>
+<span class="w">  </span><span class="nt">shield_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${env.SAFETY_MODEL}</span><span class="w">   </span><span class="c1"># Llama Guard shields are identified by the corresponding LlamaGuard model</span>
+<span class="w">  </span><span class="nt">provider_shield_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<span class="nn">...</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="importing_as_library.html" class="btn btn-neutral float-left" title="Using Llama Stack as a Library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="list_of_distributions.html" class="btn btn-neutral float-right" title="Available List of Distributions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Meta.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

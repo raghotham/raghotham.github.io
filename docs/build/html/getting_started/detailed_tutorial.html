@@ -1,0 +1,1026 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detailed Tutorial &mdash; llama-stack  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/my_theme.css?v=f1163765" />
+      <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="canonical" href="https://github.com/meta-llama/llama-stackgetting_started/detailed_tutorial.html"/>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=09bf800d"></script>
+      <script src="../_static/js/detect_theme.js?v=76226c80"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Why Llama Stack?" href="../introduction/index.html" />
+    <link rel="prev" title="Quickstart" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            llama-stack
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Llama Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#step-1-install-and-setup">Step 1: Install and setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#step-2-run-the-llama-stack-server">Step 2: Run the Llama Stack server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#step-3-run-the-demo">Step 3: Run the demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Detailed Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step-1-installation-and-setup">Step 1: Installation and Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-2-run-llama-stack">Step 2:  Run Llama Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-3-run-client-cli">Step 3: Run Client CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step-4-run-the-demos">Step 4: Run the Demos</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/index.html">Why Llama Stack?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/index.html#our-solution-a-universal-stack">Our Solution: A Universal Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../introduction/index.html#our-philosophy">Our Philosophy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts/index.html">Core Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/index.html#apis">APIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/index.html#api-providers">API Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/index.html#resources">Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/index.html#distributions">Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../concepts/index.html#evaluation-concepts">Evaluation Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#open-benchmark-eval">Open-benchmark Eval</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../concepts/index.html#list-of-open-benchmarks-llama-stack-support">List of open-benchmarks Llama Stack support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../concepts/index.html#run-evaluation-on-open-benchmarks-via-cli">Run evaluation on open-benchmarks via CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../concepts/index.html#spin-up-llama-stack-server">Spin up Llama Stack server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../concepts/index.html#run-eval-cli">Run eval CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../concepts/index.html#whats-next">What’s Next?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../openai/index.html">OpenAI API Compatibility</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../openai/index.html#server-path">Server path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../openai/index.html#clients">Clients</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../openai/index.html#llama-stack-client">Llama Stack Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../openai/index.html#openai-client">OpenAI Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../openai/index.html#apis-implemented">APIs implemented</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../openai/index.html#models">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../openai/index.html#responses">Responses</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../openai/index.html#simple-inference">Simple inference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../openai/index.html#structured-output">Structured Output</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../openai/index.html#chat-completions">Chat Completions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../openai/index.html#id1">Simple inference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../openai/index.html#id2">Structured Output</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../openai/index.html#completions">Completions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../openai/index.html#id3">Simple inference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../providers/index.html">Providers Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#external-providers">External Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#agents">Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#datasetio">DatasetIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#eval">Eval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#inference">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#post-training">Post Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../providers/index.html#post-training-providers">Post Training Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../providers/external.html">External Providers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/post_training/huggingface.html">HuggingFace SFTTrainer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/post_training/torchtune.html">TorchTune</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/post_training/nvidia_nemo.html">NVIDIA NEMO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#safety">Safety</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#scoring">Scoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#telemetry">Telemetry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#tool-runtime">Tool Runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../providers/index.html#vector-io">Vector IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../providers/index.html#vector-io-providers">Vector IO Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../providers/external.html">External Providers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/vector_io/faiss.html">Faiss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/vector_io/sqlite-vec.html">SQLite-Vec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/vector_io/chromadb.html">Chroma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/vector_io/pgvector.html">Postgres PGVector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/vector_io/qdrant.html">Qdrant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/vector_io/milvus.html">Milvus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../providers/vector_io/weaviate.html">Weaviate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../distributions/index.html">Distributions Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../distributions/importing_as_library.html">Using Llama Stack as a Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/importing_as_library.html#setup-llama-stack-without-a-server">Setup Llama Stack without a Server</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../distributions/configuration.html">Configuring a “Stack”</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/configuration.html#providers">Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/configuration.html#resources">Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/configuration.html#server-configuration">Server Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../distributions/configuration.html#authentication-configuration">Authentication Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../distributions/configuration.html#quota-configuration">Quota Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/configuration.html#extending-to-handle-safety">Extending to handle Safety</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../distributions/list_of_distributions.html">Available List of Distributions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/list_of_distributions.html#selection-of-a-distribution-template">Selection of a Distribution / Template</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../distributions/list_of_distributions.html#distribution-details">Distribution Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../distributions/list_of_distributions.html#on-device-distributions">On-Device Distributions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../distributions/kubernetes_deployment.html">Kubernetes Deployment Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/kubernetes_deployment.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/kubernetes_deployment.html#deploying-llama-stack-server-in-kubernetes">Deploying Llama Stack Server in Kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/kubernetes_deployment.html#verifying-the-deployment">Verifying the Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../distributions/building_distro.html">Build your own Distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/building_distro.html#setting-your-log-level">Setting your log level</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/building_distro.html#llama-stack-build">Llama Stack Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/building_distro.html#running-your-stack-server">Running your Stack server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/building_distro.html#listing-distributions">Listing Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/building_distro.html#removing-a-distribution">Removing a Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../distributions/building_distro.html#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../building_applications/index.html">Building AI Applications (Examples)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../building_applications/rag.html">Retrieval Augmented Generation (RAG)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/rag.html#setting-up-vector-dbs">Setting up Vector DBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/rag.html#ingesting-documents">Ingesting Documents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/rag.html#using-precomputed-embeddings">Using Precomputed Embeddings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/rag.html#retrieval">Retrieval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/rag.html#using-the-rag-tool">Using the RAG Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/rag.html#building-rag-enhanced-agents">Building RAG-Enhanced Agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/rag.html#unregistering-vector-dbs">Unregistering Vector DBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/rag.html#appendix">Appendix</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/rag.html#more-ragdocument-examples">More RAGDocument Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../building_applications/agent.html">Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/agent.html#core-concepts">Core Concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/agent.html#agent-configuration">1. Agent Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/agent.html#sessions">2. Sessions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/agent.html#turns">3. Turns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/agent.html#non-streaming">Non-Streaming</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/agent.html#steps">4. Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/agent.html#agent-execution-loop">Agent Execution Loop</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../building_applications/agent_execution_loop.html">Agent Execution Loop</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/agent_execution_loop.html#steps-in-the-agent-workflow">Steps in the Agent Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/agent_execution_loop.html#agent-execution-loop-example">Agent Execution Loop Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../building_applications/tools.html">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/tools.html#server-side-vs-client-side-tool-execution">Server-side vs. client-side tool execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/tools.html#server-side-tools">Server-side tools</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/tools.html#model-context-protocol-mcp">Model Context Protocol (MCP)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/tools.html#using-remote-mcp-servers">Using Remote MCP Servers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/tools.html#running-your-own-mcp-server">Running your own MCP server</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/tools.html#adding-custom-client-side-tools">Adding Custom (Client-side) Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/tools.html#tool-invocation">Tool Invocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/tools.html#listing-available-tools">Listing Available Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/tools.html#simple-example-2-using-an-agent-with-the-web-search-tool">Simple Example 2: Using an Agent with the Web Search Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/tools.html#simple-example3-using-an-agent-with-the-wolframalpha-tool">Simple Example3: Using an Agent with the WolframAlpha Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../building_applications/evals.html">Evaluations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/evals.html#application-evaluation">Application Evaluation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/evals.html#building-a-search-agent">Building a Search Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/evals.html#query-agent-execution-steps">Query Agent Execution Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/evals.html#evaluate-agent-responses">Evaluate Agent Responses</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../building_applications/telemetry.html">Telemetry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/telemetry.html#events">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/telemetry.html#spans-and-traces">Spans and Traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/telemetry.html#sinks">Sinks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/telemetry.html#providers">Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/telemetry.html#meta-reference-provider">Meta-Reference Provider</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../building_applications/telemetry.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/telemetry.html#jaeger-to-visualize-traces">Jaeger to visualize traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_applications/telemetry.html#querying-traces-stored-in-sqlite">Querying Traces Stored in SQLite</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../building_applications/safety.html">Safety Guardrails</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../playground/index.html">Llama Stack Playground</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../playground/index.html#key-features">Key Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../playground/index.html#playground">Playground</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../playground/index.html#chatbot">Chatbot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../playground/index.html#evaluations">Evaluations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../playground/index.html#inspect">Inspect</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../playground/index.html#starting-the-llama-stack-playground">Starting the Llama Stack Playground</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/new_api_provider.html">Adding a New API Provider</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/new_api_provider.html#testing-the-provider">Testing the Provider</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../contributing/new_api_provider.html#integration-testing">1. Integration Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing/new_api_provider.html#unit-testing">2. Unit Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../contributing/new_api_provider.html#additional-end-to-end-testing">3. Additional end-to-end testing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/new_api_provider.html#submitting-your-pr">Submitting Your PR</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../references/index.html">References</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../references/api_reference/index.html">API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../references/python_sdk_reference/index.html">Python SDK Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#shared-types">Shared Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#toolgroups">Toolgroups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#tools">Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#toolruntime">ToolRuntime</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/python_sdk_reference/index.html#ragtool">RagTool</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#agents">Agents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/python_sdk_reference/index.html#session">Session</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/python_sdk_reference/index.html#steps">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/python_sdk_reference/index.html#turn">Turn</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#batchinference">BatchInference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#datasets">Datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#eval">Eval</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/python_sdk_reference/index.html#jobs">Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#inspect">Inspect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#inference">Inference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#vectorio">VectorIo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#vectordbs">VectorDBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#models">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#posttraining">PostTraining</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/python_sdk_reference/index.html#job">Job</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#providers">Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#routes">Routes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#safety">Safety</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#shields">Shields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#syntheticdatageneration">SyntheticDataGeneration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#telemetry">Telemetry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#datasetio">Datasetio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#scoring">Scoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#scoringfunctions">ScoringFunctions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/python_sdk_reference/index.html#benchmarks">Benchmarks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references/llama_cli_reference/index.html">llama (server-side) CLI Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/index.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/index.html#llama-subcommands"><code class="docutils literal notranslate"><span class="pre">llama</span></code> subcommands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/index.html#sample-usage">Sample Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/index.html#downloading-models">Downloading models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/index.html#downloading-from-meta">Downloading from Meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/index.html#downloading-from-hugging-face">Downloading from Hugging Face</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/index.html#list-the-downloaded-models">List the downloaded models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/index.html#understand-the-models">Understand the models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/index.html#id1">Sample Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/index.html#describe">Describe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/index.html#prompt-format">Prompt Format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/index.html#remove-model">Remove model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html">llama (client-side) CLI Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#basic-commands">Basic Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-configure"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">configure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-providers-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">providers</span> <span class="pre">list</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#model-management">Model Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-models-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-models-get"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">get</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-models-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-models-update"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-models-delete"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">delete</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#vector-db-management">Vector DB Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-unregister"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">unregister</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#shield-management">Shield Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-shields-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">shields</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-shields-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">shields</span> <span class="pre">register</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#eval-task-management">Eval Task Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-benchmarks-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">benchmarks</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-benchmarks-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">benchmarks</span> <span class="pre">register</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#eval-execution">Eval execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-eval-run-benchmark"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">eval</span> <span class="pre">run-benchmark</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-eval-run-scoring"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">eval</span> <span class="pre">run-scoring</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#tool-group-management">Tool Group Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-get"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">get</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-unregister"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">unregister</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references/llama_cli_reference/download_models.html">Downloading Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/download_models.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/download_models.html#downloading-models-via-cli">Downloading models via CLI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/download_models.html#downloading-from-meta">Downloading from Meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/llama_cli_reference/download_models.html#downloading-from-hugging-face">Downloading from Hugging Face</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/llama_cli_reference/download_models.html#list-the-downloaded-models">List the downloaded models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../references/evals_reference/index.html">Evaluations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../references/evals_reference/index.html#evaluation-concepts">Evaluation Concepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../references/evals_reference/index.html#evaluation-examples-walkthrough">Evaluation Examples Walkthrough</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#open-benchmark-model-evaluation">1. Open Benchmark Model Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#agentic-evaluation">2. Agentic Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#agentic-application-dataset-scoring">3. Agentic Application Dataset Scoring</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/evals_reference/index.html#running-evaluations-via-cli">Running Evaluations via CLI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#benchmark-evaluation-cli">Benchmark Evaluation CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#application-evaluation-cli">Application Evaluation CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#defining-benchmarkconfig">Defining BenchmarkConfig</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../references/evals_reference/index.html#open-benchmark-contributing-guide">Open-benchmark Contributing Guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#create-the-new-dataset-for-your-new-benchmark">Create the new dataset for your new benchmark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#find-scoring-function-for-your-new-benchmark">Find scoring function for your new benchmark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#add-new-benchmark-into-template">Add new benchmark into template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../references/evals_reference/index.html#test-the-new-benchmark">Test the new benchmark</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">llama-stack</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Detailed Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/getting_started/detailed_tutorial.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="detailed-tutorial">
+<h1>Detailed Tutorial<a class="headerlink" href="#detailed-tutorial" title="Link to this heading"></a></h1>
+<p>In this guide, we’ll walk through how you can use the Llama Stack (server and client SDK) to test a simple agent.
+A Llama Stack agent is a simple integrated system that can perform tasks by combining a Llama model for reasoning with
+tools (e.g., RAG, web search, code execution, etc.) for taking actions.
+In Llama Stack, we provide a server exposing multiple APIs. These APIs are backed by implementations from different providers.</p>
+<p>Llama Stack is a stateful service with REST APIs to support seamless transition of AI applications across different environments. The server can be run in a variety of ways, including as a standalone binary, Docker container, or hosted service. You can build and test using a local server first and deploy to a hosted endpoint for production.</p>
+<p>In this guide, we’ll walk through how to build a RAG agent locally using Llama Stack with <a class="reference external" href="https://ollama.com/">Ollama</a>
+as the inference <a class="reference internal" href="../providers/index.html#inference"><span class="std std-ref">provider</span></a> for a Llama Model.</p>
+<section id="step-1-installation-and-setup">
+<h2>Step 1: Installation and Setup<a class="headerlink" href="#step-1-installation-and-setup" title="Link to this heading"></a></h2>
+<p>Install Ollama by following the instructions on the <a class="reference external" href="https://ollama.com/download">Ollama website</a>, then
+download Llama 3.2 3B model, and then start the Ollama service.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ollama<span class="w"> </span>pull<span class="w"> </span>llama3.2:3b
+ollama<span class="w"> </span>run<span class="w"> </span>llama3.2:3b<span class="w"> </span>--keepalive<span class="w"> </span>60m
+</pre></div>
+</div>
+<p>Install <a class="reference external" href="https://docs.astral.sh/uv/">uv</a> to setup your virtual environment</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+macOS and Linux</label><div class="sd-tab-content docutils">
+<p>Use <code class="docutils literal notranslate"><span class="pre">curl</span></code> to download the script and execute it with <code class="docutils literal notranslate"><span class="pre">sh</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">curl -LsSf https://astral.sh/uv/install.sh | sh</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+Windows</label><div class="sd-tab-content docutils">
+<p>Use <code class="docutils literal notranslate"><span class="pre">irm</span></code> to download the script and execute it with <code class="docutils literal notranslate"><span class="pre">iex</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">powershell -ExecutionPolicy ByPass -c &quot;irm https://astral.sh/uv/install.ps1 | iex&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Setup your virtual environment.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>sync<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.10
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+</pre></div>
+</div>
+</section>
+<section id="step-2-run-llama-stack">
+<h2>Step 2:  Run Llama Stack<a class="headerlink" href="#step-2-run-llama-stack" title="Link to this heading"></a></h2>
+<p>Llama Stack is a server that exposes multiple APIs, you connect with it using the Llama Stack client SDK.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Using <code class="docutils literal notranslate"><span class="pre">venv</span></code></label><div class="sd-tab-content docutils">
+<p>You can use Python to build and run the Llama Stack server, which is useful for testing and development.</p>
+<p>Llama Stack uses a <a class="reference internal" href="../distributions/configuration.html"><span class="std std-doc">YAML configuration file</span></a> to specify the stack setup,
+which defines the providers and their settings.
+Now let’s build and run the Llama Stack config for Ollama.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">INFERENCE_MODEL</span><span class="o">=</span>llama3.2:3b<span class="w"> </span>llama<span class="w"> </span>stack<span class="w"> </span>build<span class="w"> </span>--template<span class="w"> </span>ollama<span class="w"> </span>--image-type<span class="w"> </span>venv<span class="w"> </span>--run
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+Using <code class="docutils literal notranslate"><span class="pre">conda</span></code></label><div class="sd-tab-content docutils">
+<p>You can use Python to build and run the Llama Stack server, which is useful for testing and development.</p>
+<p>Llama Stack uses a <a class="reference internal" href="../distributions/configuration.html"><span class="std std-doc">YAML configuration file</span></a> to specify the stack setup,
+which defines the providers and their settings.
+Now let’s build and run the Llama Stack config for Ollama.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">INFERENCE_MODEL</span><span class="o">=</span>llama3.2:3b<span class="w"> </span>llama<span class="w"> </span>stack<span class="w"> </span>build<span class="w"> </span>--template<span class="w"> </span>ollama<span class="w"> </span>--image-type<span class="w"> </span>conda<span class="w">  </span>--image-name<span class="w"> </span>llama3-3b-conda<span class="w"> </span>--run
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+Using a Container</label><div class="sd-tab-content docutils">
+<p>You can use a container image to run the Llama Stack server. We provide several container images for the server
+component that works with different inference providers out of the box. For this guide, we will use
+<code class="docutils literal notranslate"><span class="pre">llamastack/distribution-ollama</span></code> as the container image. If you’d like to build your own image or customize the
+configurations, please check out <a class="reference internal" href="../references/index.html"><span class="std std-doc">this guide</span></a>.
+First lets setup some environment variables and create a local directory to mount into the container’s file system.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">INFERENCE_MODEL</span><span class="o">=</span><span class="s2">&quot;llama3.2:3b&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LLAMA_STACK_PORT</span><span class="o">=</span><span class="m">8321</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>~/.llama
+</pre></div>
+</div>
+<p>Then start the server using the container tool of your choice.  For example, if you are running Docker you can use the
+following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pull<span class="w"> </span>always<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="nv">$LLAMA_STACK_PORT</span>:<span class="nv">$LLAMA_STACK_PORT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-v<span class="w"> </span>~/.llama:/root/.llama<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>llamastack/distribution-ollama<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--port<span class="w"> </span><span class="nv">$LLAMA_STACK_PORT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--env<span class="w"> </span><span class="nv">INFERENCE_MODEL</span><span class="o">=</span><span class="nv">$INFERENCE_MODEL</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--env<span class="w"> </span><span class="nv">OLLAMA_URL</span><span class="o">=</span>http://host.docker.internal:11434
+</pre></div>
+</div>
+<p>Note to start the container with Podman, you can do the same but replace <code class="docutils literal notranslate"><span class="pre">docker</span></code> at the start of the command with
+<code class="docutils literal notranslate"><span class="pre">podman</span></code>. If you are using <code class="docutils literal notranslate"><span class="pre">podman</span></code> older than <code class="docutils literal notranslate"><span class="pre">4.7.0</span></code>, please also replace <code class="docutils literal notranslate"><span class="pre">host.docker.internal</span></code> in the <code class="docutils literal notranslate"><span class="pre">OLLAMA_URL</span></code>
+with <code class="docutils literal notranslate"><span class="pre">host.containers.internal</span></code>.</p>
+<p>The configuration YAML for the Ollama distribution is available at <code class="docutils literal notranslate"><span class="pre">distributions/ollama/run.yaml</span></code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Docker containers run in their own isolated network namespaces on Linux. To allow the container to communicate with services running on the host via <code class="docutils literal notranslate"><span class="pre">localhost</span></code>, you need <code class="docutils literal notranslate"><span class="pre">--network=host</span></code>. This makes the container use the host’s network directly so it can connect to Ollama running on <code class="docutils literal notranslate"><span class="pre">localhost:11434</span></code>.</p>
+<p>Linux users having issues running the above command should instead try the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pull<span class="w"> </span>always<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="nv">$LLAMA_STACK_PORT</span>:<span class="nv">$LLAMA_STACK_PORT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-v<span class="w"> </span>~/.llama:/root/.llama<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--network<span class="o">=</span>host<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>llamastack/distribution-ollama<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--port<span class="w"> </span><span class="nv">$LLAMA_STACK_PORT</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--env<span class="w"> </span><span class="nv">INFERENCE_MODEL</span><span class="o">=</span><span class="nv">$INFERENCE_MODEL</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--env<span class="w"> </span><span class="nv">OLLAMA_URL</span><span class="o">=</span>http://localhost:11434
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<p>You will see output like below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">INFO</span><span class="p">:</span>     <span class="n">Application</span> <span class="n">startup</span> <span class="n">complete</span><span class="o">.</span>
+<span class="n">INFO</span><span class="p">:</span>     <span class="n">Uvicorn</span> <span class="n">running</span> <span class="n">on</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="p">[</span><span class="s1">&#39;::&#39;</span><span class="p">,</span> <span class="s1">&#39;0.0.0.0&#39;</span><span class="p">]:</span><span class="mi">8321</span> <span class="p">(</span><span class="n">Press</span> <span class="n">CTRL</span><span class="o">+</span><span class="n">C</span> <span class="n">to</span> <span class="n">quit</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now you can use the Llama Stack client to run inference and build agents!</p>
+<p>You can reuse the server setup or use the <a class="reference external" href="https://github.com/meta-llama/llama-stack-client-python/">Llama Stack Client</a>.
+Note that the client package is already included in the <code class="docutils literal notranslate"><span class="pre">llama-stack</span></code> package.</p>
+</section>
+<section id="step-3-run-client-cli">
+<h2>Step 3: Run Client CLI<a class="headerlink" href="#step-3-run-client-cli" title="Link to this heading"></a></h2>
+<p>Open a new terminal and navigate to the same directory you started the server from. Then set up a new or activate your
+existing server virtual environment.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-5">
+Reuse Server <code class="docutils literal notranslate"><span class="pre">venv</span></code></label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># The client is included in the llama-stack package so we just activate the server venv</span>
+<span class="nb">source</span><span class="w"> </span>.venv/bin/activate
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-6" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-6">
+Install with <code class="docutils literal notranslate"><span class="pre">venv</span></code></label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>venv<span class="w"> </span>client<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.10
+<span class="nb">source</span><span class="w"> </span>client/bin/activate
+pip<span class="w"> </span>install<span class="w"> </span>llama-stack-client
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-7">
+Install with <code class="docutils literal notranslate"><span class="pre">conda</span></code></label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>yes<span class="w"> </span><span class="p">|</span><span class="w"> </span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>stack-client<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
+conda<span class="w"> </span>activate<span class="w"> </span>stack-client
+pip<span class="w"> </span>install<span class="w"> </span>llama-stack-client
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s use the <code class="docutils literal notranslate"><span class="pre">llama-stack-client</span></code> <a class="reference internal" href="../references/llama_stack_client_cli_reference.html"><span class="std std-doc">CLI</span></a> to check the
+connectivity to the server.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>llama-stack-client<span class="w"> </span>configure<span class="w"> </span>--endpoint<span class="w"> </span>http://localhost:8321<span class="w"> </span>--api-key<span class="w"> </span>none
+</pre></div>
+</div>
+<p>You will see the below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Done! You can now use the Llama Stack Client CLI with endpoint http://localhost:8321
+</pre></div>
+</div>
+<p>List the models</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>llama-stack-client<span class="w"> </span>models<span class="w"> </span>list
+Available<span class="w"> </span>Models
+
+┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃<span class="w"> </span>model_type<span class="w">      </span>┃<span class="w"> </span>identifier<span class="w">                          </span>┃<span class="w"> </span>provider_resource_id<span class="w">                </span>┃<span class="w"> </span>metadata<span class="w">                                  </span>┃<span class="w"> </span>provider_id<span class="w">     </span>┃
+┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│<span class="w"> </span>embedding<span class="w">       </span>│<span class="w"> </span>all-MiniLM-L6-v2<span class="w">                    </span>│<span class="w"> </span>all-minilm:latest<span class="w">                   </span>│<span class="w"> </span><span class="o">{</span><span class="s1">&#39;embedding_dimension&#39;</span>:<span class="w"> </span><span class="m">384</span>.0<span class="o">}</span><span class="w">            </span>│<span class="w"> </span>ollama<span class="w">          </span>│
+├─────────────────┼─────────────────────────────────────┼─────────────────────────────────────┼───────────────────────────────────────────┼─────────────────┤
+│<span class="w"> </span>llm<span class="w">             </span>│<span class="w"> </span>llama3.2:3b<span class="w">                         </span>│<span class="w"> </span>llama3.2:3b<span class="w">                         </span>│<span class="w">                                           </span>│<span class="w"> </span>ollama<span class="w">          </span>│
+└─────────────────┴─────────────────────────────────────┴─────────────────────────────────────┴───────────────────────────────────────────┴─────────────────┘
+
+Total<span class="w"> </span>models:<span class="w"> </span><span class="m">2</span>
+</pre></div>
+</div>
+<p>You can test basic Llama inference completion using the CLI.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>llama-stack-client<span class="w"> </span>inference<span class="w"> </span>chat-completion<span class="w"> </span>--message<span class="w"> </span><span class="s2">&quot;tell me a joke&quot;</span>
+</pre></div>
+</div>
+<p>Sample output:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ChatCompletionResponse</span><span class="p">(</span>
+    <span class="n">completion_message</span><span class="o">=</span><span class="n">CompletionMessage</span><span class="p">(</span>
+        <span class="n">content</span><span class="o">=</span><span class="s2">&quot;Here&#39;s one:</span><span class="se">\n\n</span><span class="s2">What do you call a fake noodle?</span><span class="se">\n\n</span><span class="s2">An impasta!&quot;</span><span class="p">,</span>
+        <span class="n">role</span><span class="o">=</span><span class="s2">&quot;assistant&quot;</span><span class="p">,</span>
+        <span class="n">stop_reason</span><span class="o">=</span><span class="s2">&quot;end_of_turn&quot;</span><span class="p">,</span>
+        <span class="n">tool_calls</span><span class="o">=</span><span class="p">[],</span>
+    <span class="p">),</span>
+    <span class="n">logprobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Metric</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s2">&quot;prompt_tokens&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">14.0</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+        <span class="n">Metric</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s2">&quot;completion_tokens&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">27.0</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+        <span class="n">Metric</span><span class="p">(</span><span class="n">metric</span><span class="o">=</span><span class="s2">&quot;total_tokens&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">41.0</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-4-run-the-demos">
+<h2>Step 4: Run the Demos<a class="headerlink" href="#step-4-run-the-demos" title="Link to this heading"></a></h2>
+<p>Note that these demos show the <a class="reference internal" href="../references/python_sdk_reference/index.html"><span class="std std-doc">Python Client SDK</span></a>.
+Other SDKs are also available, please refer to the <a class="reference internal" href="../index.html#client-sdks"><span class="std std-ref">Client SDK</span></a> list for the complete options.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-8" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-8">
+Basic Inference</label><div class="sd-tab-content docutils">
+<p>Now you can run inference using the Llama Stack client SDK.</p>
+<p class="rubric" id="i-create-the-script">i. Create the Script</p>
+<p>Create a file <code class="docutils literal notranslate"><span class="pre">inference.py</span></code> and add the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client</span> <span class="kn">import</span> <span class="n">LlamaStackClient</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">LlamaStackClient</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;http://localhost:8321&quot;</span><span class="p">)</span>
+
+<span class="c1"># List available models</span>
+<span class="n">models</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+
+<span class="c1"># Select the first LLM</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">models</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">model_type</span> <span class="o">==</span> <span class="s2">&quot;llm&quot;</span><span class="p">)</span>
+<span class="n">model_id</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">identifier</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model:&quot;</span><span class="p">,</span> <span class="n">model_id</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">inference</span><span class="o">.</span><span class="n">chat_completion</span><span class="p">(</span>
+    <span class="n">model_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;You are a helpful assistant.&quot;</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Write a haiku about coding&quot;</span><span class="p">},</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">completion_message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric" id="ii-run-the-script">ii. Run the Script</p>
+<p>Let’s run the script using <code class="docutils literal notranslate"><span class="pre">uv</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>inference.py
+</pre></div>
+</div>
+<p>Which will output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Model</span><span class="p">:</span> <span class="n">llama3</span><span class="mf">.2</span><span class="p">:</span><span class="mi">3</span><span class="n">b</span>
+<span class="n">Here</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">haiku</span> <span class="n">about</span> <span class="n">coding</span><span class="p">:</span>
+
+<span class="n">Lines</span> <span class="n">of</span> <span class="n">code</span> <span class="n">unfold</span>
+<span class="n">Logic</span> <span class="n">flows</span> <span class="n">through</span> <span class="n">digital</span> <span class="n">night</span>
+<span class="n">Beauty</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">bits</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-9" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-9">
+Build a Simple Agent</label><div class="sd-tab-content docutils">
+<p>Next we can move beyond simple inference and build an agent that can perform tasks using the Llama Stack server.</p>
+<p class="rubric" id="id1">i. Create the Script</p>
+<p>Create a file <code class="docutils literal notranslate"><span class="pre">agent.py</span></code> and add the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client</span> <span class="kn">import</span> <span class="n">LlamaStackClient</span>
+<span class="kn">from</span> <span class="nn">llama_stack_client</span> <span class="kn">import</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">AgentEventLogger</span>
+<span class="kn">from</span> <span class="nn">rich.pretty</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">LlamaStackClient</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;http://localhost:8321&quot;</span><span class="p">)</span>
+
+<span class="n">models</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">models</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">model_type</span> <span class="o">==</span> <span class="s2">&quot;llm&quot;</span><span class="p">)</span>
+<span class="n">model_id</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">identifier</span>
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span> <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;You are a helpful assistant.&quot;</span><span class="p">)</span>
+
+<span class="n">s_id</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">create_session</span><span class="p">(</span><span class="n">session_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;s</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Non-streaming ...&quot;</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">create_turn</span><span class="p">(</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Who are you?&quot;</span><span class="p">}],</span>
+    <span class="n">session_id</span><span class="o">=</span><span class="n">s_id</span><span class="p">,</span>
+    <span class="n">stream</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;agent&gt;&quot;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">output_message</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Streaming ...&quot;</span><span class="p">)</span>
+<span class="n">stream</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">create_turn</span><span class="p">(</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Who are you?&quot;</span><span class="p">}],</span> <span class="n">session_id</span><span class="o">=</span><span class="n">s_id</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Streaming with print helper...&quot;</span><span class="p">)</span>
+<span class="n">stream</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">create_turn</span><span class="p">(</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;Who are you?&quot;</span><span class="p">}],</span> <span class="n">session_id</span><span class="o">=</span><span class="n">s_id</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">AgentEventLogger</span><span class="p">()</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">stream</span><span class="p">):</span>
+    <span class="n">event</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="rubric" id="id2">ii. Run the Script</p>
+<p>Let’s run the script using <code class="docutils literal notranslate"><span class="pre">uv</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>agent.py
+</pre></div>
+</div>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">👋 Click here to see the sample output</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Non-streaming ...
+agent&gt; I&#39;m an artificial intelligence designed to assist and communicate with users like you. I don&#39;t have a personal identity, but I&#39;m here to provide information, answer questions, and help with tasks to the best of my abilities.
+
+I can be used for a wide range of purposes, such as:
+
+* Providing definitions and explanations
+* Offering suggestions and ideas
+* Helping with language translation
+* Assisting with writing and proofreading
+* Generating text or responses to questions
+* Playing simple games or chatting about topics of interest
+
+I&#39;m constantly learning and improving my abilities, so feel free to ask me anything, and I&#39;ll do my best to help!
+
+Streaming ...
+AgentTurnResponseStreamChunk(
+│   event=TurnResponseEvent(
+│   │   payload=AgentTurnResponseStepStartPayload(
+│   │   │   event_type=&#39;step_start&#39;,
+│   │   │   step_id=&#39;69831607-fa75-424a-949b-e2049e3129d1&#39;,
+│   │   │   step_type=&#39;inference&#39;,
+│   │   │   metadata={}
+│   │   )
+│   )
+)
+AgentTurnResponseStreamChunk(
+│   event=TurnResponseEvent(
+│   │   payload=AgentTurnResponseStepProgressPayload(
+│   │   │   delta=TextDelta(text=&#39;As&#39;, type=&#39;text&#39;),
+│   │   │   event_type=&#39;step_progress&#39;,
+│   │   │   step_id=&#39;69831607-fa75-424a-949b-e2049e3129d1&#39;,
+│   │   │   step_type=&#39;inference&#39;
+│   │   )
+│   )
+)
+AgentTurnResponseStreamChunk(
+│   event=TurnResponseEvent(
+│   │   payload=AgentTurnResponseStepProgressPayload(
+│   │   │   delta=TextDelta(text=&#39; a&#39;, type=&#39;text&#39;),
+│   │   │   event_type=&#39;step_progress&#39;,
+│   │   │   step_id=&#39;69831607-fa75-424a-949b-e2049e3129d1&#39;,
+│   │   │   step_type=&#39;inference&#39;
+│   │   )
+│   )
+)
+...
+AgentTurnResponseStreamChunk(
+│   event=TurnResponseEvent(
+│   │   payload=AgentTurnResponseStepCompletePayload(
+│   │   │   event_type=&#39;step_complete&#39;,
+│   │   │   step_details=InferenceStep(
+│   │   │   │   api_model_response=CompletionMessage(
+│   │   │   │   │   content=&#39;As a conversational AI, I don\&#39;t have a personal identity in the classical sense. I exist as a program running on computer servers, designed to process and respond to text-based inputs.\n\nI\&#39;m an instance of a type of artificial intelligence called a &quot;language model,&quot; which is trained on vast amounts of text data to generate human-like responses. My primary function is to understand and respond to natural language inputs, like our conversation right now.\n\nThink of me as a virtual assistant, a chatbot, or a conversational interface – I\&#39;m here to provide information, answer questions, and engage in conversation to the best of my abilities. I don\&#39;t have feelings, emotions, or consciousness like humans do, but I\&#39;m designed to simulate human-like interactions to make our conversations feel more natural and helpful.\n\nSo, that\&#39;s me in a nutshell! What can I help you with today?&#39;,
+│   │   │   │   │   role=&#39;assistant&#39;,
+│   │   │   │   │   stop_reason=&#39;end_of_turn&#39;,
+│   │   │   │   │   tool_calls=[]
+│   │   │   │   ),
+│   │   │   │   step_id=&#39;69831607-fa75-424a-949b-e2049e3129d1&#39;,
+│   │   │   │   step_type=&#39;inference&#39;,
+│   │   │   │   turn_id=&#39;8b360202-f7cb-4786-baa9-166a1b46e2ca&#39;,
+│   │   │   │   completed_at=datetime.datetime(2025, 4, 3, 1, 15, 21, 716174, tzinfo=TzInfo(UTC)),
+│   │   │   │   started_at=datetime.datetime(2025, 4, 3, 1, 15, 14, 28823, tzinfo=TzInfo(UTC))
+│   │   │   ),
+│   │   │   step_id=&#39;69831607-fa75-424a-949b-e2049e3129d1&#39;,
+│   │   │   step_type=&#39;inference&#39;
+│   │   )
+│   )
+)
+AgentTurnResponseStreamChunk(
+│   event=TurnResponseEvent(
+│   │   payload=AgentTurnResponseTurnCompletePayload(
+│   │   │   event_type=&#39;turn_complete&#39;,
+│   │   │   turn=Turn(
+│   │   │   │   input_messages=[UserMessage(content=&#39;Who are you?&#39;, role=&#39;user&#39;, context=None)],
+│   │   │   │   output_message=CompletionMessage(
+│   │   │   │   │   content=&#39;As a conversational AI, I don\&#39;t have a personal identity in the classical sense. I exist as a program running on computer servers, designed to process and respond to text-based inputs.\n\nI\&#39;m an instance of a type of artificial intelligence called a &quot;language model,&quot; which is trained on vast amounts of text data to generate human-like responses. My primary function is to understand and respond to natural language inputs, like our conversation right now.\n\nThink of me as a virtual assistant, a chatbot, or a conversational interface – I\&#39;m here to provide information, answer questions, and engage in conversation to the best of my abilities. I don\&#39;t have feelings, emotions, or consciousness like humans do, but I\&#39;m designed to simulate human-like interactions to make our conversations feel more natural and helpful.\n\nSo, that\&#39;s me in a nutshell! What can I help you with today?&#39;,
+│   │   │   │   │   role=&#39;assistant&#39;,
+│   │   │   │   │   stop_reason=&#39;end_of_turn&#39;,
+│   │   │   │   │   tool_calls=[]
+│   │   │   │   ),
+│   │   │   │   session_id=&#39;abd4afea-4324-43f4-9513-cfe3970d92e8&#39;,
+│   │   │   │   started_at=datetime.datetime(2025, 4, 3, 1, 15, 14, 28722, tzinfo=TzInfo(UTC)),
+│   │   │   │   steps=[
+│   │   │   │   │   InferenceStep(
+│   │   │   │   │   │   api_model_response=CompletionMessage(
+│   │   │   │   │   │   │   content=&#39;As a conversational AI, I don\&#39;t have a personal identity in the classical sense. I exist as a program running on computer servers, designed to process and respond to text-based inputs.\n\nI\&#39;m an instance of a type of artificial intelligence called a &quot;language model,&quot; which is trained on vast amounts of text data to generate human-like responses. My primary function is to understand and respond to natural language inputs, like our conversation right now.\n\nThink of me as a virtual assistant, a chatbot, or a conversational interface – I\&#39;m here to provide information, answer questions, and engage in conversation to the best of my abilities. I don\&#39;t have feelings, emotions, or consciousness like humans do, but I\&#39;m designed to simulate human-like interactions to make our conversations feel more natural and helpful.\n\nSo, that\&#39;s me in a nutshell! What can I help you with today?&#39;,
+│   │   │   │   │   │   │   role=&#39;assistant&#39;,
+│   │   │   │   │   │   │   stop_reason=&#39;end_of_turn&#39;,
+│   │   │   │   │   │   │   tool_calls=[]
+│   │   │   │   │   │   ),
+│   │   │   │   │   │   step_id=&#39;69831607-fa75-424a-949b-e2049e3129d1&#39;,
+│   │   │   │   │   │   step_type=&#39;inference&#39;,
+│   │   │   │   │   │   turn_id=&#39;8b360202-f7cb-4786-baa9-166a1b46e2ca&#39;,
+│   │   │   │   │   │   completed_at=datetime.datetime(2025, 4, 3, 1, 15, 21, 716174, tzinfo=TzInfo(UTC)),
+│   │   │   │   │   │   started_at=datetime.datetime(2025, 4, 3, 1, 15, 14, 28823, tzinfo=TzInfo(UTC))
+│   │   │   │   │   )
+│   │   │   │   ],
+│   │   │   │   turn_id=&#39;8b360202-f7cb-4786-baa9-166a1b46e2ca&#39;,
+│   │   │   │   completed_at=datetime.datetime(2025, 4, 3, 1, 15, 21, 727364, tzinfo=TzInfo(UTC)),
+│   │   │   │   output_attachments=[]
+│   │   │   )
+│   │   )
+│   )
+)
+
+
+Streaming with print helper...
+inference&gt; Déjà vu!
+
+As I mentioned earlier, I&#39;m an artificial intelligence language model. I don&#39;t have a personal identity or consciousness like humans do. I exist solely to process and respond to text-based inputs, providing information and assistance on a wide range of topics.
+
+I&#39;m a computer program designed to simulate human-like conversations, using natural language processing (NLP) and machine learning algorithms to understand and generate responses. My purpose is to help users like you with their questions, provide information, and engage in conversation.
+
+Think of me as a virtual companion, a helpful tool designed to make your interactions more efficient and enjoyable. I don&#39;t have personal opinions, emotions, or biases, but I&#39;m here to provide accurate and informative responses to the best of my abilities.
+
+So, who am I? I&#39;m just a computer program designed to help you!
+</pre></div>
+</div>
+</div>
+</details></div>
+<input id="sd-tab-item-10" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-10">
+Build a RAG Agent</label><div class="sd-tab-content docutils">
+<p>For our last demo, we can build a RAG agent that can answer questions about the Torchtune project using the documents
+in a vector database.</p>
+<p class="rubric" id="id3">i. Create the Script</p>
+<p>Create a file <code class="docutils literal notranslate"><span class="pre">rag_agent.py</span></code> and add the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">llama_stack_client</span> <span class="kn">import</span> <span class="n">LlamaStackClient</span>
+<span class="kn">from</span> <span class="nn">llama_stack_client</span> <span class="kn">import</span> <span class="n">Agent</span><span class="p">,</span> <span class="n">AgentEventLogger</span>
+<span class="kn">from</span> <span class="nn">llama_stack_client.types</span> <span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">LlamaStackClient</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="s2">&quot;http://localhost:8321&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create a vector database instance</span>
+<span class="n">embed_lm</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">list</span><span class="p">()</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">model_type</span> <span class="o">==</span> <span class="s2">&quot;embedding&quot;</span><span class="p">)</span>
+<span class="n">embedding_model</span> <span class="o">=</span> <span class="n">embed_lm</span><span class="o">.</span><span class="n">identifier</span>
+<span class="n">vector_db_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;v</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="n">client</span><span class="o">.</span><span class="n">vector_dbs</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="n">vector_db_id</span><span class="o">=</span><span class="n">vector_db_id</span><span class="p">,</span>
+    <span class="n">embedding_model</span><span class="o">=</span><span class="n">embedding_model</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Create Documents</span>
+<span class="n">urls</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;memory_optimizations.rst&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;chat.rst&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;llama3.rst&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;qat_finetune.rst&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lora_finetune.rst&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Document</span><span class="p">(</span>
+        <span class="n">document_id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;num-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">content</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;https://raw.githubusercontent.com/pytorch/torchtune/main/docs/source/tutorials/</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">mime_type</span><span class="o">=</span><span class="s2">&quot;text/plain&quot;</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="p">{},</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">url</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">urls</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="c1"># Insert documents</span>
+<span class="n">client</span><span class="o">.</span><span class="n">tool_runtime</span><span class="o">.</span><span class="n">rag_tool</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+    <span class="n">documents</span><span class="o">=</span><span class="n">documents</span><span class="p">,</span>
+    <span class="n">vector_db_id</span><span class="o">=</span><span class="n">vector_db_id</span><span class="p">,</span>
+    <span class="n">chunk_size_in_tokens</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Get the model being served</span>
+<span class="n">llm</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">list</span><span class="p">()</span> <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">model_type</span> <span class="o">==</span> <span class="s2">&quot;llm&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">identifier</span>
+
+<span class="c1"># Create the RAG agent</span>
+<span class="n">rag_agent</span> <span class="o">=</span> <span class="n">Agent</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+    <span class="n">instructions</span><span class="o">=</span><span class="s2">&quot;You are a helpful assistant. Use the RAG tool to answer questions as needed.&quot;</span><span class="p">,</span>
+    <span class="n">tools</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;builtin::rag/knowledge_search&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;vector_db_ids&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">vector_db_id</span><span class="p">]},</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">session_id</span> <span class="o">=</span> <span class="n">rag_agent</span><span class="o">.</span><span class="n">create_session</span><span class="p">(</span><span class="n">session_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;s</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">turns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;what is torchtune&quot;</span><span class="p">,</span> <span class="s2">&quot;tell me about dora&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">turns</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;user&gt;&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">rag_agent</span><span class="o">.</span><span class="n">create_turn</span><span class="p">(</span>
+        <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">t</span><span class="p">}],</span> <span class="n">session_id</span><span class="o">=</span><span class="n">session_id</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">AgentEventLogger</span><span class="p">()</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">stream</span><span class="p">):</span>
+        <span class="n">event</span><span class="o">.</span><span class="n">print</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="rubric" id="id4">ii. Run the Script</p>
+<p>Let’s run the script using <code class="docutils literal notranslate"><span class="pre">uv</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>rag_agent.py
+</pre></div>
+</div>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">👋 Click here to see the sample output</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>user&gt; what is torchtune
+inference&gt; [knowledge_search(query=&#39;TorchTune&#39;)]
+tool_execution&gt; Tool:knowledge_search Args:{&#39;query&#39;: &#39;TorchTune&#39;}
+tool_execution&gt; Tool:knowledge_search Response:[TextContentItem(text=&#39;knowledge_search tool found 5 chunks:\nBEGIN of knowledge_search tool results.\n&#39;, type=&#39;text&#39;), TextContentItem(text=&#39;Result 1:\nDocument_id:num-1\nContent:  conversational data, :func:`~torchtune.datasets.chat_dataset` seems to be a good fit. ..., type=&#39;text&#39;), TextContentItem(text=&#39;END of knowledge_search tool results.\n&#39;, type=&#39;text&#39;)]
+inference&gt; Here is a high-level overview of the text:
+
+**LoRA Finetuning with PyTorch Tune**
+
+PyTorch Tune provides a recipe for LoRA (Low-Rank Adaptation) finetuning, which is a technique to adapt pre-trained models to new tasks. The recipe uses the `lora_finetune_distributed` command.
+...
+Overall, DORA is a powerful reinforcement learning algorithm that can learn complex tasks from human demonstrations. However, it requires careful consideration of the challenges and limitations to achieve optimal results.
+</pre></div>
+</div>
+</div>
+</details></div>
+</div>
+<p><strong>You’re Ready to Build Your Own Apps!</strong></p>
+<p>Congrats! 🥳 Now you’re ready to <a class="reference internal" href="../building_applications/index.html"><span class="doc std std-doc">build your own Llama Stack applications</span></a>! 🚀</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../introduction/index.html" class="btn btn-neutral float-right" title="Why Llama Stack?" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Meta.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

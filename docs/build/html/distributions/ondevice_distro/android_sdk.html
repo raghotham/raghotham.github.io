@@ -1,0 +1,789 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Llama Stack Client Kotlin API Library &mdash; llama-stack  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/my_theme.css?v=f1163765" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+
+  
+    <link rel="canonical" href="https://github.com/meta-llama/llama-stackdistributions/ondevice_distro/android_sdk.html"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=09bf800d"></script>
+      <script src="../../_static/js/detect_theme.js?v=76226c80"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Kubernetes Deployment Guide" href="../kubernetes_deployment.html" />
+    <link rel="prev" title="iOS SDK" href="ios_sdk.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            llama-stack
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Llama Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started/index.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html#step-1-install-and-setup">Step 1: Install and setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html#step-2-run-the-llama-stack-server">Step 2: Run the Llama Stack server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html#step-3-run-the-demo">Step 3: Run the demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/index.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started/detailed_tutorial.html">Detailed Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/detailed_tutorial.html#step-1-installation-and-setup">Step 1: Installation and Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/detailed_tutorial.html#step-2-run-llama-stack">Step 2:  Run Llama Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/detailed_tutorial.html#step-3-run-client-cli">Step 3: Run Client CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/detailed_tutorial.html#step-4-run-the-demos">Step 4: Run the Demos</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/index.html">Why Llama Stack?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/index.html#our-solution-a-universal-stack">Our Solution: A Universal Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../introduction/index.html#our-philosophy">Our Philosophy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../concepts/index.html">Core Concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#apis">APIs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#api-providers">API Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#resources">Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#distributions">Distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../concepts/index.html#evaluation-concepts">Evaluation Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../concepts/index.html#open-benchmark-eval">Open-benchmark Eval</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#list-of-open-benchmarks-llama-stack-support">List of open-benchmarks Llama Stack support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#run-evaluation-on-open-benchmarks-via-cli">Run evaluation on open-benchmarks via CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#spin-up-llama-stack-server">Spin up Llama Stack server</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#run-eval-cli">Run eval CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../concepts/index.html#whats-next">What’s Next?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../openai/index.html">OpenAI API Compatibility</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../openai/index.html#server-path">Server path</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../openai/index.html#clients">Clients</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#llama-stack-client">Llama Stack Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#openai-client">OpenAI Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../openai/index.html#apis-implemented">APIs implemented</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#models">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#responses">Responses</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#simple-inference">Simple inference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#structured-output">Structured Output</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#chat-completions">Chat Completions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#id1">Simple inference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#id2">Structured Output</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../openai/index.html#completions">Completions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../openai/index.html#id3">Simple inference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../providers/index.html">Providers Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#external-providers">External Providers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#agents">Agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#datasetio">DatasetIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#eval">Eval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#inference">Inference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#post-training">Post Training</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../providers/index.html#post-training-providers">Post Training Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/external.html">External Providers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/post_training/huggingface.html">HuggingFace SFTTrainer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/post_training/torchtune.html">TorchTune</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/post_training/nvidia_nemo.html">NVIDIA NEMO</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#safety">Safety</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#scoring">Scoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#telemetry">Telemetry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#tool-runtime">Tool Runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../providers/index.html#vector-io">Vector IO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../providers/index.html#vector-io-providers">Vector IO Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/external.html">External Providers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/faiss.html">Faiss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/sqlite-vec.html">SQLite-Vec</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/chromadb.html">Chroma</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/pgvector.html">Postgres PGVector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/qdrant.html">Qdrant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/milvus.html">Milvus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../providers/vector_io/weaviate.html">Weaviate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Distributions Overview</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../importing_as_library.html">Using Llama Stack as a Library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../importing_as_library.html#setup-llama-stack-without-a-server">Setup Llama Stack without a Server</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../configuration.html">Configuring a “Stack”</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../configuration.html#providers">Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../configuration.html#resources">Resources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../configuration.html#server-configuration">Server Configuration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../configuration.html#authentication-configuration">Authentication Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../configuration.html#quota-configuration">Quota Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../configuration.html#extending-to-handle-safety">Extending to handle Safety</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="../list_of_distributions.html">Available List of Distributions</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../list_of_distributions.html#selection-of-a-distribution-template">Selection of a Distribution / Template</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../list_of_distributions.html#distribution-details">Distribution Details</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../list_of_distributions.html#on-device-distributions">On-Device Distributions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kubernetes_deployment.html">Kubernetes Deployment Guide</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../kubernetes_deployment.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kubernetes_deployment.html#deploying-llama-stack-server-in-kubernetes">Deploying Llama Stack Server in Kubernetes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kubernetes_deployment.html#verifying-the-deployment">Verifying the Deployment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../building_distro.html">Build your own Distribution</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../building_distro.html#setting-your-log-level">Setting your log level</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_distro.html#llama-stack-build">Llama Stack Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_distro.html#running-your-stack-server">Running your Stack server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_distro.html#listing-distributions">Listing Distributions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_distro.html#removing-a-distribution">Removing a Distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../building_distro.html#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../building_applications/index.html">Building AI Applications (Examples)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/rag.html">Retrieval Augmented Generation (RAG)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#setting-up-vector-dbs">Setting up Vector DBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#ingesting-documents">Ingesting Documents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/rag.html#using-precomputed-embeddings">Using Precomputed Embeddings</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#retrieval">Retrieval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#using-the-rag-tool">Using the RAG Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#building-rag-enhanced-agents">Building RAG-Enhanced Agents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#unregistering-vector-dbs">Unregistering Vector DBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/rag.html#appendix">Appendix</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/rag.html#more-ragdocument-examples">More RAGDocument Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/agent.html">Agents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/agent.html#core-concepts">Core Concepts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#agent-configuration">1. Agent Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#sessions">2. Sessions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#turns">3. Turns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#non-streaming">Non-Streaming</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/agent.html#steps">4. Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/agent.html#agent-execution-loop">Agent Execution Loop</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/agent_execution_loop.html">Agent Execution Loop</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/agent_execution_loop.html#steps-in-the-agent-workflow">Steps in the Agent Workflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/agent_execution_loop.html#agent-execution-loop-example">Agent Execution Loop Example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/tools.html">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#server-side-vs-client-side-tool-execution">Server-side vs. client-side tool execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/tools.html#server-side-tools">Server-side tools</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#model-context-protocol-mcp">Model Context Protocol (MCP)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/tools.html#using-remote-mcp-servers">Using Remote MCP Servers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/tools.html#running-your-own-mcp-server">Running your own MCP server</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#adding-custom-client-side-tools">Adding Custom (Client-side) Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#tool-invocation">Tool Invocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#listing-available-tools">Listing Available Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#simple-example-2-using-an-agent-with-the-web-search-tool">Simple Example 2: Using an Agent with the Web Search Tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/tools.html#simple-example3-using-an-agent-with-the-wolframalpha-tool">Simple Example3: Using an Agent with the WolframAlpha Tool</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/evals.html">Evaluations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/evals.html#application-evaluation">Application Evaluation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/evals.html#building-a-search-agent">Building a Search Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/evals.html#query-agent-execution-steps">Query Agent Execution Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/evals.html#evaluate-agent-responses">Evaluate Agent Responses</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/telemetry.html">Telemetry</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#events">Events</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#spans-and-traces">Spans and Traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#sinks">Sinks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#providers">Providers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/telemetry.html#meta-reference-provider">Meta-Reference Provider</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../building_applications/telemetry.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#jaeger-to-visualize-traces">Jaeger to visualize traces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../building_applications/telemetry.html#querying-traces-stored-in-sqlite">Querying Traces Stored in SQLite</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../building_applications/safety.html">Safety Guardrails</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../playground/index.html">Llama Stack Playground</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../playground/index.html#key-features">Key Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../playground/index.html#playground">Playground</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../playground/index.html#chatbot">Chatbot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../playground/index.html#evaluations">Evaluations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../playground/index.html#inspect">Inspect</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../playground/index.html#starting-the-llama-stack-playground">Starting the Llama Stack Playground</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/new_api_provider.html">Adding a New API Provider</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/new_api_provider.html#testing-the-provider">Testing the Provider</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing/new_api_provider.html#integration-testing">1. Integration Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing/new_api_provider.html#unit-testing">2. Unit Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../contributing/new_api_provider.html#additional-end-to-end-testing">3. Additional end-to-end testing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/new_api_provider.html#submitting-your-pr">Submitting Your PR</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../references/index.html">References</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../references/api_reference/index.html">API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../references/python_sdk_reference/index.html">Python SDK Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#shared-types">Shared Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#toolgroups">Toolgroups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#tools">Tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#toolruntime">ToolRuntime</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/python_sdk_reference/index.html#ragtool">RagTool</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#agents">Agents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/python_sdk_reference/index.html#session">Session</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/python_sdk_reference/index.html#steps">Steps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/python_sdk_reference/index.html#turn">Turn</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#batchinference">BatchInference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#datasets">Datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#eval">Eval</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/python_sdk_reference/index.html#jobs">Jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#inspect">Inspect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#inference">Inference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#vectorio">VectorIo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#vectordbs">VectorDBs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#models">Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#posttraining">PostTraining</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/python_sdk_reference/index.html#job">Job</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#providers">Providers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#routes">Routes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#safety">Safety</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#shields">Shields</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#syntheticdatageneration">SyntheticDataGeneration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#telemetry">Telemetry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#datasetio">Datasetio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#scoring">Scoring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#scoringfunctions">ScoringFunctions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/python_sdk_reference/index.html#benchmarks">Benchmarks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../references/llama_cli_reference/index.html">llama (server-side) CLI Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_cli_reference/index.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_cli_reference/index.html#llama-subcommands"><code class="docutils literal notranslate"><span class="pre">llama</span></code> subcommands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_cli_reference/index.html#sample-usage">Sample Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_cli_reference/index.html#downloading-models">Downloading models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_cli_reference/index.html#downloading-from-meta">Downloading from Meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_cli_reference/index.html#downloading-from-hugging-face">Downloading from Hugging Face</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_cli_reference/index.html#list-the-downloaded-models">List the downloaded models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_cli_reference/index.html#understand-the-models">Understand the models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_cli_reference/index.html#id1">Sample Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_cli_reference/index.html#describe">Describe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_cli_reference/index.html#prompt-format">Prompt Format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_cli_reference/index.html#remove-model">Remove model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html">llama (client-side) CLI Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#basic-commands">Basic Commands</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-configure"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">configure</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-providers-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">providers</span> <span class="pre">list</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#model-management">Model Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-models-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-models-get"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">get</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-models-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-models-update"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">update</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-models-delete"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">models</span> <span class="pre">delete</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#vector-db-management">Vector DB Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-vector-dbs-unregister"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">vector_dbs</span> <span class="pre">unregister</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#shield-management">Shield Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-shields-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">shields</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-shields-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">shields</span> <span class="pre">register</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#eval-task-management">Eval Task Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-benchmarks-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">benchmarks</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-benchmarks-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">benchmarks</span> <span class="pre">register</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#eval-execution">Eval execution</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-eval-run-benchmark"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">eval</span> <span class="pre">run-benchmark</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-eval-run-scoring"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">eval</span> <span class="pre">run-scoring</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#tool-group-management">Tool Group Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-list"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-get"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">get</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-register"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">register</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_stack_client_cli_reference.html#llama-stack-client-toolgroups-unregister"><code class="docutils literal notranslate"><span class="pre">llama-stack-client</span> <span class="pre">toolgroups</span> <span class="pre">unregister</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../references/llama_cli_reference/download_models.html">Downloading Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_cli_reference/download_models.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_cli_reference/download_models.html#downloading-models-via-cli">Downloading models via CLI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_cli_reference/download_models.html#downloading-from-meta">Downloading from Meta</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/llama_cli_reference/download_models.html#downloading-from-hugging-face">Downloading from Hugging Face</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/llama_cli_reference/download_models.html#list-the-downloaded-models">List the downloaded models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../references/evals_reference/index.html">Evaluations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../references/evals_reference/index.html#evaluation-concepts">Evaluation Concepts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/evals_reference/index.html#evaluation-examples-walkthrough">Evaluation Examples Walkthrough</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/evals_reference/index.html#open-benchmark-model-evaluation">1. Open Benchmark Model Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/evals_reference/index.html#agentic-evaluation">2. Agentic Evaluation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/evals_reference/index.html#agentic-application-dataset-scoring">3. Agentic Application Dataset Scoring</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/evals_reference/index.html#running-evaluations-via-cli">Running Evaluations via CLI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/evals_reference/index.html#benchmark-evaluation-cli">Benchmark Evaluation CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/evals_reference/index.html#application-evaluation-cli">Application Evaluation CLI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/evals_reference/index.html#defining-benchmarkconfig">Defining BenchmarkConfig</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../references/evals_reference/index.html#open-benchmark-contributing-guide">Open-benchmark Contributing Guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../references/evals_reference/index.html#create-the-new-dataset-for-your-new-benchmark">Create the new dataset for your new benchmark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/evals_reference/index.html#find-scoring-function-for-your-new-benchmark">Find scoring function for your new benchmark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/evals_reference/index.html#add-new-benchmark-into-template">Add new benchmark into template</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../references/evals_reference/index.html#test-the-new-benchmark">Test the new benchmark</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">llama-stack</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Distributions Overview</a></li>
+          <li class="breadcrumb-item"><a href="../list_of_distributions.html">Available List of Distributions</a></li>
+      <li class="breadcrumb-item active">Llama Stack Client Kotlin API Library</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/distributions/ondevice_distro/android_sdk.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="llama-stack-client-kotlin-api-library">
+<h1>Llama Stack Client Kotlin API Library<a class="headerlink" href="#llama-stack-client-kotlin-api-library" title="Link to this heading"></a></h1>
+<p>We are excited to share a guide for a Kotlin Library that brings front the benefits of Llama Stack to your Android device. This library is a set of SDKs that provide a simple and effective way to integrate AI capabilities into your Android app whether it is local (on-device) or remote inference.</p>
+<p>Features:</p>
+<ul class="simple">
+<li><p>Local Inferencing: Run Llama models purely on-device with real-time processing. We currently utilize ExecuTorch as the local inference distributor and may support others in the future.</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/pytorch/executorch/tree/main">ExecuTorch</a> is a complete end-to-end solution within the PyTorch framework for inferencing capabilities on-device with high portability and seamless performance.</p></li>
+</ul>
+</li>
+<li><p>Remote Inferencing: Perform inferencing tasks remotely with Llama models hosted on a remote connection (or serverless localhost).</p></li>
+<li><p>Simple Integration: With easy-to-use APIs, a developer can quickly integrate Llama Stack in their Android app. The difference with local vs remote inferencing is also minimal.</p></li>
+</ul>
+<p>Latest Release Notes: <a class="reference external" href="https://github.com/meta-llama/llama-stack-client-kotlin/tree/latest-release">link</a></p>
+<p><em>Tagged releases are stable versions of the project. While we strive to maintain a stable main branch, it’s not guaranteed to be free of bugs or issues.</em></p>
+<section id="android-demo-app">
+<h2>Android Demo App<a class="headerlink" href="#android-demo-app" title="Link to this heading"></a></h2>
+<p>Check out our demo app to see how to integrate Llama Stack into your Android app: <a class="reference external" href="https://github.com/meta-llama/llama-stack-client-kotlin/tree/examples/android_app">Android Demo App</a></p>
+<p>The key files in the app are <code class="docutils literal notranslate"><span class="pre">ExampleLlamaStackLocalInference.kt</span></code>, <code class="docutils literal notranslate"><span class="pre">ExampleLlamaStackRemoteInference.kts</span></code>, and <code class="docutils literal notranslate"><span class="pre">MainActivity.java</span></code>. With encompassed business logic, the app shows how to use Llama Stack for both the environments.</p>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<section id="add-dependencies">
+<h3>Add Dependencies<a class="headerlink" href="#add-dependencies" title="Link to this heading"></a></h3>
+<section id="kotlin-library">
+<h4>Kotlin Library<a class="headerlink" href="#kotlin-library" title="Link to this heading"></a></h4>
+<p>Add the following dependency in your <code class="docutils literal notranslate"><span class="pre">build.gradle.kts</span></code> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dependencies</span> <span class="p">{</span>
+ <span class="n">implementation</span><span class="p">(</span><span class="s2">&quot;com.llama.llamastack:llama-stack-client-kotlin:0.2.2&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This will download jar files in your gradle cache in a directory like <code class="docutils literal notranslate"><span class="pre">~/.gradle/caches/modules-2/files-2.1/com.llama.llamastack/</span></code></p>
+<p>If you plan on doing remote inferencing this is sufficient to get started.</p>
+</section>
+<section id="dependency-for-local">
+<h4>Dependency for Local<a class="headerlink" href="#dependency-for-local" title="Link to this heading"></a></h4>
+<p>For local inferencing, it is required to include the ExecuTorch library into your app.</p>
+<p>Include the ExecuTorch library by:</p>
+<ol class="arabic simple">
+<li><p>Download the <code class="docutils literal notranslate"><span class="pre">download-prebuilt-et-lib.sh</span></code> script file from the <a class="reference external" href="https://github.com/meta-llama/llama-stack-client-kotlin/tree/latest-release/llama-stack-client-kotlin-client-local/download-prebuilt-et-lib.sh">llama-stack-client-kotlin-client-local</a> directory to your local machine.</p></li>
+<li><p>Move the script to the top level of your Android app where the <code class="docutils literal notranslate"><span class="pre">app</span></code> directory resides.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">download-prebuilt-et-lib.sh</span></code> to create an <code class="docutils literal notranslate"><span class="pre">app/libs</span></code> directory and download the <code class="docutils literal notranslate"><span class="pre">executorch.aar</span></code> in that path. This generates an ExecuTorch library for the XNNPACK delegate.</p></li>
+<li><p>Add the <code class="docutils literal notranslate"><span class="pre">executorch.aar</span></code> dependency in your <code class="docutils literal notranslate"><span class="pre">build.gradle.kts</span></code> file:</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dependencies</span> <span class="p">{</span>
+  <span class="o">...</span>
+  <span class="n">implementation</span><span class="p">(</span><span class="n">files</span><span class="p">(</span><span class="s2">&quot;libs/executorch.aar&quot;</span><span class="p">))</span>
+  <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>See other dependencies for the local RAG in Android app <a class="reference external" href="https://github.com/meta-llama/llama-stack-client-kotlin/tree/latest-release/examples/android_app#quick-start">README</a>.</p>
+</section>
+</section>
+</section>
+<section id="llama-stack-apis-in-your-android-app">
+<h2>Llama Stack APIs in Your Android App<a class="headerlink" href="#llama-stack-apis-in-your-android-app" title="Link to this heading"></a></h2>
+<p>Breaking down the demo app, this section will show the core pieces that are used to initialize and run inference with Llama Stack using the Kotlin library.</p>
+<section id="setup-remote-inferencing">
+<h3>Setup Remote Inferencing<a class="headerlink" href="#setup-remote-inferencing" title="Link to this heading"></a></h3>
+<p>Start a Llama Stack server on localhost. Here is an example of how you can do this using the firework.ai distribution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">stack</span><span class="o">-</span><span class="n">fireworks</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.10</span>
+<span class="n">conda</span> <span class="n">activate</span> <span class="n">stack</span><span class="o">-</span><span class="n">fireworks</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">cache</span> <span class="n">llama</span><span class="o">-</span><span class="n">stack</span><span class="o">==</span><span class="mf">0.2.2</span>
+<span class="n">llama</span> <span class="n">stack</span> <span class="n">build</span> <span class="o">--</span><span class="n">template</span> <span class="n">fireworks</span> <span class="o">--</span><span class="n">image</span><span class="o">-</span><span class="nb">type</span> <span class="n">conda</span>
+<span class="n">export</span> <span class="n">FIREWORKS_API_KEY</span><span class="o">=&lt;</span><span class="n">SOME_KEY</span><span class="o">&gt;</span>
+<span class="n">llama</span> <span class="n">stack</span> <span class="n">run</span> <span class="n">fireworks</span> <span class="o">--</span><span class="n">port</span> <span class="mi">5050</span>
+</pre></div>
+</div>
+<p>Ensure the Llama Stack server version is the same as the Kotlin SDK Library for maximum compatibility.</p>
+<p>Other inference providers: <a class="reference external" href="https://llama-stack.readthedocs.io/en/latest/index.html#supported-llama-stack-implementations">Table</a></p>
+<p>How to set remote localhost in Demo App: <a class="reference external" href="https://github.com/meta-llama/llama-stack-apps/tree/main/examples/android_app#settings">Settings</a></p>
+</section>
+<section id="initialize-the-client">
+<h3>Initialize the Client<a class="headerlink" href="#initialize-the-client" title="Link to this heading"></a></h3>
+<p>A client serves as the primary interface for interacting with a specific inference type and its associated parameters. Only after client is initialized then you can configure and start inferences.</p>
+<table>
+<tr>
+<th>Local Inference</th>
+<th>Remote Inference</th>
+</tr>
+<tr>
+<td>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">LlamaStackClientLocalClient</span>
+                    <span class="o">.</span><span class="n">builder</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">modelPath</span><span class="p">(</span><span class="n">modelPath</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">tokenizerPath</span><span class="p">(</span><span class="n">tokenizerPath</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">temperature</span><span class="p">(</span><span class="n">temperature</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+<td>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">remoteURL</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">string</span> <span class="n">like</span> <span class="s2">&quot;http://localhost:5050&quot;</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">LlamaStackClientOkHttpClient</span>
+                <span class="o">.</span><span class="n">builder</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">baseUrl</span><span class="p">(</span><span class="n">remoteURL</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</table>
+</section>
+<section id="run-inference">
+<h3>Run Inference<a class="headerlink" href="#run-inference" title="Link to this heading"></a></h3>
+<p>With the Kotlin Library managing all the major operational logic, there are minimal to no changes when running simple chat inference for local or remote:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>val result = client!!.inference().chatCompletion(
+            InferenceChatCompletionParams.builder()
+                .modelId(modelName)
+                .messages(listOfMessages)
+                .build()
+        )
+
+// response contains string with response from model
+var response = result.asChatCompletionResponse().completionMessage().content().string();
+</pre></div>
+</div>
+<p>[Remote only] For inference with a streaming response:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>val result = client!!.inference().chatCompletionStreaming(
+            InferenceChatCompletionParams.builder()
+                .modelId(modelName)
+                .messages(listOfMessages)
+                .build()
+        )
+
+// Response can be received as a asChatCompletionResponseStreamChunk as part of a callback.
+// See Android demo app for a detailed implementation example.
+</pre></div>
+</div>
+</section>
+<section id="setup-custom-tool-calling">
+<h3>Setup Custom Tool Calling<a class="headerlink" href="#setup-custom-tool-calling" title="Link to this heading"></a></h3>
+<p>Android demo app for more details: <a class="reference external" href="https://github.com/meta-llama/llama-stack-apps/tree/main/examples/android_app#tool-calling">Custom Tool Calling</a></p>
+</section>
+</section>
+<section id="advanced-users">
+<h2>Advanced Users<a class="headerlink" href="#advanced-users" title="Link to this heading"></a></h2>
+<p>The purpose of this section is to share more details with users that would like to dive deeper into the Llama Stack Kotlin Library. Whether you’re interested in contributing to the open source library, debugging or just want to learn more, this section is for you!</p>
+<section id="prerequisite">
+<h3>Prerequisite<a class="headerlink" href="#prerequisite" title="Link to this heading"></a></h3>
+<p>You must complete the following steps:</p>
+<ol class="arabic simple">
+<li><p>Clone the repo (<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/meta-llama/llama-stack-client-kotlin.git</span> <span class="pre">-b</span> <span class="pre">latest-release</span></code>)</p></li>
+<li><p>Port the appropriate ExecuTorch libraries over into your Llama Stack Kotlin library environment.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">llama</span><span class="o">-</span><span class="n">stack</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">kotlin</span><span class="o">-</span><span class="n">client</span><span class="o">-</span><span class="n">local</span>
+<span class="n">sh</span> <span class="n">download</span><span class="o">-</span><span class="n">prebuilt</span><span class="o">-</span><span class="n">et</span><span class="o">-</span><span class="n">lib</span><span class="o">.</span><span class="n">sh</span> <span class="o">--</span><span class="n">unzip</span>
+</pre></div>
+</div>
+<p>Now you will notice that the <code class="docutils literal notranslate"><span class="pre">jni/</span></code> , <code class="docutils literal notranslate"><span class="pre">libs/</span></code>, and <code class="docutils literal notranslate"><span class="pre">AndroidManifest.xml</span></code> files from the <code class="docutils literal notranslate"><span class="pre">executorch.aar</span></code> file are present in the local module. This way the local client module will be able to realize the ExecuTorch SDK.</p>
+</section>
+<section id="building-for-development-debugging">
+<h3>Building for Development/Debugging<a class="headerlink" href="#building-for-development-debugging" title="Link to this heading"></a></h3>
+<p>If you’d like to contribute to the Kotlin library via development, debug, or add play around with the library with various print statements, run the following command in your terminal under the llama-stack-client-kotlin directory.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="n">build</span><span class="o">-</span><span class="n">libs</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>Output: .jar files located in the build-jars directory</p>
+<p>Copy the .jar files over to the lib directory in your Android app. At the same time make sure to remove the llama-stack-client-kotlin dependency within your build.gradle.kts file in your app (or if you are using the demo app) to avoid having multiple llama stack client dependencies.</p>
+</section>
+<section id="additional-options-for-local-inferencing">
+<h3>Additional Options for Local Inferencing<a class="headerlink" href="#additional-options-for-local-inferencing" title="Link to this heading"></a></h3>
+<p>Currently we provide additional properties support with local inferencing. In order to get the tokens/sec metric for each inference call, add the following code in your Android app after you run your chatCompletion inference function. The Reference app has this implementation as well:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="n">tps</span> <span class="o">=</span> <span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">asChatCompletionResponse</span><span class="p">()</span><span class="o">.</span><span class="n">_additionalProperties</span><span class="p">()[</span><span class="s2">&quot;tps&quot;</span><span class="p">]</span> <span class="k">as</span> <span class="n">JsonNumber</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="k">as</span> <span class="n">Float</span>
+</pre></div>
+</div>
+<p>We will be adding more properties in the future.</p>
+</section>
+<section id="additional-options-for-remote-inferencing">
+<h3>Additional Options for Remote Inferencing<a class="headerlink" href="#additional-options-for-remote-inferencing" title="Link to this heading"></a></h3>
+<section id="network-options">
+<h4>Network options<a class="headerlink" href="#network-options" title="Link to this heading"></a></h4>
+<section id="retries">
+<h5>Retries<a class="headerlink" href="#retries" title="Link to this heading"></a></h5>
+<p>Requests that experience certain errors are automatically retried 2 times by default, with a short exponential backoff. Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict, 429 Rate Limit, and &gt;=500 Internal errors will all be retried by default.
+You can provide a <code class="docutils literal notranslate"><span class="pre">maxRetries</span></code> on the client builder to configure this:</p>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LlamaStackClientOkHttpClient</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">fromEnv</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">maxRetries</span><span class="p">(</span><span class="m">4</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="timeouts">
+<h5>Timeouts<a class="headerlink" href="#timeouts" title="Link to this heading"></a></h5>
+<p>Requests time out after 1 minute by default. You can configure this on the client builder:</p>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LlamaStackClientOkHttpClient</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">fromEnv</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">timeout</span><span class="p">(</span><span class="n">Duration</span><span class="p">.</span><span class="na">ofSeconds</span><span class="p">(</span><span class="m">30</span><span class="p">))</span>
+<span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="proxies">
+<h5>Proxies<a class="headerlink" href="#proxies" title="Link to this heading"></a></h5>
+<p>Requests can be routed through a proxy. You can configure this on the client builder:</p>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LlamaStackClientOkHttpClient</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">fromEnv</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">proxy</span><span class="p">(</span><span class="n">new</span><span class="w"> </span><span class="n">Proxy</span><span class="p">(</span>
+<span class="w">        </span><span class="n">Type</span><span class="p">.</span><span class="na">HTTP</span><span class="p">,</span>
+<span class="w">        </span><span class="n">new</span><span class="w"> </span><span class="n">InetSocketAddress</span><span class="p">(</span><span class="s">&quot;proxy.com&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">8080</span><span class="p">)</span>
+<span class="w">    </span><span class="p">))</span>
+<span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="environments">
+<h5>Environments<a class="headerlink" href="#environments" title="Link to this heading"></a></h5>
+<p>Requests are made to the production environment by default. You can connect to other environments, like <code class="docutils literal notranslate"><span class="pre">sandbox</span></code>, via the client builder:</p>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LlamaStackClientOkHttpClient</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">fromEnv</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">sandbox</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="error-handling">
+<h3>Error Handling<a class="headerlink" href="#error-handling" title="Link to this heading"></a></h3>
+<p>This library throws exceptions in a single hierarchy for easy handling:</p>
+<ul>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">LlamaStackClientException</span></code></strong> - Base exception for all exceptions</p>
+<ul>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">LlamaStackClientServiceException</span></code></strong> - HTTP errors with a well-formed response body we were able to parse. The exception message and the <code class="docutils literal notranslate"><span class="pre">.debuggingRequestId()</span></code> will be set by the server.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>400</p></th>
+<th class="head"><p>BadRequestException</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>401</p></td>
+<td><p>AuthenticationException</p></td>
+</tr>
+<tr class="row-odd"><td><p>403</p></td>
+<td><p>PermissionDeniedException</p></td>
+</tr>
+<tr class="row-even"><td><p>404</p></td>
+<td><p>NotFoundException</p></td>
+</tr>
+<tr class="row-odd"><td><p>422</p></td>
+<td><p>UnprocessableEntityException</p></td>
+</tr>
+<tr class="row-even"><td><p>429</p></td>
+<td><p>RateLimitException</p></td>
+</tr>
+<tr class="row-odd"><td><p>5xx</p></td>
+<td><p>InternalServerException</p></td>
+</tr>
+<tr class="row-even"><td><p>others</p></td>
+<td><p>UnexpectedStatusCodeException</p></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">LlamaStackClientIoException</span></code></strong> - I/O networking errors</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">LlamaStackClientInvalidDataException</span></code></strong> - any other exceptions on the client side, e.g.:</p>
+<ul class="simple">
+<li><p>We failed to serialize the request body</p></li>
+<li><p>We failed to parse the response body (has access to response code and body)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="reporting-issues">
+<h2>Reporting Issues<a class="headerlink" href="#reporting-issues" title="Link to this heading"></a></h2>
+<p>If you encountered any bugs or issues following this guide please file a bug/issue on our <a class="reference external" href="https://github.com/meta-llama/llama-stack-client-kotlin/issues">Github issue tracker</a>.</p>
+</section>
+<section id="known-issues">
+<h2>Known Issues<a class="headerlink" href="#known-issues" title="Link to this heading"></a></h2>
+<p>We’re aware of the following issues and are working to resolve them:</p>
+<ol class="arabic simple">
+<li><p>Streaming response is a work-in-progress for local and remote inference</p></li>
+<li><p>Due to #1, agents are not supported at the time. LS agents only work in streaming mode</p></li>
+<li><p>Changing to another model is a work in progress for local and remote platforms</p></li>
+</ol>
+</section>
+<section id="thanks">
+<h2>Thanks<a class="headerlink" href="#thanks" title="Link to this heading"></a></h2>
+<p>We’d like to extend our thanks to the ExecuTorch team for providing their support as we integrated ExecuTorch as one of the local inference distributors for Llama Stack. Checkout <a class="reference external" href="https://github.com/pytorch/executorch/tree/main">ExecuTorch Github repo</a> for more information.</p>
+<hr class="docutils" />
+<p>The API interface is generated using the OpenAPI standard with <a class="reference external" href="https://www.stainlessapi.com/">Stainless</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="ios_sdk.html" class="btn btn-neutral float-left" title="iOS SDK" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../kubernetes_deployment.html" class="btn btn-neutral float-right" title="Kubernetes Deployment Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Meta.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
