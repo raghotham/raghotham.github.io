@@ -34,11 +34,6 @@ extensions = [
     "sphinx_copybutton",
     "sphinx_design",
     "sphinx_rtd_theme",
-    "sphinx_rtd_dark_mode",
-    "sphinx_tabs.tabs",
-    "sphinxcontrib.redoc",
-    "sphinxcontrib.mermaid",
-    "sphinxcontrib.video",
 ]
 myst_enable_extensions = ["colon_fence"]
 
