@@ -1,3 +1,10 @@
 sphinx
 sphinx_rtd_theme
-myst-parser 
+myst-parser
+sphinx-copybutton
+sphinx-design
+sphinx-rtd-dark-mode
+sphinx-tabs
+sphinxcontrib-redoc
+sphinxcontrib-mermaid
+sphinxcontrib-video 

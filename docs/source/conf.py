@@ -12,28 +12,15 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-import json
 from datetime import datetime
 from pathlib import Path
 
-import requests
 from docutils import nodes
 
-# Read version from pyproject.toml
-with Path(__file__).parent.parent.parent.joinpath("pyproject.toml").open("rb") as f:
-    pypi_url = "https://pypi.org/pypi/llama-stack/json"
-    headers = {
-        'User-Agent': 'pip/23.0.1 (python 3.11)',  # Mimic pip's user agent
-        'Accept': 'application/json'
-    }
-    version_tag = json.loads(requests.get(pypi_url, headers=headers).text)["info"]["version"]
-    print(f"{version_tag=}")
-
-    # generate the full link including text and url here
-    llama_stack_version_url = (
-        f"https://github.com/meta-llama/llama-stack/releases/tag/v{version_tag}"
-    )
-    llama_stack_version_link = f"<a href='{llama_stack_version_url}'>release notes</a>"
+# Set version manually for this documentation site
+version_tag = "1.0.0"
+llama_stack_version_url = f"https://github.com/meta-llama/llama-stack/releases/tag/v{version_tag}"
+llama_stack_version_link = f"<a href='{llama_stack_version_url}'>release notes</a>"
 
 project = "llama-stack"
 copyright = f"{datetime.now().year}, Meta"
