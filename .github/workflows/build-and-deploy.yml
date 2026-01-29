@@ -388,7 +388,7 @@ jobs:
 
         echo "✅ Docusaurus build completed"
       env:
-        NODE_OPTIONS: "--max-old-space-size=4096"
+        NODE_OPTIONS: "--max-old-space-size=10240"
 
     - name: Deploy to GitHub Pages
       run: |
