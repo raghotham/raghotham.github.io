@@ -336,6 +336,29 @@ jobs:
           echo "🏗️ Building latest version (no version snapshot needed)"
         fi
 
+    - name: Fix versioned docs relative imports
+      run: |
+        cd "${{ env.TEMP_DIR }}/llama-stack/docs"
+
+        echo "🔧 Fixing relative imports in versioned docs..."
+
+        # Universal fix: Replace any raw-loader relative imports that go up to repo root
+        # This handles any depth by using regex pattern matching
+        if [ -d "versioned_docs" ]; then
+          find versioned_docs -name "*.mdx" -type f \
+            -exec grep -l "!!raw-loader!\.\." {} \; | \
+            while read file; do
+              echo "Fixing raw-loader imports in $file"
+              # Use perl for more sophisticated regex replacement
+              # Pattern: !!raw-loader! followed by any number of ../ then a filename
+              # Replace with absolute path to repo root + filename
+              perl -i -pe "s|!!raw-loader!(\.\.\/)+([^'\"]*)|!!raw-loader!${{ env.TEMP_DIR }}/llama-stack/\$2|g" "$file"
+            done
+          echo "✅ Versioned docs import paths corrected"
+        else
+          echo "ℹ️ No versioned docs found"
+        fi
+
     - name: Build Docusaurus site
       # Skip if content hasn't changed (latest builds only)
       if: ${{ steps.content-changes.outputs.CONTENT_CHANGED == 'true' }}
@@ -363,16 +386,9 @@ jobs:
           echo "🔧 Patching out duplicate version badges..."
           find . -name "llama-stack-specification.info.mdx" -type f -exec sed -i '/<span$/,/<\/span>$/d' {} \;
 
-          # Also patch versioned files if they exist
-          if [ -d "versioned_docs" ]; then
-            find versioned_docs -name "llama-stack-specification.info.mdx" -type f -exec sed -i '/<span$/,/<\/span>$/d' {} \;
-          fi
-          echo "✅ Version badge patching completed"
-
-          # Build the site
-          npm run build
-          echo "✅ Docusaurus build completed"
-        fi
+        echo "✅ Docusaurus build completed"
+      env:
+        NODE_OPTIONS: "--max-old-space-size=4096"
 
     - name: Deploy to GitHub Pages
       run: |

@@ -31,7 +31,7 @@ import Heading from "@theme/Heading";
   path={"/v1/files"}
   context={"endpoint"}
 >
-  
+
 </MethodEndpoint>
 
 
@@ -55,14 +55,14 @@ The file upload should be a multipart form request with:
 <ParamsDetails
   parameters={[]}
 >
-  
+
 </ParamsDetails>
 
 <RequestSchema
   title={"Body"}
   body={{"content":{"multipart/form-data":{"schema":{"type":"object","properties":{"file":{"type":"string","format":"binary"},"purpose":{"type":"string","enum":["assistants","batch"],"title":"OpenAIFilePurpose","description":"Valid purpose values for OpenAI Files API."},"expires_after":{"type":"object","properties":{"anchor":{"type":"string","const":"created_at"},"seconds":{"type":"integer"}},"additionalProperties":false,"required":["anchor","seconds"],"title":"ExpiresAfter","description":"Control expiration of uploaded files.\nParams:\n - anchor, must be \"created_at\"\n - seconds, must be int between 3600 and 2592000 (1 hour to 30 days)"}},"required":["file","purpose"]}}},"required":true}}
 >
-  
+
 </RequestSchema>
 
 <StatusCodes
@@ -70,8 +70,5 @@ The file upload should be a multipart form request with:
   label={undefined}
   responses={{"200":{"description":"An OpenAIFileObject representing the uploaded file.","content":{"application/json":{"schema":{"type":"object","properties":{"object":{"type":"string","const":"file","default":"file","description":"The object type, which is always \"file\""},"id":{"type":"string","description":"The file identifier, which can be referenced in the API endpoints"},"bytes":{"type":"integer","description":"The size of the file, in bytes"},"created_at":{"type":"integer","description":"The Unix timestamp (in seconds) for when the file was created"},"expires_at":{"type":"integer","description":"The Unix timestamp (in seconds) for when the file expires"},"filename":{"type":"string","description":"The name of the file"},"purpose":{"type":"string","enum":["assistants","batch"],"description":"The intended purpose of the file"}},"additionalProperties":false,"required":["object","id","bytes","created_at","expires_at","filename","purpose"],"title":"OpenAIFileObject","description":"OpenAI File object as defined in the OpenAI Files API."}}}},"400":{"description":"The request was invalid or malformed","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"The client has sent too many requests in a given amount of time","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"The server encountered an unexpected error","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred. Our team has been notified."}}}},"default":{"description":"An unexpected error occurred","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":0,"title":"Error","detail":"An unexpected error occurred"}}}}}}
 >
-  
+
 </StatusCodes>
-
-
-      

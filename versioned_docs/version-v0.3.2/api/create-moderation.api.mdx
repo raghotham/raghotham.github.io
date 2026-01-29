@@ -31,7 +31,7 @@ import Heading from "@theme/Heading";
   path={"/v1/moderations"}
   context={"endpoint"}
 >
-  
+
 </MethodEndpoint>
 
 
@@ -50,14 +50,14 @@ Classifies if text and/or image inputs are potentially harmful.
 <ParamsDetails
   parameters={[]}
 >
-  
+
 </ParamsDetails>
 
 <RequestSchema
   title={"Body"}
   body={{"content":{"application/json":{"schema":{"type":"object","properties":{"input":{"oneOf":[{"type":"string"},{"type":"array","items":{"type":"string"}}],"description":"Input (or inputs) to classify. Can be a single string, an array of strings, or an array of multi-modal input objects similar to other models."},"model":{"type":"string","description":"The content moderation model you would like to use."}},"additionalProperties":false,"required":["input","model"],"title":"RunModerationRequest"}}},"required":true}}
 >
-  
+
 </RequestSchema>
 
 <StatusCodes
@@ -65,8 +65,5 @@ Classifies if text and/or image inputs are potentially harmful.
   label={undefined}
   responses={{"200":{"description":"A moderation object.","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string","description":"The unique identifier for the moderation request."},"model":{"type":"string","description":"The model used to generate the moderation results."},"results":{"type":"array","items":{"type":"object","properties":{"flagged":{"type":"boolean","description":"Whether any of the below categories are flagged."},"categories":{"type":"object","additionalProperties":{"type":"boolean"},"description":"A list of the categories, and whether they are flagged or not."},"category_applied_input_types":{"type":"object","additionalProperties":{"type":"array","items":{"type":"string"}},"description":"A list of the categories along with the input type(s) that the score applies to."},"category_scores":{"type":"object","additionalProperties":{"type":"number"},"description":"A list of the categories along with their scores as predicted by model."},"user_message":{"type":"string"},"metadata":{"type":"object","additionalProperties":{"oneOf":[{"type":"null"},{"type":"boolean"},{"type":"number"},{"type":"string"},{"type":"array"},{"type":"object"}]}}},"additionalProperties":false,"required":["flagged","metadata"],"title":"ModerationObjectResults","description":"A moderation object."},"description":"A list of moderation objects"}},"additionalProperties":false,"required":["id","model","results"],"title":"ModerationObject","description":"A moderation object."}}}},"400":{"description":"The request was invalid or malformed","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"The client has sent too many requests in a given amount of time","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"The server encountered an unexpected error","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred. Our team has been notified."}}}},"default":{"description":"An unexpected error occurred","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":0,"title":"Error","detail":"An unexpected error occurred"}}}}}}
 >
-  
+
 </StatusCodes>
-
-
-      

@@ -31,7 +31,7 @@ import Heading from "@theme/Heading";
   path={"/v1/post-training/job/status"}
   context={"endpoint"}
 >
-  
+
 </MethodEndpoint>
 
 :::caution deprecated
@@ -53,14 +53,14 @@ Get the status of a training job.
 <ParamsDetails
   parameters={[{"name":"job_uuid","in":"query","description":"The UUID of the job to get the status of.","required":true,"schema":{"type":"string"}}]}
 >
-  
+
 </ParamsDetails>
 
 <RequestSchema
   title={"Body"}
   body={undefined}
 >
-  
+
 </RequestSchema>
 
 <StatusCodes
@@ -68,8 +68,5 @@ Get the status of a training job.
   label={undefined}
   responses={{"200":{"description":"A PostTrainingJobStatusResponse.","content":{"application/json":{"schema":{"type":"object","properties":{"job_uuid":{"type":"string","description":"Unique identifier for the training job"},"status":{"type":"string","enum":["completed","in_progress","failed","scheduled","cancelled"],"description":"Current status of the training job"},"scheduled_at":{"type":"string","format":"date-time","description":"(Optional) Timestamp when the job was scheduled"},"started_at":{"type":"string","format":"date-time","description":"(Optional) Timestamp when the job execution began"},"completed_at":{"type":"string","format":"date-time","description":"(Optional) Timestamp when the job finished, if completed"},"resources_allocated":{"type":"object","additionalProperties":{"oneOf":[{"type":"null"},{"type":"boolean"},{"type":"number"},{"type":"string"},{"type":"array"},{"type":"object"}]},"description":"(Optional) Information about computational resources allocated to the job"},"checkpoints":{"type":"array","items":{"type":"object","properties":{"identifier":{"type":"string","description":"Unique identifier for the checkpoint"},"created_at":{"type":"string","format":"date-time","description":"Timestamp when the checkpoint was created"},"epoch":{"type":"integer","description":"Training epoch when the checkpoint was saved"},"post_training_job_id":{"type":"string","description":"Identifier of the training job that created this checkpoint"},"path":{"type":"string","description":"File system path where the checkpoint is stored"},"training_metrics":{"description":"(Optional) Training metrics associated with this checkpoint","type":"object","properties":{"epoch":{"type":"integer","description":"Training epoch number"},"train_loss":{"type":"number","description":"Loss value on the training dataset"},"validation_loss":{"type":"number","description":"Loss value on the validation dataset"},"perplexity":{"type":"number","description":"Perplexity metric indicating model confidence"}},"additionalProperties":false,"required":["epoch","train_loss","validation_loss","perplexity"],"title":"PostTrainingMetric"}},"additionalProperties":false,"required":["identifier","created_at","epoch","post_training_job_id","path"],"title":"Checkpoint","description":"Checkpoint created during training runs."},"description":"List of model checkpoints created during training"}},"additionalProperties":false,"required":["job_uuid","status","checkpoints"],"title":"PostTrainingJobStatusResponse","description":"Status of a finetuning job."}}}},"400":{"description":"The request was invalid or malformed","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"The client has sent too many requests in a given amount of time","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"The server encountered an unexpected error","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred. Our team has been notified."}}}},"default":{"description":"An unexpected error occurred","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":0,"title":"Error","detail":"An unexpected error occurred"}}}}}}
 >
-  
+
 </StatusCodes>
-
-
-      

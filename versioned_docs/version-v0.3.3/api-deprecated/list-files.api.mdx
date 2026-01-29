@@ -31,7 +31,7 @@ import Heading from "@theme/Heading";
   path={"/v1/openai/v1/files"}
   context={"endpoint"}
 >
-  
+
 </MethodEndpoint>
 
 :::caution deprecated
@@ -54,14 +54,14 @@ Returns a list of files that belong to the user's organization.
 <ParamsDetails
   parameters={[{"name":"after","in":"query","description":"A cursor for use in pagination. `after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list.","required":false,"schema":{"type":"string"}},{"name":"limit","in":"query","description":"A limit on the number of objects to be returned. Limit can range between 1 and 10,000, and the default is 10,000.","required":false,"schema":{"type":"integer"}},{"name":"order","in":"query","description":"Sort order by the `created_at` timestamp of the objects. `asc` for ascending order and `desc` for descending order.","required":false,"schema":{"type":"string","enum":["asc","desc"],"title":"Order","description":"Sort order for paginated responses."}},{"name":"purpose","in":"query","description":"Only return files with the given purpose.","required":false,"schema":{"type":"string","enum":["assistants","batch"],"title":"OpenAIFilePurpose","description":"Valid purpose values for OpenAI Files API."}}]}
 >
-  
+
 </ParamsDetails>
 
 <RequestSchema
   title={"Body"}
   body={undefined}
 >
-  
+
 </RequestSchema>
 
 <StatusCodes
@@ -69,8 +69,5 @@ Returns a list of files that belong to the user's organization.
   label={undefined}
   responses={{"200":{"description":"An ListOpenAIFileResponse containing the list of files.","content":{"application/json":{"schema":{"type":"object","properties":{"data":{"type":"array","items":{"type":"object","properties":{"object":{"type":"string","const":"file","default":"file","description":"The object type, which is always \"file\""},"id":{"type":"string","description":"The file identifier, which can be referenced in the API endpoints"},"bytes":{"type":"integer","description":"The size of the file, in bytes"},"created_at":{"type":"integer","description":"The Unix timestamp (in seconds) for when the file was created"},"expires_at":{"type":"integer","description":"The Unix timestamp (in seconds) for when the file expires"},"filename":{"type":"string","description":"The name of the file"},"purpose":{"type":"string","enum":["assistants","batch"],"description":"The intended purpose of the file"}},"additionalProperties":false,"required":["object","id","bytes","created_at","expires_at","filename","purpose"],"title":"OpenAIFileObject","description":"OpenAI File object as defined in the OpenAI Files API."},"description":"List of file objects"},"has_more":{"type":"boolean","description":"Whether there are more files available beyond this page"},"first_id":{"type":"string","description":"ID of the first file in the list for pagination"},"last_id":{"type":"string","description":"ID of the last file in the list for pagination"},"object":{"type":"string","const":"list","default":"list","description":"The object type, which is always \"list\""}},"additionalProperties":false,"required":["data","has_more","first_id","last_id","object"],"title":"ListOpenAIFileResponse","description":"Response for listing files in OpenAI Files API."}}}},"400":{"description":"The request was invalid or malformed","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"The client has sent too many requests in a given amount of time","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"The server encountered an unexpected error","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred. Our team has been notified."}}}},"default":{"description":"An unexpected error occurred","content":{"application/json":{"schema":{"type":"object","properties":{"status":{"type":"integer","description":"HTTP status code"},"title":{"type":"string","description":"Error title, a short summary of the error which is invariant for an error type"},"detail":{"type":"string","description":"Error detail, a longer human-readable description of the error"},"instance":{"type":"string","description":"(Optional) A URL which can be used to retrieve more information about the specific occurrence of the error"}},"additionalProperties":false,"required":["status","title","detail"],"title":"Error","description":"Error response from the API. Roughly follows RFC 7807."},"example":{"status":0,"title":"Error","detail":"An unexpected error occurred"}}}}}}
 >
-  
+
 </StatusCodes>
-
-
-      
