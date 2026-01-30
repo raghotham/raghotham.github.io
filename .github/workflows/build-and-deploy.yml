@@ -342,18 +342,27 @@ jobs:
 
         echo "🔧 Fixing relative imports in versioned docs..."
 
-        # Universal fix: Replace any raw-loader relative imports that go up to repo root
-        # This handles any depth by using regex pattern matching
         if [ -d "versioned_docs" ]; then
+          # Fix relative paths (../../../file.md -> absolute path)
           find versioned_docs -name "*.mdx" -type f \
             -exec grep -l "!!raw-loader!\.\." {} \; | \
             while read file; do
-              echo "Fixing raw-loader imports in $file"
-              # Use perl for more sophisticated regex replacement
+              echo "Fixing relative raw-loader imports in $file"
               # Pattern: !!raw-loader! followed by any number of ../ then a filename
               # Replace with absolute path to repo root + filename
               perl -i -pe "s|!!raw-loader!(\.\.\/)+([^'\"]*)|!!raw-loader!${{ env.TEMP_DIR }}/llama-stack/\$2|g" "$file"
             done
+
+          # Fix hardcoded old temp paths (/tmp/tmp.XXXXXX/llama-stack/file.md -> current temp path)
+          find versioned_docs -name "*.mdx" -type f \
+            -exec grep -l "!!raw-loader!/tmp/tmp\." {} \; | \
+            while read file; do
+              echo "Fixing hardcoded temp path imports in $file"
+              # Pattern: !!raw-loader!/tmp/tmp.XXXXXX/llama-stack/filename
+              # Replace with current temp directory path
+              perl -i -pe "s|!!raw-loader!/tmp/tmp\.[^/]+/llama-stack/([^'\"]*)|!!raw-loader!${{ env.TEMP_DIR }}/llama-stack/\$1|g" "$file"
+            done
+
           echo "✅ Versioned docs import paths corrected"
         else
           echo "ℹ️ No versioned docs found"
