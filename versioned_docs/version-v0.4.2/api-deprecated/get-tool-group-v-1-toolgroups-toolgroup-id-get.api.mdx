@@ -31,7 +31,7 @@ import Heading from "@theme/Heading";
   path={"/v1/toolgroups/{toolgroup_id}"}
   context={"endpoint"}
 >
-  
+
 </MethodEndpoint>
 
 :::caution deprecated
@@ -53,14 +53,14 @@ Get a tool group by its ID.
 <ParamsDetails
   parameters={[{"name":"toolgroup_id","in":"path","required":true,"schema":{"type":"string"},"description":"Path parameter: toolgroup_id"}]}
 >
-  
+
 </ParamsDetails>
 
 <RequestSchema
   title={"Body"}
   body={undefined}
 >
-  
+
 </RequestSchema>
 
 <StatusCodes
@@ -68,8 +68,5 @@ Get a tool group by its ID.
   label={undefined}
   responses={{"200":{"description":"A ToolGroup.","content":{"application/json":{"schema":{"properties":{"identifier":{"type":"string","title":"Identifier","description":"Unique identifier for this resource in llama stack"},"provider_resource_id":{"anyOf":[{"type":"string"},{"type":"null"}],"description":"Unique identifier for this resource in the provider"},"provider_id":{"type":"string","title":"Provider Id","description":"ID of the provider that owns this resource"},"type":{"type":"string","const":"tool_group","title":"Type","default":"tool_group"},"mcp_endpoint":{"anyOf":[{"properties":{"uri":{"type":"string","title":"Uri"}},"type":"object","required":["uri"],"title":"URL","description":"A URL reference to external content."},{"type":"null"}],"title":"URL"},"args":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}]}},"type":"object","required":["identifier","provider_id"],"title":"ToolGroup","description":"A group of related tools managed together."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
 >
-  
+
 </StatusCodes>
-
-
-      

@@ -31,7 +31,7 @@ import Heading from "@theme/Heading";
   path={"/v1/embeddings"}
   context={"endpoint"}
 >
-  
+
 </MethodEndpoint>
 
 
@@ -51,14 +51,14 @@ Generate OpenAI-compatible embeddings for the given input using the specified mo
 <ParamsDetails
   parameters={undefined}
 >
-  
+
 </ParamsDetails>
 
 <RequestSchema
   title={"Body"}
   body={{"content":{"application/json":{"schema":{"properties":{"model":{"type":"string","title":"Model"},"input":{"anyOf":[{"type":"string"},{"items":{"type":"string"},"type":"array","title":"list[string]"}],"title":"string | list[string]"},"encoding_format":{"anyOf":[{"type":"string"},{"type":"null"}],"default":"float"},"dimensions":{"anyOf":[{"type":"integer"},{"type":"null"}]},"user":{"anyOf":[{"type":"string"},{"type":"null"}]}},"additionalProperties":true,"type":"object","required":["model","input"],"title":"OpenAIEmbeddingsRequestWithExtraBody","description":"Request parameters for OpenAI-compatible embeddings endpoint."}}},"required":true}}
 >
-  
+
 </RequestSchema>
 
 <StatusCodes
@@ -66,8 +66,5 @@ Generate OpenAI-compatible embeddings for the given input using the specified mo
   label={undefined}
   responses={{"200":{"description":"An OpenAIEmbeddingsResponse containing the embeddings.","content":{"application/json":{"schema":{"properties":{"object":{"type":"string","const":"list","title":"Object","default":"list"},"data":{"items":{"properties":{"object":{"type":"string","const":"embedding","title":"Object","default":"embedding"},"embedding":{"anyOf":[{"items":{"type":"number"},"type":"array","title":"list[number]"},{"type":"string"}],"title":"list[number] | string"},"index":{"type":"integer","title":"Index"}},"type":"object","required":["embedding","index"],"title":"OpenAIEmbeddingData","description":"A single embedding data object from an OpenAI-compatible embeddings response."},"type":"array","title":"Data"},"model":{"type":"string","title":"Model"},"usage":{"properties":{"prompt_tokens":{"type":"integer","title":"Prompt Tokens"},"total_tokens":{"type":"integer","title":"Total Tokens"}},"type":"object","required":["prompt_tokens","total_tokens"],"title":"OpenAIEmbeddingUsage","description":"Usage information for an OpenAI-compatible embeddings response."}},"type":"object","required":["data","model","usage"],"title":"OpenAIEmbeddingsResponse","description":"Response from an OpenAI-compatible embeddings request."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
 >
-  
+
 </StatusCodes>
-
-
-      

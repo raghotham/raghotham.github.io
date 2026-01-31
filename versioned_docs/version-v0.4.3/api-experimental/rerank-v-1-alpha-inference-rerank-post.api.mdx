@@ -31,7 +31,7 @@ import Heading from "@theme/Heading";
   path={"/v1alpha/inference/rerank"}
   context={"endpoint"}
 >
-  
+
 </MethodEndpoint>
 
 
@@ -49,14 +49,14 @@ Rerank a list of documents based on their relevance to a query.
 <ParamsDetails
   parameters={undefined}
 >
-  
+
 </ParamsDetails>
 
 <RequestSchema
   title={"Body"}
   body={{"content":{"application/json":{"schema":{"properties":{"model":{"type":"string","title":"Model"},"query":{"anyOf":[{"type":"string"},{"title":"OpenAIChatCompletionContentPartTextParam","properties":{"type":{"type":"string","const":"text","title":"Type","default":"text"},"text":{"type":"string","title":"Text"}},"type":"object","required":["text"],"description":"Text content part for OpenAI-compatible chat completion messages."},{"title":"OpenAIChatCompletionContentPartImageParam","properties":{"type":{"type":"string","const":"image_url","title":"Type","default":"image_url"},"image_url":{"properties":{"url":{"type":"string","title":"Url"},"detail":{"anyOf":[{"type":"string"},{"type":"null"}]}},"type":"object","required":["url"],"title":"OpenAIImageURL","description":"Image URL specification for OpenAI-compatible chat completion messages."}},"type":"object","required":["image_url"],"description":"Image content part for OpenAI-compatible chat completion messages."}],"title":"string | OpenAIChatCompletionContentPartTextParam | OpenAIChatCompletionContentPartImageParam"},"items":{"items":{"anyOf":[{"type":"string"},{"title":"OpenAIChatCompletionContentPartTextParam","properties":{"type":{"type":"string","const":"text","title":"Type","default":"text"},"text":{"type":"string","title":"Text"}},"type":"object","required":["text"],"description":"Text content part for OpenAI-compatible chat completion messages."},{"title":"OpenAIChatCompletionContentPartImageParam","properties":{"type":{"type":"string","const":"image_url","title":"Type","default":"image_url"},"image_url":{"properties":{"url":{"type":"string","title":"Url"},"detail":{"anyOf":[{"type":"string"},{"type":"null"}]}},"type":"object","required":["url"],"title":"OpenAIImageURL","description":"Image URL specification for OpenAI-compatible chat completion messages."}},"type":"object","required":["image_url"],"description":"Image content part for OpenAI-compatible chat completion messages."}],"title":"string | OpenAIChatCompletionContentPartTextParam | OpenAIChatCompletionContentPartImageParam"},"type":"array","title":"Items"},"max_num_results":{"anyOf":[{"type":"integer"},{"type":"null"}]}},"type":"object","required":["model","query","items"],"title":"RerankRequest"}}},"required":true}}
 >
-  
+
 </RequestSchema>
 
 <StatusCodes
@@ -64,8 +64,5 @@ Rerank a list of documents based on their relevance to a query.
   label={undefined}
   responses={{"200":{"description":"RerankResponse with indices sorted by relevance score (descending).","content":{"application/json":{"schema":{"properties":{"data":{"items":{"properties":{"index":{"type":"integer","title":"Index"},"relevance_score":{"type":"number","title":"Relevance Score"}},"type":"object","required":["index","relevance_score"],"title":"RerankData","description":"A single rerank result from a reranking response."},"type":"array","title":"Data"}},"type":"object","required":["data"],"title":"RerankResponse","description":"Response from a reranking request."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
 >
-  
+
 </StatusCodes>
-
-
-      

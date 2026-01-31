@@ -31,7 +31,7 @@ import Heading from "@theme/Heading";
   path={"/v1alpha/connectors/{connector_id}/tools/{tool_name}"}
   context={"endpoint"}
 >
-  
+
 </MethodEndpoint>
 
 
@@ -49,14 +49,14 @@ Get a tool definition by its name from a connector.
 <ParamsDetails
   parameters={[{"name":"authorization","in":"query","required":false,"schema":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Authorization"}},{"name":"connector_id","in":"path","required":true,"schema":{"type":"string"},"description":"Path parameter: connector_id"},{"name":"tool_name","in":"path","required":true,"schema":{"type":"string"},"description":"Path parameter: tool_name"}]}
 >
-  
+
 </ParamsDetails>
 
 <RequestSchema
   title={"Body"}
   body={undefined}
 >
-  
+
 </RequestSchema>
 
 <StatusCodes
@@ -64,8 +64,5 @@ Get a tool definition by its name from a connector.
   label={undefined}
   responses={{"200":{"description":"A ToolDef.","content":{"application/json":{"schema":{"properties":{"toolgroup_id":{"anyOf":[{"type":"string"},{"type":"null"}]},"name":{"type":"string","title":"Name"},"description":{"anyOf":[{"type":"string"},{"type":"null"}]},"input_schema":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}]},"output_schema":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}]},"metadata":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}]}},"type":"object","required":["name"],"title":"ToolDef","description":"Tool definition used in runtime contexts."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
 >
-  
+
 </StatusCodes>
-
-
-      

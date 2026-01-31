@@ -31,7 +31,7 @@ import Heading from "@theme/Heading";
   path={"/v1alpha/eval/benchmarks/{benchmark_id}/jobs/{job_id}/result"}
   context={"endpoint"}
 >
-  
+
 </MethodEndpoint>
 
 
@@ -49,14 +49,14 @@ Get the result of a job.
 <ParamsDetails
   parameters={[{"name":"benchmark_id","in":"path","required":true,"schema":{"type":"string"},"description":"Path parameter: benchmark_id"},{"name":"job_id","in":"path","required":true,"schema":{"type":"string"},"description":"Path parameter: job_id"}]}
 >
-  
+
 </ParamsDetails>
 
 <RequestSchema
   title={"Body"}
   body={undefined}
 >
-  
+
 </RequestSchema>
 
 <StatusCodes
@@ -64,8 +64,5 @@ Get the result of a job.
   label={undefined}
   responses={{"200":{"description":"The result of the job.","content":{"application/json":{"schema":{"properties":{"generations":{"items":{"additionalProperties":true,"type":"object"},"type":"array","title":"Generations"},"scores":{"additionalProperties":{"properties":{"score_rows":{"items":{"additionalProperties":true,"type":"object"},"type":"array","title":"Score Rows"},"aggregated_results":{"additionalProperties":true,"type":"object","title":"Aggregated Results"}},"type":"object","required":["score_rows","aggregated_results"],"title":"ScoringResult","description":"A scoring result for a single row."},"type":"object","title":"Scores"}},"type":"object","required":["generations","scores"],"title":"EvaluateResponse","description":"The response from an evaluation."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
 >
-  
+
 </StatusCodes>
-
-
-      

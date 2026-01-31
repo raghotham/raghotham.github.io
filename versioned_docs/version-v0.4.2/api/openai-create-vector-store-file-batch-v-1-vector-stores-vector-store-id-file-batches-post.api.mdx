@@ -31,7 +31,7 @@ import Heading from "@theme/Heading";
   path={"/v1/vector_stores/{vector_store_id}/file_batches"}
   context={"endpoint"}
 >
-  
+
 </MethodEndpoint>
 
 
@@ -51,14 +51,14 @@ Generate an OpenAI-compatible vector store file batch for the given vector store
 <ParamsDetails
   parameters={[{"name":"vector_store_id","in":"path","required":true,"schema":{"type":"string"},"description":"Path parameter: vector_store_id"}]}
 >
-  
+
 </ParamsDetails>
 
 <RequestSchema
   title={"Body"}
   body={{"content":{"application/json":{"schema":{"properties":{"file_ids":{"items":{"type":"string"},"type":"array","title":"File Ids"},"attributes":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}]},"chunking_strategy":{"anyOf":[{"oneOf":[{"title":"VectorStoreChunkingStrategyAuto","properties":{"type":{"type":"string","const":"auto","title":"Type","default":"auto"}},"type":"object","description":"Automatic chunking strategy for vector store files."},{"title":"VectorStoreChunkingStrategyStatic","properties":{"type":{"type":"string","const":"static","title":"Type","default":"static"},"static":{"properties":{"chunk_overlap_tokens":{"type":"integer","title":"Chunk Overlap Tokens","default":400},"max_chunk_size_tokens":{"type":"integer","maximum":4096,"minimum":100,"title":"Max Chunk Size Tokens","default":800}},"type":"object","title":"VectorStoreChunkingStrategyStaticConfig","description":"Configuration for static chunking strategy."}},"type":"object","required":["static"],"description":"Static chunking strategy with configurable parameters."}],"discriminator":{"propertyName":"type","mapping":{"auto":{"properties":{"type":{"type":"string","const":"auto","title":"Type","default":"auto"}},"type":"object","title":"VectorStoreChunkingStrategyAuto","description":"Automatic chunking strategy for vector store files."},"static":{"properties":{"type":{"type":"string","const":"static","title":"Type","default":"static"},"static":{"properties":{"chunk_overlap_tokens":{"type":"integer","title":"Chunk Overlap Tokens","default":400},"max_chunk_size_tokens":{"type":"integer","maximum":4096,"minimum":100,"title":"Max Chunk Size Tokens","default":800}},"type":"object","title":"VectorStoreChunkingStrategyStaticConfig","description":"Configuration for static chunking strategy."}},"type":"object","required":["static"],"title":"VectorStoreChunkingStrategyStatic","description":"Static chunking strategy with configurable parameters."}}},"title":"VectorStoreChunkingStrategyAuto | VectorStoreChunkingStrategyStatic"},{"type":"null"}],"title":"Chunking Strategy"}},"additionalProperties":true,"type":"object","required":["file_ids"],"title":"OpenAICreateVectorStoreFileBatchRequestWithExtraBody","description":"Request to create a vector store file batch with extra_body support."}}},"required":true}}
 >
-  
+
 </RequestSchema>
 
 <StatusCodes
@@ -66,8 +66,5 @@ Generate an OpenAI-compatible vector store file batch for the given vector store
   label={undefined}
   responses={{"200":{"description":"A VectorStoreFileBatchObject representing the created file batch.","content":{"application/json":{"schema":{"properties":{"id":{"type":"string","title":"Id"},"object":{"type":"string","title":"Object","default":"vector_store.file_batch"},"created_at":{"type":"integer","title":"Created At"},"vector_store_id":{"type":"string","title":"Vector Store Id"},"status":{"title":"Status","type":"string","enum":["completed","in_progress","cancelled","failed"],"default":"completed"},"file_counts":{"properties":{"completed":{"type":"integer","title":"Completed"},"cancelled":{"type":"integer","title":"Cancelled"},"failed":{"type":"integer","title":"Failed"},"in_progress":{"type":"integer","title":"In Progress"},"total":{"type":"integer","title":"Total"}},"type":"object","required":["completed","cancelled","failed","in_progress","total"],"title":"VectorStoreFileCounts","description":"File processing status counts for a vector store."}},"type":"object","required":["id","created_at","vector_store_id","status","file_counts"],"title":"VectorStoreFileBatchObject","description":"OpenAI Vector Store File Batch object."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
 >
-  
+
 </StatusCodes>
-
-
-      

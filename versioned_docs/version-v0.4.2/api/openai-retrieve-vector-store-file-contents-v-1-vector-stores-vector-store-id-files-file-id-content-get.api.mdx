@@ -31,7 +31,7 @@ import Heading from "@theme/Heading";
   path={"/v1/vector_stores/{vector_store_id}/files/{file_id}/content"}
   context={"endpoint"}
 >
-  
+
 </MethodEndpoint>
 
 
@@ -49,14 +49,14 @@ Retrieves the contents of a vector store file.
 <ParamsDetails
   parameters={[{"name":"include_embeddings","in":"query","required":false,"schema":{"anyOf":[{"type":"boolean"},{"type":"null"}],"default":false,"title":"Include Embeddings"}},{"name":"include_metadata","in":"query","required":false,"schema":{"anyOf":[{"type":"boolean"},{"type":"null"}],"default":false,"title":"Include Metadata"}},{"name":"vector_store_id","in":"path","required":true,"schema":{"type":"string"},"description":"Path parameter: vector_store_id"},{"name":"file_id","in":"path","required":true,"schema":{"type":"string"},"description":"Path parameter: file_id"}]}
 >
-  
+
 </ParamsDetails>
 
 <RequestSchema
   title={"Body"}
   body={undefined}
 >
-  
+
 </RequestSchema>
 
 <StatusCodes
@@ -64,8 +64,5 @@ Retrieves the contents of a vector store file.
   label={undefined}
   responses={{"200":{"description":"File contents, optionally with embeddings and metadata based on query parameters.","content":{"application/json":{"schema":{"properties":{"object":{"type":"string","const":"vector_store.file_content.page","title":"Object","default":"vector_store.file_content.page"},"data":{"items":{"properties":{"type":{"type":"string","const":"text","title":"Type"},"text":{"type":"string","title":"Text"},"embedding":{"anyOf":[{"items":{"type":"number"},"type":"array"},{"type":"null"}]},"chunk_metadata":{"anyOf":[{"properties":{"chunk_id":{"anyOf":[{"type":"string"},{"type":"null"}]},"document_id":{"anyOf":[{"type":"string"},{"type":"null"}]},"source":{"anyOf":[{"type":"string"},{"type":"null"}]},"created_timestamp":{"anyOf":[{"type":"integer"},{"type":"null"}]},"updated_timestamp":{"anyOf":[{"type":"integer"},{"type":"null"}]},"chunk_window":{"anyOf":[{"type":"string"},{"type":"null"}]},"chunk_tokenizer":{"anyOf":[{"type":"string"},{"type":"null"}]},"content_token_count":{"anyOf":[{"type":"integer"},{"type":"null"}]},"metadata_token_count":{"anyOf":[{"type":"integer"},{"type":"null"}]}},"type":"object","title":"ChunkMetadata","description":"`ChunkMetadata` is backend metadata for a `Chunk` that is used to store additional information about the chunk that\n    will not be used in the context during inference, but is required for backend functionality. The `ChunkMetadata`\n    is set during chunk creation in `MemoryToolRuntimeImpl().insert()`and is not expected to change after.\n    Use `Chunk.metadata` for metadata that will be used in the context during inference."},{"type":"null"}],"title":"ChunkMetadata"},"metadata":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}]}},"type":"object","required":["type","text"],"title":"VectorStoreContent","description":"Content item from a vector store file or search result."},"type":"array","title":"Data"},"has_more":{"type":"boolean","title":"Has More","default":false},"next_page":{"anyOf":[{"type":"string"},{"type":"null"}]}},"type":"object","required":["data"],"title":"VectorStoreFileContentResponse","description":"Represents the parsed content of a vector store file."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
 >
-  
+
 </StatusCodes>
-
-
-      

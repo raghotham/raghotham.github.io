@@ -31,7 +31,7 @@ import Heading from "@theme/Heading";
   path={"/v1/tool-runtime/invoke"}
   context={"endpoint"}
 >
-  
+
 </MethodEndpoint>
 
 :::caution deprecated
@@ -53,14 +53,14 @@ Run a tool with the given arguments.
 <ParamsDetails
   parameters={undefined}
 >
-  
+
 </ParamsDetails>
 
 <RequestSchema
   title={"Body"}
   body={{"content":{"application/json":{"schema":{"properties":{"tool_name":{"type":"string","title":"Tool Name"},"kwargs":{"additionalProperties":true,"type":"object","title":"Kwargs"},"authorization":{"anyOf":[{"type":"string"},{"type":"null"}]}},"type":"object","required":["tool_name","kwargs"],"title":"InvokeToolRequest"}}},"required":true}}
 >
-  
+
 </RequestSchema>
 
 <StatusCodes
@@ -68,8 +68,5 @@ Run a tool with the given arguments.
   label={undefined}
   responses={{"200":{"description":"A ToolInvocationResult.","content":{"application/json":{"schema":{"properties":{"content":{"anyOf":[{"type":"string"},{"oneOf":[{"title":"ImageContentItem-Output","properties":{"type":{"type":"string","const":"image","title":"Type","default":"image"},"image":{"properties":{"url":{"anyOf":[{"title":"URL","properties":{"uri":{"type":"string","title":"Uri"}},"type":"object","required":["uri"],"description":"A URL reference to external content."},{"type":"null"}],"title":"URL"},"data":{"anyOf":[{"type":"string"},{"type":"null"}],"contentEncoding":"base64"}},"type":"object","title":"_URLOrData","description":"A URL or a base64 encoded string"}},"type":"object","required":["image"],"description":"A image content item"},{"title":"TextContentItem","properties":{"type":{"type":"string","const":"text","title":"Type","default":"text"},"text":{"type":"string","title":"Text"}},"type":"object","required":["text"],"description":"A text content item"}],"discriminator":{"propertyName":"type","mapping":{"image":{"properties":{"type":{"type":"string","const":"image","title":"Type","default":"image"},"image":{"properties":{"url":{"anyOf":[{"title":"URL","properties":{"uri":{"type":"string","title":"Uri"}},"type":"object","required":["uri"],"description":"A URL reference to external content."},{"type":"null"}],"title":"URL"},"data":{"anyOf":[{"type":"string"},{"type":"null"}],"contentEncoding":"base64"}},"type":"object","title":"_URLOrData","description":"A URL or a base64 encoded string"}},"type":"object","required":["image"],"title":"ImageContentItem","description":"A image content item"},"text":{"properties":{"type":{"type":"string","const":"text","title":"Type","default":"text"},"text":{"type":"string","title":"Text"}},"type":"object","required":["text"],"title":"TextContentItem","description":"A text content item"}}},"title":"ImageContentItem-Output | TextContentItem"},{"items":{"oneOf":[{"title":"ImageContentItem-Output","properties":{"type":{"type":"string","const":"image","title":"Type","default":"image"},"image":{"properties":{"url":{"anyOf":[{"title":"URL","properties":{"uri":{"type":"string","title":"Uri"}},"type":"object","required":["uri"],"description":"A URL reference to external content."},{"type":"null"}],"title":"URL"},"data":{"anyOf":[{"type":"string"},{"type":"null"}],"contentEncoding":"base64"}},"type":"object","title":"_URLOrData","description":"A URL or a base64 encoded string"}},"type":"object","required":["image"],"description":"A image content item"},{"title":"TextContentItem","properties":{"type":{"type":"string","const":"text","title":"Type","default":"text"},"text":{"type":"string","title":"Text"}},"type":"object","required":["text"],"description":"A text content item"}],"discriminator":{"propertyName":"type","mapping":{"image":{"properties":{"type":{"type":"string","const":"image","title":"Type","default":"image"},"image":{"properties":{"url":{"anyOf":[{"title":"URL","properties":{"uri":{"type":"string","title":"Uri"}},"type":"object","required":["uri"],"description":"A URL reference to external content."},{"type":"null"}],"title":"URL"},"data":{"anyOf":[{"type":"string"},{"type":"null"}],"contentEncoding":"base64"}},"type":"object","title":"_URLOrData","description":"A URL or a base64 encoded string"}},"type":"object","required":["image"],"title":"ImageContentItem","description":"A image content item"},"text":{"properties":{"type":{"type":"string","const":"text","title":"Type","default":"text"},"text":{"type":"string","title":"Text"}},"type":"object","required":["text"],"title":"TextContentItem","description":"A text content item"}}},"title":"ImageContentItem-Output | TextContentItem"},"type":"array","title":"list[ImageContentItem-Output | TextContentItem]"},{"type":"null"}],"title":"string | list[ImageContentItem-Output | TextContentItem]"},"error_message":{"anyOf":[{"type":"string"},{"type":"null"}]},"error_code":{"anyOf":[{"type":"integer"},{"type":"null"}]},"metadata":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}]}},"type":"object","title":"ToolInvocationResult","description":"Result of a tool invocation."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
 >
-  
+
 </StatusCodes>
-
-
-      

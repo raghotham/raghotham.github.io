@@ -31,7 +31,7 @@ import Heading from "@theme/Heading";
   path={"/v1alpha/post-training/job/status"}
   context={"endpoint"}
 >
-  
+
 </MethodEndpoint>
 
 
@@ -49,14 +49,14 @@ Get the status of a training job.
 <ParamsDetails
   parameters={[{"name":"job_uuid","in":"query","required":true,"schema":{"type":"string","title":"Job Uuid"}}]}
 >
-  
+
 </ParamsDetails>
 
 <RequestSchema
   title={"Body"}
   body={undefined}
 >
-  
+
 </RequestSchema>
 
 <StatusCodes
@@ -64,8 +64,5 @@ Get the status of a training job.
   label={undefined}
   responses={{"200":{"description":"A PostTrainingJobStatusResponse.","content":{"application/json":{"schema":{"properties":{"job_uuid":{"type":"string","title":"Job Uuid"},"status":{"type":"string","enum":["completed","in_progress","failed","scheduled","cancelled"],"title":"JobStatus","description":"Status of a job execution."},"scheduled_at":{"anyOf":[{"type":"string","format":"date-time"},{"type":"null"}]},"started_at":{"anyOf":[{"type":"string","format":"date-time"},{"type":"null"}]},"completed_at":{"anyOf":[{"type":"string","format":"date-time"},{"type":"null"}]},"resources_allocated":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}]},"checkpoints":{"items":{"properties":{"identifier":{"type":"string","title":"Identifier"},"created_at":{"type":"string","format":"date-time","title":"Created At"},"epoch":{"type":"integer","title":"Epoch"},"post_training_job_id":{"type":"string","title":"Post Training Job Id"},"path":{"type":"string","title":"Path"},"training_metrics":{"anyOf":[{"title":"PostTrainingMetric","properties":{"epoch":{"type":"integer","title":"Epoch"},"train_loss":{"type":"number","title":"Train Loss"},"validation_loss":{"type":"number","title":"Validation Loss"},"perplexity":{"type":"number","title":"Perplexity"}},"type":"object","required":["epoch","train_loss","validation_loss","perplexity"],"description":"Training metrics captured during post-training jobs."},{"type":"null"}],"title":"PostTrainingMetric"}},"type":"object","required":["identifier","created_at","epoch","post_training_job_id","path"],"title":"Checkpoint","description":"Checkpoint created during training runs."},"type":"array","title":"Checkpoints"}},"type":"object","required":["job_uuid","status"],"title":"PostTrainingJobStatusResponse","description":"Status of a finetuning job."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
 >
-  
+
 </StatusCodes>
-
-
-      
