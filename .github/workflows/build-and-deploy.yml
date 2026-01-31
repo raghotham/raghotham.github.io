@@ -285,31 +285,57 @@ jobs:
       run: |
         cd "${{ env.TEMP_DIR }}/llama-stack/docs"
 
-        # Generate API docs selectively based on cache status
-        echo "🔄 Generating API docs..."
+        # Generate API docs in parallel for better performance
+        echo "🔄 Generating API docs in parallel..."
+
+        # Start background processes for each API docs generation
+        PIDS=()
 
         # Generate stable API docs if not cached
         if [ "${{ steps.cache-api-stable.outputs.cache-hit }}" != 'true' ]; then
-          echo "  📄 Generating stable API docs (cache miss)..."
-          npm run gen-api-docs stable
+          echo "  📄 Starting stable API docs generation (cache miss)..."
+          npm run gen-api-docs stable &
+          STABLE_PID=$!
+          PIDS+=($STABLE_PID)
+          echo "  🔄 Stable API docs generation started (PID: $STABLE_PID)"
         else
           echo "  ⚡ Using cached stable API docs"
         fi
 
         # Generate experimental API docs if not cached
         if [ "${{ steps.cache-api-experimental.outputs.cache-hit }}" != 'true' ]; then
-          echo "  📄 Generating experimental API docs (cache miss)..."
-          npm run gen-api-docs experimental
+          echo "  📄 Starting experimental API docs generation (cache miss)..."
+          npm run gen-api-docs experimental &
+          EXPERIMENTAL_PID=$!
+          PIDS+=($EXPERIMENTAL_PID)
+          echo "  🔄 Experimental API docs generation started (PID: $EXPERIMENTAL_PID)"
         else
           echo "  ⚡ Using cached experimental API docs"
         fi
 
         # Generate deprecated API docs if not cached
         if [ "${{ steps.cache-api-deprecated.outputs.cache-hit }}" != 'true' ]; then
-          echo "  📄 Generating deprecated API docs (cache miss)..."
-          npm run gen-api-docs deprecated
+          echo "  📄 Starting deprecated API docs generation (cache miss)..."
+          npm run gen-api-docs deprecated &
+          DEPRECATED_PID=$!
+          PIDS+=($DEPRECATED_PID)
+          echo "  🔄 Deprecated API docs generation started (PID: $DEPRECATED_PID)"
         else
           echo "  ⚡ Using cached deprecated API docs"
+        fi
+
+        # Wait for all parallel processes to complete
+        if [ ${#PIDS[@]} -gt 0 ]; then
+          echo "  ⏳ Waiting for ${#PIDS[@]} API docs generation processes to complete..."
+          for pid in "${PIDS[@]}"; do
+            echo "    ⏳ Waiting for process $pid..."
+            if wait $pid; then
+              echo "    ✅ Process $pid completed successfully"
+            else
+              echo "    ❌ Process $pid failed"
+              exit 1
+            fi
+          done
         fi
 
         echo "✅ API docs generation completed"
