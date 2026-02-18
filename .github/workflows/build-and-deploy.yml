@@ -1,6 +1,24 @@
 name: Build and Deploy Docusaurus Documentation
 
+# This workflow builds and deploys documentation for llamastack.github.io
+#
+# Triggers:
+# 1. Nightly build: Runs daily at 1 AM UTC (1 hour after llama-stack nightly build)
+# 2. Manual: Can be triggered manually with version and action options
+#
+# Performance optimizations:
+# 1. For 'latest' builds: Downloads pre-built docs from llama-stack nightly job (if available)
+#    - Skips time-consuming API documentation generation
+#    - PR #4911 for nightly docmentation build got merged in llama-stack repo
+# 2. Content change detection: Skips rebuild if docs content hasn't changed
+# 3. Multi-level caching: API docs, node_modules, and build artifacts
+# 4. Parallel API docs generation: Generates stable/experimental/deprecated docs concurrently
+
 on:
+  schedule:
+    # Run daily at 1 AM UTC (1 hour after llama-stack nightly build at 12 AM UTC)
+    # This timing ensures pre-built artifacts are available
+    - cron: '0 1 * * *'
   workflow_dispatch:
     inputs:
       version:
@@ -25,10 +43,28 @@ permissions:
 
 jobs:
   build:
-    if: ${{ github.event.inputs.action != 'deploy-only' }}
+    # Run if: (1) scheduled trigger, (2) manual trigger with action != 'deploy-only'
+    if: ${{ github.event_name == 'schedule' || github.event.inputs.action != 'deploy-only' }}
     runs-on: ubuntu-latest
 
     steps:
+    - name: Workflow trigger information
+      run: |
+        echo "Workflow Trigger Information"
+        echo "═══════════════════════════════════════════════════════"
+        echo "Trigger type: ${{ github.event_name }}"
+
+        if [ "${{ github.event_name }}" = "schedule" ]; then
+          echo "Mode: Nightly automated build"
+          echo "Version: latest (default)"
+          echo "Action: build-and-deploy (default)"
+        else
+          echo "Mode: Manual trigger"
+          echo "Version: ${{ github.event.inputs.version || 'latest' }}"
+          echo "Action: ${{ github.event.inputs.action || 'build-and-deploy' }}"
+        fi
+        echo "═══════════════════════════════════════════════════════"
+
     - name: Checkout this repository
       uses: actions/checkout@v4
       with:
@@ -45,7 +81,8 @@ jobs:
         git fetch --all --tags
 
         # Determine version to checkout
-        VERSION="${{ github.event.inputs.version }}"
+        # Use 'latest' as default for scheduled builds (github.event.inputs.version will be empty)
+        VERSION="${{ github.event.inputs.version || 'latest' }}"
         if [ "$VERSION" = "latest" ] || [ -z "$VERSION" ]; then
           git checkout main
           echo "✅ Using main branch (latest)"
@@ -56,7 +93,37 @@ jobs:
           echo "✅ Using tag: $VERSION"
           echo "BUILDING_LATEST=false" >> $GITHUB_ENV
           echo "VERSION_TAG=$VERSION" >> $GITHUB_ENV
+          # Version builds always need full build (no pre-built artifacts)
+          echo "PREBUILT_AVAILABLE=false" >> $GITHUB_ENV
         fi
+
+    - name: Download pre-built docs from llama-stack nightly job
+      id: download-artifacts
+      continue-on-error: true
+      if: ${{ env.BUILDING_LATEST == 'true' }}
+      run: |
+        echo "⚡ Attempting to download pre-built docs from llama-stack repository..."
+
+        # Try to download the latest nightly build artifact
+        # Uses gh CLI to download the latest docs-build artifact from the main branch
+        if gh run download --repo llamastack/llama-stack --name docs-build --dir "${{ env.TEMP_DIR }}/prebuilt-docs" 2>/dev/null; then
+          echo "✅ Successfully downloaded pre-built docs"
+          echo "PREBUILT_AVAILABLE=true" >> $GITHUB_ENV
+
+          # Verify the download contains the expected structure
+          if [ -f "${{ env.TEMP_DIR }}/prebuilt-docs/index.html" ]; then
+            echo "✅ Pre-built docs verified"
+            ls -la "${{ env.TEMP_DIR }}/prebuilt-docs/" | head -10
+          else
+            echo "⚠️ Pre-built docs structure unexpected, will fall back to full build"
+            echo "PREBUILT_AVAILABLE=false" >> $GITHUB_ENV
+          fi
+        else
+          echo "ℹ️ No pre-built docs available, will perform full build"
+          echo "PREBUILT_AVAILABLE=false" >> $GITHUB_ENV
+        fi
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Set up Node.js
       uses: actions/setup-node@v4
@@ -285,60 +352,70 @@ jobs:
       run: |
         cd "${{ env.TEMP_DIR }}/llama-stack/docs"
 
-        # Generate API docs in parallel for better performance
-        echo "🔄 Generating API docs in parallel..."
+        # Check if we can use pre-built docs
+        if [ "${{ env.PREBUILT_AVAILABLE }}" = "true" ]; then
+          echo "⚡ Using pre-built docs from llama-stack nightly job (skipping API docs generation)"
+          echo "  This saves significant build time by reusing pre-generated documentation"
 
-        # Start background processes for each API docs generation
-        PIDS=()
-
-        # Generate stable API docs if not cached
-        if [ "${{ steps.cache-api-stable.outputs.cache-hit }}" != 'true' ]; then
-          echo "  📄 Starting stable API docs generation (cache miss)..."
-          npm run gen-api-docs stable &
-          STABLE_PID=$!
-          PIDS+=($STABLE_PID)
-          echo "  🔄 Stable API docs generation started (PID: $STABLE_PID)"
+          # Copy pre-built docs directly
+          # Note: Pre-built docs already include generated API documentation
+          echo "  📋 Pre-built docs will be used in the build step"
         else
-          echo "  ⚡ Using cached stable API docs"
-        fi
+          # Generate API docs in parallel for better performance
+          echo "🔄 Generating API docs in parallel..."
 
-        # Generate experimental API docs if not cached
-        if [ "${{ steps.cache-api-experimental.outputs.cache-hit }}" != 'true' ]; then
-          echo "  📄 Starting experimental API docs generation (cache miss)..."
-          npm run gen-api-docs experimental &
-          EXPERIMENTAL_PID=$!
-          PIDS+=($EXPERIMENTAL_PID)
-          echo "  🔄 Experimental API docs generation started (PID: $EXPERIMENTAL_PID)"
-        else
-          echo "  ⚡ Using cached experimental API docs"
-        fi
+          # Start background processes for each API docs generation
+          PIDS=()
 
-        # Generate deprecated API docs if not cached
-        if [ "${{ steps.cache-api-deprecated.outputs.cache-hit }}" != 'true' ]; then
-          echo "  📄 Starting deprecated API docs generation (cache miss)..."
-          npm run gen-api-docs deprecated &
-          DEPRECATED_PID=$!
-          PIDS+=($DEPRECATED_PID)
-          echo "  🔄 Deprecated API docs generation started (PID: $DEPRECATED_PID)"
-        else
-          echo "  ⚡ Using cached deprecated API docs"
-        fi
+          # Generate stable API docs if not cached
+          if [ "${{ steps.cache-api-stable.outputs.cache-hit }}" != 'true' ]; then
+            echo "  📄 Starting stable API docs generation (cache miss)..."
+            npm run gen-api-docs stable &
+            STABLE_PID=$!
+            PIDS+=($STABLE_PID)
+            echo "  🔄 Stable API docs generation started (PID: $STABLE_PID)"
+          else
+            echo "  ⚡ Using cached stable API docs"
+          fi
 
-        # Wait for all parallel processes to complete
-        if [ ${#PIDS[@]} -gt 0 ]; then
-          echo "  ⏳ Waiting for ${#PIDS[@]} API docs generation processes to complete..."
-          for pid in "${PIDS[@]}"; do
-            echo "    ⏳ Waiting for process $pid..."
-            if wait $pid; then
-              echo "    ✅ Process $pid completed successfully"
-            else
-              echo "    ❌ Process $pid failed"
-              exit 1
-            fi
-          done
-        fi
+          # Generate experimental API docs if not cached
+          if [ "${{ steps.cache-api-experimental.outputs.cache-hit }}" != 'true' ]; then
+            echo "  📄 Starting experimental API docs generation (cache miss)..."
+            npm run gen-api-docs experimental &
+            EXPERIMENTAL_PID=$!
+            PIDS+=($EXPERIMENTAL_PID)
+            echo "  🔄 Experimental API docs generation started (PID: $EXPERIMENTAL_PID)"
+          else
+            echo "  ⚡ Using cached experimental API docs"
+          fi
 
-        echo "✅ API docs generation completed"
+          # Generate deprecated API docs if not cached
+          if [ "${{ steps.cache-api-deprecated.outputs.cache-hit }}" != 'true' ]; then
+            echo "  📄 Starting deprecated API docs generation (cache miss)..."
+            npm run gen-api-docs deprecated &
+            DEPRECATED_PID=$!
+            PIDS+=($DEPRECATED_PID)
+            echo "  🔄 Deprecated API docs generation started (PID: $DEPRECATED_PID)"
+          else
+            echo "  ⚡ Using cached deprecated API docs"
+          fi
+
+          # Wait for all parallel processes to complete
+          if [ ${#PIDS[@]} -gt 0 ]; then
+            echo "  ⏳ Waiting for ${#PIDS[@]} API docs generation processes to complete..."
+            for pid in "${PIDS[@]}"; do
+              echo "    ⏳ Waiting for process $pid..."
+              if wait $pid; then
+                echo "    ✅ Process $pid completed successfully"
+              else
+                echo "    ❌ Process $pid failed"
+                exit 1
+              fi
+            done
+          fi
+
+          echo "✅ API docs generation completed"
+        fi
 
         # Create version if not latest (after content is ready)
         if [ "${{ env.BUILDING_LATEST }}" != "true" ]; then
@@ -400,8 +477,25 @@ jobs:
       run: |
         cd "${{ env.TEMP_DIR }}/llama-stack/docs"
 
+        # Check if we can use pre-built docs directly
+        if [ "${{ env.PREBUILT_AVAILABLE }}" = "true" ]; then
+          echo "⚡ Using pre-built Docusaurus site from llama-stack nightly job"
+
+          # Copy pre-built site directly (prebuilt-docs already contains build/ contents)
+          mkdir -p build
+          cp -r "${{ env.TEMP_DIR }}/prebuilt-docs/"* build/
+          echo "✅ Pre-built site copied successfully"
+
+          # Verify the build is valid
+          if [ -f "build/index.html" ] && [ -d "build/assets" ]; then
+            echo "✅ Pre-built site verified and ready to deploy"
+          else
+            echo "⚠️ Pre-built site validation failed, falling back to full build..."
+            rm -rf build/
+            FORCE_BUILD=true
+          fi
         # Check if we can skip build due to cache hit
-        if [ "${{ steps.cache-docusaurus-build.outputs.cache-hit }}" = 'true' ]; then
+        elif [ "${{ steps.cache-docusaurus-build.outputs.cache-hit }}" = 'true' ]; then
           echo "⚡ Using cached Docusaurus build (cache hit)"
 
           # Verify build output exists and is valid
@@ -428,6 +522,34 @@ jobs:
         echo "✅ Docusaurus build completed"
       env:
         NODE_OPTIONS: "--max-old-space-size=10240"
+
+    - name: Build summary
+      run: |
+        echo "📊 Build Summary"
+        echo "═══════════════════════════════════════════════════════"
+
+        if [ "${{ env.PREBUILT_AVAILABLE }}" = "true" ]; then
+          echo "⚡ Optimization: Used pre-built docs from llama-stack nightly job"
+          echo "   ✓ Skipped API documentation generation"
+          echo "   ✓ Skipped Docusaurus build"
+          echo "   ✓ Significant time savings achieved"
+        elif [ "${{ steps.content-changes.outputs.CONTENT_CHANGED }}" = 'false' ]; then
+          echo "⚡ Optimization: No content changes detected"
+          echo "   ✓ Skipped build steps"
+        else
+          echo "🔄 Full build performed"
+          if [ "${{ steps.cache-api-stable.outputs.cache-hit }}" = "true" ]; then
+            echo "   ✓ Used cached stable API docs"
+          fi
+          if [ "${{ steps.cache-api-experimental.outputs.cache-hit }}" = "true" ]; then
+            echo "   ✓ Used cached experimental API docs"
+          fi
+          if [ "${{ steps.cache-api-deprecated.outputs.cache-hit }}" = "true" ]; then
+            echo "   ✓ Used cached deprecated API docs"
+          fi
+        fi
+
+        echo "═══════════════════════════════════════════════════════"
 
     - name: Deploy to GitHub Pages
       run: |
@@ -539,17 +661,18 @@ jobs:
         fi
 
     - name: Setup GitHub Pages
-      if: ${{ github.event.inputs.action == 'build-and-deploy' }}
+      if: ${{ github.event_name == 'schedule' || github.event.inputs.action == 'build-and-deploy' }}
       uses: actions/configure-pages@v5
 
     - name: Upload Pages artifact
-      if: ${{ github.event.inputs.action == 'build-and-deploy' }}
+      if: ${{ github.event_name == 'schedule' || github.event.inputs.action == 'build-and-deploy' }}
       uses: actions/upload-pages-artifact@v3
       with:
         path: 'docs'
 
   deploy:
-    if: ${{ github.event.inputs.action == 'build-and-deploy' }}
+    # Deploy for: (1) scheduled builds, (2) manual builds with action == 'build-and-deploy'
+    if: ${{ github.event_name == 'schedule' || github.event.inputs.action == 'build-and-deploy' }}
     runs-on: ubuntu-latest
     needs: build
     permissions:
