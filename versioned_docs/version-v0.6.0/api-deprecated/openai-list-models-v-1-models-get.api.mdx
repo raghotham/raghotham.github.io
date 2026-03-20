@@ -1,0 +1,63 @@
+---
+id: openai-list-models-v-1-models-get
+title: "List models using the OpenAI API."
+description: "List models using the OpenAI API."
+sidebar_label: "List models using the OpenAI API."
+hide_title: true
+hide_table_of_contents: true
+api: eJztV81u20YQfpXBHg36J0aCNLw5llsYSGDDdg6FZRjj5UjcZLnL7C4lEwKfofee+hh9nr5AX6GYXVKiZTVJbw0QHyxqd/6/b0bDlXDka2s8eZGvxPHREX8U5KVTdVDWiFycgFY+gJ3BRU3m5BwqW5AG+/CRZPAHIhPSmkAmsCrWtVYSWfXwo2f9lfCypAr5qXa2JhdU8lZgiKcqUOWfX6uC/4e2JpELH5wyc5GJoILmg/NCdJlIQeySk9b4IHIRgx3pXSSNTBQ0w0ZvRLpMSEcYaOxWmUBzciP9016GnS8NFfcP7ZfCvGAZeNtG840PtrqvKOCQOpr2Yiby25XAolBcNdSXoyoE11A2GO+T7bK1O9NoLbq7rtuWyYSjz41ynMwtV3KT3Cjuu1GcEdr3fbG2CZAQnzlb9Rw4mJqpyVWRw01JcD5hdoSSkuDU5CmMdJuegQPMYFkqWcJSaQ0PBNNU+6mYmryPL+l8MOoRgqrIB6xqUAY8SWsKD8uSzMYVLNFDr8lu+8x6x0tDbjuyLRByeKexQrgOKD/t+5qkmikJwzUoI3VTKDNPBu5TFrWzC1WQA2VmNgM0BWzwWyuLDSzoHLYjWkz4ervO777YZl8DOXp8hijbjKj6q77Rn7kdLoDbGJXhZPErPd91HM7LXePiLRZwRZ8b8uG/jIanRs6csw6G2ZSYxyieXJ4fwJVt5qVuYWa1tksPVz+fwuufjl7zKHo6QnzA0MSnoSrX6STbbvBuXbiN7E38zLZ6u+P6BVR6LDpJJztklfEBjaSn3b4ttt3RWXzABzbOM4CrPQbbr9PoY+xDGuEfSyieDw9Bj1jVKdOhPi+PjjaKTwEcchXcUS4dx65TZoFaFWAdVKhn1lU8FRMvjt88h/TGWniPph1s+x/s+F7Ycfxmo7gLxjVHfrUNlLggoEdJVFARYXEYCLSqVDiAS03oCYJrAeeoDGgM5IaB8mrXQDk3gRzP1WtyC3IwhP6DPN8DeV6NR8u/Qbkm0ImBxtBjTTJQARShslI2zq2Hy3pv2wZ2ki5g9EP3gyL/M4okCAPOPdtJiwmr7ViE4sbhofG8j3D1+02EQeAltiYX0Twv2H5NBtU9Ly33SfF+8WJ4mhP/kFUUSsuy6WuNoRS5OFy8OExiIhM+stLHGjWO+ViGUOeHh2ja/dL6QMW+5nVx3/O6eCBtFavlSTZOhTYqTgZ+3t7xHW+IY6xG6yZc9+tmzAP2YUK1I8m7LGfpn21qN6XyoHyshn+i2y+5Y+OhxDAsqn5qYMcfgqe45JEpaqtM8HGVDSUpB9K61AFx+2WmuhlK8skwOko2GXjreNLb3U4eeGHQtCCH8yHCBHx8iWCRvb2/fv/j7z9/g8nZ5dXZ6cnN2WRvL4d3NEfZxlIkpxW2/NbgqLILKvitYNaExhEwasoafwAfuF+tS3YrNU8cAUczcmQkgTW6Zf70KiIXixfcKbX1ocI4FgxW9I0sfILPajNvvkm5741Aj+Gw1qgMxxF5t+rpecvBZaJa9wmTkI9Xqwf09MHpruPjzw05Zt9dJhboVOrc27suEyVhQS4S8xO1PGGlpJobYIG6ia8m24ORWbtull/ObkTX/QMsNYV3
+sidebar_class_name: "get api-method"
+info_path: docs/api-deprecated/llama-stack-specification-deprecated-apis
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List models using the OpenAI API."}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v1/models"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List models using the OpenAI API.
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"A list of OpenAI model objects.","content":{"application/json":{"schema":{"properties":{"data":{"items":{"properties":{"id":{"type":"string","title":"Id"},"object":{"type":"string","const":"model","title":"Object","default":"model"},"created":{"type":"integer","title":"Created"},"owned_by":{"type":"string","title":"Owned By"},"custom_metadata":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}]}},"type":"object","required":["id","created","owned_by"],"title":"OpenAIModel","description":"A model from OpenAI.\n\n:id: The ID of the model\n:object: The object type, which will be \"model\"\n:created: The Unix timestamp in seconds when the model was created\n:owned_by: The owner of the model\n:custom_metadata: Llama Stack-specific metadata including model_type, provider info, and additional metadata"},"type":"array","title":"Data","description":"List of OpenAI model objects."}},"type":"object","required":["data"],"title":"OpenAIListModelsResponse","description":"Response containing a list of OpenAI model objects."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,71 @@
+---
+id: openai-delete-vector-store-v-1-vector-stores-vector-store-id-delete
+title: "Delete a vector store (OpenAI-compatible)."
+description: "Delete a vector store (OpenAI-compatible)."
+sidebar_label: "Delete a vector store (OpenAI-compatible)."
+hide_title: true
+hide_table_of_contents: true
+api: eJztVs1uG0cMfhViTomxlmwjQRrdnNoFBDiwYbsFCscQqB1KO/HszHqGK1sQ9ti36NP1SQruj7RS1LS+NYB10M7OkhyS30cOVypQLLyLFNVopU6OjuShKabBFGy8UyP1G6XsA0T2gUCTJSY9UIlKvWNyLApYFNakKArDr1G0ViqmGeUoqyL4ggKb5gyj5Z+XBamRihyMm6tEsWErG2OtqkT56VdK+Xtyl41EojTNsLSsRmpR+zmp/Ry0foqxbrmxNvXeErqeubNWpmePQ0lVlXQ6vjsw0GNpgti7k1juN0aaRN3I+Y296za3tdl+SrsPMAs+b3Jq3BwQFr1cD1RViQPv9oHyCTVc02NJkV8CxbaR8xB8gLDlDGcEp1fjAVz7cp7ZJcy8tf4pwvUvP8OHn44+CPTbiEZGLutVl4mbZmedPOOY5hQEjVZkI3tbP5MdpGvcGI3ti541O3tkjYuMLq0No1teztTobpc8VbLecaW1qrpP6gVOxXgHdx/euA6j9bF1qYd5nUK1y5IqUfSMedFE2uXn3dHRRnEbwC5WdZsRhGYbnjCCcQu0RoMPkKOd+ZALqRtenHz8FtJb7+EzumVnO76y40dhx8nHjeI+GNcc+d2XkOGCgJ5TIk26hiUgE1iTGx7AlSWMBByWgHM0Diwyha6hvN/XUMaOKTi0cENhQQE611/J8yOQ532/tfwTlGsCnTooHT0XlDJpoBoqn6ZlCOvmsr4Gd4E9az5A7257pcj/jCINhIzzKHaasWR8KYq7WMqUsjN2wJvLgtzp+DD1eYFsppbeStYl5zWwYy1HFeTQTJrZatIfvSaL4633ONn+bPSkVRMoMWBOTCHWKXOY084kNzEylRlxt0DOtgYwyVrS49fusLhzNWa0HajR5NjMjHTG3SkO6jEOxu0E+Z/tCKw5ceYlSb0wOVMjNVwcD7dSM1zthFqpRMW6apuElEHqNWMuRsMhuuVh5iOTPrQWczyMjOnDIPV5fWyktAyGl7XiWVe/d/fyzbiZ73P5QvThRvThpqDUzNqq3ZM1E8HEujJjXxL8rN7sm+IMGYrgF0ZT/OJgzw8hEosuOV144zgCuvoGMwFSH5p+oGUclroNM0wpNoYxUGNTysAHuff8/kOmMj5ZWlDAeefhZ6/JxsEX16gcHPz15x9wc3v66eL84GAEV8HrMpXADgOhXkobivBkOIMppg9PGDR0FWGs4SXMSwzomCgKfQSyJmOLY+FM4SPnWDfAltUvqrYtEFabFvsyK21BMD3zsLBonHhWc2rVcvJO3E22Kk5azmi3BO8TJdQThdVqipF+DbaqZPuxpCCcu0/UAoNp+tndSmkTZa3VaIY20ndCenPdVvRb+Lca3RdPu4luKYGgLeVNJeqBlnt6SXVfJSoj1BRqNxup0zSlgnv631xkW4V9dn5xfnuuqupv5SE9EQ==
+sidebar_class_name: "delete api-method"
+info_path: docs/api/llama-stack-specification
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Delete a vector store (OpenAI-compatible)."}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/v1/vector_stores/{vector_store_id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Delete a vector store (OpenAI-compatible).
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"vector_store_id","in":"path","required":true,"schema":{"type":"string","description":"The vector store identifier.","title":"Vector Store Id"},"description":"The vector store identifier."}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Vector store deleted.","content":{"application/json":{"schema":{"properties":{"id":{"type":"string","title":"Id"},"object":{"type":"string","title":"Object","default":"vector_store.deleted"},"deleted":{"type":"boolean","title":"Deleted","default":true}},"type":"object","required":["id"],"title":"VectorStoreDeleteResponse","description":"Response from deleting a vector store."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
