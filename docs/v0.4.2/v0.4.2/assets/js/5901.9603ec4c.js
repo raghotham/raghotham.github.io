@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus_template_openapi_docs=self.webpackChunkdocusaurus_template_openapi_docs||[]).push([[5901],{75901:(e,s,a)=>{a.d(s,{createTreemapServices:()=>p.d});var p=a(51633);a(87960)}}]);
