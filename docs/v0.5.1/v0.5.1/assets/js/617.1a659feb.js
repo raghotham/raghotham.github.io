@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocusaurus_template_openapi_docs=self.webpackChunkdocusaurus_template_openapi_docs||[]).push([[617],{50617:(e,s,a)=>{a.d(s,{createPieServices:()=>u.f});var u=a(69150);a(87960)}}]);
