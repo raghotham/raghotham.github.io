@@ -1,0 +1,71 @@
+---
+id: job-result-v-1-alpha-eval-benchmarks-benchmark-id-jobs-job-id-result-get
+title: "Job Result"
+description: "Get the result of a job."
+sidebar_label: "Job Result"
+hide_title: true
+hide_table_of_contents: true
+api: eJztV1Fv2zYQ/isEn9pAsdOiRVe9ZatXZGi2wMmADalhnKmzxIQiVZJyYhj6LXscsF+3nzAcKclyonYoNgwr0DzEEsU7fvfdd0dyxy26ymiHjqc7/vzkhH4ydMLKykujecqvCmQWXa08M2vmC2Q3ZjXhCRdGe9SeLKCqlBRAFtMbR2Y77kSBJdBTZU2F1su4SI4abZgaXqXHMjxAlkkaBXUxmO9tjQn32wp5ys3qBoXnTT8A1sKWJ9xLr+j97cB3MhLHYG22tqYM4eAGVB0GybMTxuInAD0MJ8xfWnP370dzSa7ZnFyPBUMrS513yVkbyxBEway5m7BZ+8SkY8BKqCh5wqi61ExDicwbRnHjhABAnlvMwWO2jN4+M4Y95tPeE5u3nh5iP49gSvRWih7MHkLExZvm8SoWP9TSYsbT6yHxowEsDomUOo+AHuE5HWMSmJM6VxjY5CNQDpL08QThqNDa/NzilkkdvmVS+JirDsy61oLmBob+lo38QPmtiAcUzOLaOG/rfRRw1wwiZNBDxLxpCMOLsRbxLVC2P9To/Of0hUMnM2uNfQCBmDm9OJuwuanzQm3Z2ihl7hybf/8de/XNySvqQw/q0YOvw1OfoTjS8ye1xxxtSGqcsp97FX77qc5TKmhmhh6kGk59E0dG5krtPGgRHIPe/rTm6fXu0bR+RNdK8WaRhAdYkXOqMWL7QO99GC3GFtIwyUQhH2kweA9lFSPt+HlxcrI3PExgF2uriTDM7sAxqTegZMaMZSWotbElZp0unr8e2TqMYeegt51v91UdX4o6nr/eG46lsdfIr6ZmBWyQ4b1AzDALabHgkSlZSj9hFwrBIfN2yyAHqZkCj7ZrKC/HGsqZ9mg1KHaJdoOWddC/iudLEM/LYWv5WCp7AZ1qVmu8r1DQ3o8hVUaI2tq+uWS4Btq5HyX2TfzABrvaV4n8zyQSU+ghd+SHziFkdMj+W/SxbfT3DOhuGcRuSOFZxlN+Y1btAW+5eQaqKmBJZ5TlCrUoSrC3brl/XspsubwxKxf+h7fWNkfa5yqwUKJH6wJF4ZyV8qE5Jzp5yivwxcGBKx6C92I6pHewsXbO2BmJOelXiYD+sf8fzCp6XiS8RF8YIqmLzhc85dOWpynxNN3zNN0NA22mxNN0F2E1U9sdlV2o2khQbaleC++rdDoFvT0ujPOYHSsFJRw7D+J2IkwZ1ORQ1Fb6bTB809Xv9YK+Sb02Qy2/I3t2SfbsskIh123VsmM2u6/QyhK1B0XFOHbSlo5OzqQfd2DdXleH7n0BnlXWbGSG7r1mI3/AHAYJos4qI7V3DHTY1aRlwtjYIzI6olMt2zUIdNExWIw+qTSMpb3QjC+yoiOVwg1ayDuE5yZD5SbvdTQ5Ovrzt9//YLNfLmbzs/PZj1en746OUnZh8dhi3FKJD/akTXDCNs9W6OFpxFLClokCdI5shWvTIVuhMCVhd56KnSqM8hup3DyjBlIZ50sI3bIVK6ls/PK02/fbTxVxK1+P935aKZDhph3ktGt1es3bMHjCSak82Rci5Tx9UJYkVxru66hV7CLhpEpyuNutwOHPVjUNDX+o0ZIcFwnfgJWx1V3veCYdPWc8XYNy+IkAn8zb+nzKPhZTd5PXdI+P99iU84Tf4vZha6Fm8B+u3RLVLJqEFwgZ2hB9/HgqBFZ+YPZo6zxoMG9nV7xp/gIGoUNG
+sidebar_class_name: "get api-method"
+info_path: docs/api-experimental/llama-stack-specification-experimental-apis
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Job Result"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v1alpha/eval/benchmarks/{benchmark_id}/jobs/{job_id}/result"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get the result of a job.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"benchmark_id","in":"path","required":true,"schema":{"type":"string","title":"Benchmark Id"}},{"name":"job_id","in":"path","required":true,"schema":{"type":"string","title":"Job Id"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"The result of the job.","content":{"application/json":{"schema":{"properties":{"generations":{"items":{"additionalProperties":true,"type":"object"},"type":"array","title":"Generations","description":"The generations from the evaluation"},"scores":{"additionalProperties":{"properties":{"score_rows":{"items":{"additionalProperties":true,"type":"object"},"type":"array","title":"Score Rows","description":"The scoring result for each row. Each row is a map of column name to value."},"aggregated_results":{"additionalProperties":true,"type":"object","title":"Aggregated Results","description":"Map of metric name to aggregated value"}},"type":"object","required":["score_rows","aggregated_results"],"title":"ScoringResult","description":"A scoring result for a single row."},"type":"object","title":"Scores","description":"The scores from the evaluation. Each key in the dict is a scoring function name"}},"type":"object","required":["generations","scores"],"title":"EvaluateResponse","description":"The response from an evaluation."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

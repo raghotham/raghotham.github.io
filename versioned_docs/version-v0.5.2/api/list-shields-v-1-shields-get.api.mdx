@@ -1,0 +1,63 @@
+---
+id: list-shields-v-1-shields-get
+title: "List all shields."
+description: "List all shields."
+sidebar_label: "List all shields."
+hide_title: true
+hide_table_of_contents: true
+api: eJztV81uGzcQfpUBj4YsO0aCNLo5dVoYSFDDVg6FYxgjcqRlzCXX5KxsQdAxb9Gn65MUw92VVj9GkZ4aILpolxxyPs73zexwqSKlKvhESY2W6uz0VP4MJR1txTZ4NVLn8NEmviksOZOuW/OhGigdPJNnWYFV5axGWXHyNcmypUq6oBLlqYqhosi2cWKQ86hlKtP+tDXk2U4tRXnjRUVqpBJH62dqoNiyk4HLjdVgB+9nbx9rgs0+MA0RuLAJIqVQR01gPTiHJUJi1A9qNRAQc2so3nc299bkk/nFH1M1ut2FshqsR3ztnFrd/UccXBB0zreANP5fCsBVawaXZi8ClxcQplsbAxfIEJ582gYgDhsP+5508IllIDPfcz0WQ/E5xdr1LAQ8RmxI3cQNjbECDN1Vj2iONXW+VZh8Jc0HYrpa7doMVKTH2kYyanTbF8t25O42cG86/LuyTjglXkCDfsNJDpVGDxOCOpEBDqAL0g/QCn64iZrCGHHRi82FiHvXleSPMNJ6ak6S1L8dLidK7yAH0nDPVTeRsaL11s8AwbUA0LkWRBqq1UoAvD6U8u/RwDU91pT4e/J8e5MPMYYIXX2BaQxl1uT51eUQrkM9K9wCpsG58JTg+rdf4e0vp2+HDY+9epAYuc5Pa0KbkXXwrGeaNcnTmmxsx/l/sJe8yhCjdX3Ti2bkgK31idFr+t56IA84kc1F7RLtPr1pfYwWYwupx3gOodpPE0XPWFbNSbv4vD493SzcJrA7qxoXBLEZhidMYP0cnTUQIpTopiGWZDpdnL3bp3QcAnxCv+j2Tj/V8aOo4+xdr4AfoHGtkT9DDQXOCehZExmpf6IaZAJnS8tDuHKEiYDjAnCG8ilFptgVlDeHCsqlZ4oeHdxQnFOEDvpP8fwI4nnTLy0vUbkW0LmH2tNzRZrJAGWqgtZ1jOvism4ddom9aCag9337KZH/mUQaChlnSfZpGxK11/7mpmer4RgoiWym79KokZKu5L6dvZ+/Wj/OSD5aJXERxKx5rZALNVIn81cnrZ0aqJQlmHJA6ijiK5ir0ckJ+sVxERKTOc59/nHu84c6lDk0iXQdLS/ywotOjLd3Mmf9NPSJ+ZjvCTeyHm4q0nbaSnCv9xpLZ21TllnqW3bdeH+r3GW2HWv64uHADyFRbtvImypYzwnQ53JsI+gQG3EbafFEhHGKmlKzMUZq9hROQ8xN7GEnE+kFHM0p4qxD+CkYcmn4xTdLjo7+/usb3IzP33/8cHQ0gqsYTK3lYMeR0CwkpxI8WS5ggvrhCaMBHcoK2U6ss7yAWY0RPRNlFQhlTcTmr/KlISQuMWezx5Je0M5WrJebsnDQuJUs0zOfVA6tFz9ZIctWSbfifKDSRr6iFxlfLieY6HN0q5UMP9YURSh3AzXHaJuMur1bDVRBKHc20dADLaTyaU2ViHWOrs63g92CJQJbC/v3D2O1Wv0Df4NSwQ==
+sidebar_class_name: "get api-method"
+info_path: docs/api/llama-stack-specification
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List all shields."}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v1/shields"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List all shields.
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"A ListShieldsResponse.","content":{"application/json":{"schema":{"properties":{"data":{"items":{"properties":{"identifier":{"type":"string","title":"Identifier","description":"Unique identifier for this resource in llama stack"},"provider_resource_id":{"anyOf":[{"type":"string"},{"type":"null"}],"description":"Unique identifier for this resource in the provider"},"provider_id":{"type":"string","title":"Provider Id","description":"ID of the provider that owns this resource"},"type":{"type":"string","const":"shield","title":"Type","default":"shield"},"params":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}]}},"type":"object","required":["identifier","provider_id"],"title":"Shield","description":"A safety shield resource that can be used to check content."},"type":"array","title":"Data","description":"List of shield objects"}},"type":"object","required":["data"],"title":"ListShieldsResponse","description":"Response containing a list of all shields."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

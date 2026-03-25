@@ -1,0 +1,71 @@
+---
+id: get-model-v-1-models-model-id-get
+title: "Get a model by its identifier."
+description: "Get a model by its identifier."
+sidebar_label: "Get a model by its identifier."
+hide_title: true
+hide_table_of_contents: true
+api: eJztV19v20YM/yrEPW2BYqdFi656S5euMNBiQZI+DGlg0Drauka6U+4oJ4ahx32Lfbp9koEnyZb/dEX3tALNS84nHvkj+SOPt1aeQuVsoKDStXp+dib/NIXMm4qNsypVNzlB6TQV4GafKeORSlTmLJNlEcaqKkyGIjz+HOTEWoUspxJlVXlXkWfT6jeaLJu5IS+/eFWRSlVgb+xCJYoNF7Ix2Uole1g+WvNQE2z1wNx54NwE8BRc7TMCY6EosEQIjNm9ahIBsTSa/LSXmRododvV73OV3u5DaZLNjq2LQjV3/xEH5wS98R0grf0vBeCyE4OJPojA5ALcfEcxcI4M7tGGXQBisLVwaClzNrBKVczrwPKNyInJOdbFVqBJVEmMGjkmFbU2AgeLy0F62dfUW1QtVQaaP/Tn9x06tyvYKoTezjagWwiymPYubTEWRamSAxfJ1qVKb7uvVM5I6/aLJ4/2Xt0NwInmje9DdG9tXZKP7Ja4h7qqnGfSXUWI0SCZfh8Zdy2MG6mmOYyDp4faeNICyQwJPuTEPqTDYHV2NyTzVHkKos4uAC2cTzYSCxOYPOkj8ATgi2O1/gY1XNFDTYG/pcr3Yua989A3Fph7V0bCnl9ORnDl6kVerGDuisI9Brj67Vd49cvZq1EbikGzCIxcx1Ufk+t2ZxNcY5kWbWV1IlvZm/h/nxaNBJTRFEPRi3bniKyxgdFm9K3NQhY4E+VSFBLtYfrDxo0OYwdpkP0YQrXPoiZR9IRl1Xrax+fF2dn24G4Ce19jD/ftNjyiMHaJhdHgPJRYzJ0vSfe8eP76yB3gHHxAu+p1hx/s+F7Y8fz1oL0fSeOGI3+4GnJcEtBTRqRJx7R4ZILClIZHcFkQBgL2K8AFyj2LTL5vKC+PNZSJZfLS16/JL8lDD/0Heb4H8rwctpYvpXJDoHMLtaWnijK5ICmmymVZ7f2muWwu7f3EXrQf4KpL7Q+K/P8o0qaQcRFETxxQgjoYjd8RA3ZDyGwFhsNgTJY4S5RjKidapWpBPG0Hu+WzdhGm3YbR0+mC5B6r0GNJTD7EEFgsqZ9NZWySUKlUVcj5zqTVTqRbouyPiIfvnO103c13DhYUXzw7c5kM5s23nJe0lMS561yOPnGuUjVePhu3bo/XvUONSlSIRdb6W3spr5y5SsdjtKvT3AUmfRqfOafxmTPKXBmtBMpqb3gVD1705XZ7J9+Mnbsh9QZTIVxXlJl5V2RHYmMCmBA9C0PJ3t2hqvge6cba8MnCkT+EQCxnyerKGcsB0MYLx3jInG/LV+Z1kDLzc8wotIrRU6tTWOtkvmV33MhMpp2CluRx0SNsWTv6ZNsjJyd///UnXN+cv3n/9uQkhUvvdJ2JY6eeUK+kawR4NJzDDLP7R/QaMldWyGZmCsMrWNTo0TJREJZIytqILZ/FB58LXGLsVx1pv1oeO4Ffb7vg10929GZ64nFVoLGCIHJn3bHtVmB1DylpAemmhO4SJaQSkfV6hoE++qJpZPuhJi9sukvUEr1pG8vtWmkTZK1VOsci0L8A/+mqq8if4Ss1dsyBbhPtSuKLRS2/VKLuaTXsAc1dk6icUF7aAq/9fJ5lVPHg4MFNslOZ797eqKb5B7dE2Lk=
+sidebar_class_name: "get api-method"
+info_path: docs/api/llama-stack-specification
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get a model by its identifier."}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v1/models/{model_id}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get a model by its identifier.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"model_id","in":"path","required":true,"schema":{"type":"string","description":"The ID of the model to get.","title":"Model Id"},"description":"The ID of the model to get."}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"The model object.","content":{"application/json":{"schema":{"properties":{"identifier":{"type":"string","title":"Identifier","description":"Unique identifier for this resource in llama stack"},"provider_resource_id":{"anyOf":[{"type":"string"},{"type":"null"}],"description":"Unique identifier for this resource in the provider"},"provider_id":{"type":"string","title":"Provider Id","description":"ID of the provider that owns this resource"},"type":{"type":"string","const":"model","title":"Type","default":"model"},"metadata":{"additionalProperties":true,"type":"object","title":"Metadata","description":"Any additional metadata for this model"},"model_type":{"default":"llm","type":"string","enum":["llm","embedding","rerank"],"title":"ModelType","description":"Enumeration of supported model types in Llama Stack."}},"type":"object","required":["identifier","provider_id"],"title":"Model","description":"A model resource representing an AI model registered in Llama Stack."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

@@ -1,0 +1,71 @@
+---
+id: list-prompt-versions-v-1-prompts-prompt-id-versions-get
+title: "List prompt versions."
+description: "List all versions of a specific prompt."
+sidebar_label: "List prompt versions."
+hide_title: true
+hide_table_of_contents: true
+api: eJztV9tqHEcQ/ZWiX2yL1UoyNraXEJAvCQIbC0k2BFmI0nTtTts93aPumpWWZR7zF/m6fEmonsvOXuLgkIcYrJcd1XTX9VTNqaUKFEvvIkU1WarHh4fyoylmwZRsvFMTdQxvTeTT4IuS41l7HDLvGI0zbgZoLcwpRONdBD8FzgnKdHysRkoOkmPRi2VpTYai9+BzFOVLFbOcCpSnMviSApvGFY2cpIapiNuvG/1JqVu8n6rJ5VLxoiQ1UZGDcTNVj3qJq6xV9dVoI7CLnCAuIlPRugt3hnOYYzB4YwlKixnl3moKUdUj1cYoRlvFxjHNKKiRKowzRVWoydFIsWErbz+25zfttnJ42F6HyBg4ZZLhaATGZYEKckwavIOIc3ok9hsnr40eeNAGuzLa1AlO9JbZD87cVgRGk2MzNRTAOJj6UCDDg1I0//Tk+b42M8P7Ocb85wcp6DYbca0Ym6nuBBgCLgbefOxvb3ojmBKw9Nl2WFAEzpEhQwc3BFUkLT6u8ARMRWmRSUyaeK1pipXlgUc33ltCN3DhJMLr9timDy+bw2CcTrB0M7jLiXMKwLmJHajBxORDa60TJ3Wt/SnaSPUqD/7mM2ViMNBtZQJpNblUq3urSl5tVm7LyeMu9kDRVyEjCFQGilJFgQxE9oE0vC/JHZ/AK1+UyCbhdz1nksq3FguEc8bsy/grZXstzfdP4aQOHfi/Y0psBdOPj8JrssAerOCg8TSOVV2L1Se7xtBL1HBGtxVF/papsq7kTQg+QDfzYBp8kUp7fHoyhjNfzXK7gKm31t9FOPvlFTx7fvhs3FRsMH0iI1dNI7TBnzeS0eZkqPv8rM5epN/RdhNpYjR2ePR1I9lx1rjI6DL61hEoD9JvasKhSpAd1jT2YbQ+ti4NypxSqDahUY8U3WNRNpF2+XlyeLi6uF7ALtY0hUMjhjuMYNwcrdHgAxRoZT6R7nDx+MV2SS+8h3foFp3u+AMd3ws6Hr9YXdxVxh4jv/kKcpwT0H1GpEmnsgQZatYUhsdwagkjAYcF4AyNA5l4oRsoT3cNlBPHFBxaOKcwpwCd6z/A8z2A5+lwtPxdKXsAHTuoHN2XlAmpolQqn2VVCP1wGXCJ9cK27AEGH7UfEPmfQaQpIeMsip6Whagtxp9I5+a6ghBLyszUZIOtRfKdinqi1UQJSbluSVt39Xp+1Iri9XVP6K5X72ck37kSAxbEskJIioTlqsmAAEouRYCcr/Eryc9ogKRNvr+9ygyI/doS1rOsPuipD+OdK0P9H+iVMhfEuZfEdTngXE3UwfzooM3YwbLPQH3Q3VcjFVP/NqmqgnRuzlxODg7QLfZzH5n0vhUOux8Th818kQxGyqpgeJEudnR/cnkl74yb+iGqBxwYztvKp1LvyKqJHfmPw5NdIoaq0uZSBj83muInBzv+ECKlpYecLr1xHAFd+paZAJkPzWTQQuulg8MUs24lwkCNTmmIxPfZ7zZyI0TK0pwCzjoP3wnbjuNPrrmyt/fnH7/D+cXxy7dv9vYmcBq8rjIJbD8Q6oUMpNgswzeYfbnDoCFr9wpjDS9gVmFAx0RRgNQvxmp+lBZVH7nANApbvL9dsfweLuPNfC9Xc/UbOrVtDKZ7PigtGiceJOwsW+Bdilvd0iUomwzbr0ff1UgJwuT8cnmDkT4EW9civq0oCLSuVutwApo2UZ51u/99JZyHZ21jP4J/16q7guyWNyer2xxtJf+pkfpCi7URU1/VI5UTagrJ7eb9cZZRWje7m1tfsrVO/vXNharrvwA+00jN
+sidebar_class_name: "get api-method"
+info_path: docs/api/llama-stack-specification
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List prompt versions."}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v1/prompts/{prompt_id}/versions"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List all versions of a specific prompt.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"prompt_id","in":"path","required":true,"schema":{"type":"string","description":"The identifier of the prompt to list versions for.","title":"Prompt Id"},"description":"The identifier of the prompt to list versions for."}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"A ListPromptsResponse containing all versions of the prompt.","content":{"application/json":{"schema":{"properties":{"data":{"items":{"properties":{"prompt":{"anyOf":[{"type":"string"},{"type":"null"}],"description":"The system prompt with variable placeholders"},"version":{"type":"integer","minimum":1,"title":"Version","description":"Version (integer starting at 1, incremented on save)"},"prompt_id":{"type":"string","title":"Prompt Id","description":"Unique identifier in format 'pmpt_<48-digit-hash>'"},"variables":{"items":{"type":"string"},"type":"array","title":"Variables","description":"List of variable names that can be used in the prompt template"},"is_default":{"type":"boolean","title":"Is Default","description":"Boolean indicating whether this version is the default version","default":false}},"type":"object","required":["version","prompt_id"],"title":"Prompt","description":"A prompt resource representing a stored OpenAI Compatible prompt template in Llama Stack."},"type":"array","title":"Data"}},"type":"object","required":["data"],"title":"ListPromptsResponse","description":"Response model to list prompts."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
