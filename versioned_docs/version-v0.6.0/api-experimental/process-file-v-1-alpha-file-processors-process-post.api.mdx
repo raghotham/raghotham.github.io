@@ -1,0 +1,71 @@
+---
+id: process-file-v-1-alpha-file-processors-process-post
+title: "Process a file into chunks ready for vector database storage."
+description: "Process a file into chunks ready for vector database storage. Supports direct upload via multipart form or processing files already uploaded to file storage via file_id. Exactly one of file or file_id must be provided."
+sidebar_label: "Process a file into chunks ready for vector database storage."
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: docs/api-experimental/llama-stack-specification-experimental-apis
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Process a file into chunks ready for vector database storage."}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"post"}
+  path={"/v1alpha/file-processors/process"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Process a file into chunks ready for vector database storage. Supports direct upload via multipart form or processing files already uploaded to file storage via file_id. Exactly one of file or file_id must be provided.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"multipart/form-data":{"schema":{"properties":{"file":{"anyOf":[{"type":"string","format":"binary"},{"type":"null"}],"description":"The File object to be uploaded and processed. Mutually exclusive with file_id."},"file_id":{"anyOf":[{"type":"string"},{"type":"null"}],"description":"ID of file already uploaded to file storage. Mutually exclusive with file."},"options":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}],"description":"Optional processing options. Provider-specific parameters (e.g., OCR settings, output format)."},"chunking_strategy":{"anyOf":[{"type":"string"},{"type":"null"}],"description":"Optional chunking strategy for splitting content into chunks. Must be valid JSON string."}},"type":"object","title":"Body_process_file_v1alpha_file_processors_process_post"}}}}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"The processed file chunks.","content":{"application/json":{"schema":{"properties":{"chunks":{"items":{"properties":{"content":{"anyOf":[{"type":"string"},{"oneOf":[{"title":"ImageContentItem-Output","properties":{"type":{"type":"string","const":"image","title":"Type","default":"image"},"image":{"properties":{"url":{"anyOf":[{"title":"URL","properties":{"uri":{"type":"string","title":"Uri"}},"type":"object","required":["uri"],"description":"A URL reference to external content."},{"type":"null"}],"title":"URL"},"data":{"anyOf":[{"type":"string"},{"type":"null"}],"contentEncoding":"base64"}},"type":"object","title":"_URLOrData","description":"A URL or a base64 encoded string"}},"type":"object","required":["image"],"description":"A image content item"},{"title":"TextContentItem","properties":{"type":{"type":"string","const":"text","title":"Type","default":"text"},"text":{"type":"string","title":"Text"}},"type":"object","required":["text"],"description":"A text content item"}],"discriminator":{"propertyName":"type","mapping":{"image":{"properties":{"type":{"type":"string","const":"image","title":"Type","default":"image"},"image":{"properties":{"url":{"anyOf":[{"title":"URL","properties":{"uri":{"type":"string","title":"Uri"}},"type":"object","required":["uri"],"description":"A URL reference to external content."},{"type":"null"}],"title":"URL"},"data":{"anyOf":[{"type":"string"},{"type":"null"}],"contentEncoding":"base64"}},"type":"object","title":"_URLOrData","description":"A URL or a base64 encoded string"}},"type":"object","required":["image"],"title":"ImageContentItem","description":"A image content item"},"text":{"properties":{"type":{"type":"string","const":"text","title":"Type","default":"text"},"text":{"type":"string","title":"Text"}},"type":"object","required":["text"],"title":"TextContentItem","description":"A text content item"}}},"title":"ImageContentItem-Output | TextContentItem"},{"items":{"oneOf":[{"title":"ImageContentItem-Output","properties":{"type":{"type":"string","const":"image","title":"Type","default":"image"},"image":{"properties":{"url":{"anyOf":[{"title":"URL","properties":{"uri":{"type":"string","title":"Uri"}},"type":"object","required":["uri"],"description":"A URL reference to external content."},{"type":"null"}],"title":"URL"},"data":{"anyOf":[{"type":"string"},{"type":"null"}],"contentEncoding":"base64"}},"type":"object","title":"_URLOrData","description":"A URL or a base64 encoded string"}},"type":"object","required":["image"],"description":"A image content item"},{"title":"TextContentItem","properties":{"type":{"type":"string","const":"text","title":"Type","default":"text"},"text":{"type":"string","title":"Text"}},"type":"object","required":["text"],"description":"A text content item"}],"discriminator":{"propertyName":"type","mapping":{"image":{"properties":{"type":{"type":"string","const":"image","title":"Type","default":"image"},"image":{"properties":{"url":{"anyOf":[{"title":"URL","properties":{"uri":{"type":"string","title":"Uri"}},"type":"object","required":["uri"],"description":"A URL reference to external content."},{"type":"null"}],"title":"URL"},"data":{"anyOf":[{"type":"string"},{"type":"null"}],"contentEncoding":"base64"}},"type":"object","title":"_URLOrData","description":"A URL or a base64 encoded string"}},"type":"object","required":["image"],"title":"ImageContentItem","description":"A image content item"},"text":{"properties":{"type":{"type":"string","const":"text","title":"Type","default":"text"},"text":{"type":"string","title":"Text"}},"type":"object","required":["text"],"title":"TextContentItem","description":"A text content item"}}},"title":"ImageContentItem-Output | TextContentItem"},"type":"array","title":"list[ImageContentItem-Output | TextContentItem]"}],"title":"string | list[ImageContentItem-Output | TextContentItem]"},"chunk_id":{"type":"string","title":"Chunk Id"},"metadata":{"additionalProperties":true,"type":"object","title":"Metadata"},"chunk_metadata":{"properties":{"chunk_id":{"anyOf":[{"type":"string"},{"type":"null"}]},"document_id":{"anyOf":[{"type":"string"},{"type":"null"}]},"source":{"anyOf":[{"type":"string"},{"type":"null"}]},"created_timestamp":{"anyOf":[{"type":"integer"},{"type":"null"}]},"updated_timestamp":{"anyOf":[{"type":"integer"},{"type":"null"}]},"chunk_window":{"anyOf":[{"type":"string"},{"type":"null"}]},"chunk_tokenizer":{"anyOf":[{"type":"string"},{"type":"null"}]},"content_token_count":{"anyOf":[{"type":"integer"},{"type":"null"}]},"metadata_token_count":{"anyOf":[{"type":"integer"},{"type":"null"}]}},"type":"object","title":"ChunkMetadata","description":"`ChunkMetadata` is backend metadata for a `Chunk` that is used to store additional information about the chunk that\n    will not be used in the context during inference, but is required for backend functionality. The `ChunkMetadata`\n    is set during chunk creation in `MemoryToolRuntimeImpl().insert()`and is not expected to change after.\n    Use `Chunk.metadata` for metadata that will be used in the context during inference."}},"type":"object","required":["content","chunk_id","chunk_metadata"],"title":"Chunk","description":"A chunk of content from file processing."},"type":"array","title":"Chunks","description":"Processed chunks from the file. Always returns at least one chunk."},"metadata":{"additionalProperties":true,"type":"object","title":"Metadata","description":"Processing-run metadata such as processor name/version, processing_time_ms, page_count, extraction_method (e.g. docling/pypdf/ocr), confidence scores, plus provider-specific fields."}},"type":"object","required":["chunks","metadata"],"title":"ProcessFileResponse","description":"Response model for file processing operation.\n\nReturns a list of chunks ready for storage in vector databases.\nEach chunk contains the content and metadata."}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

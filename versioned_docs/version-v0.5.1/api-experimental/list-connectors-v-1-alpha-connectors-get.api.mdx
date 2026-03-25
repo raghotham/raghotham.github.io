@@ -1,0 +1,63 @@
+---
+id: list-connectors-v-1-alpha-connectors-get
+title: "List all connectors."
+description: "List all configured connectors."
+sidebar_label: "List all connectors."
+hide_title: true
+hide_table_of_contents: true
+api: eJztV9tu3EYM/RVinlpDviJBmn1zY7cwYKeGL0ULxzC4I2o1yWhGnqE2Xhj6lj4W6Nf1EwpKK6324rapgQIBvC8rcTiHHPKQ4jyqQLH0LlJUo0d1sLcnfylFHUzJxjs1UpeV1hRjVlm4mCurRGnvmByLOpalNRpFffdjlD2PKuqcCpSnMviSApvWQorcSA1TEdeXtXeONPtwx7OSWl8yrCyrkSp0qRLVylXkYNxEJYpcVajRTbN6myg2bGX9XQd0JfrJypFECD6D3tyOqpOBcZOK6VVTa9hwkq5Bn6Tk2GSGAmQ+AOe0sCJGqmD/Dvs62DXI64tTcXYNKlKYUrizOKYGE93sp0yNblbR66SXuMpaVd+uWjgViM5GCzsw4LCg5+G/x4KehF9SfY6Vo8Xbk8amFOKzDf3cgqwaqXt2+vFH0qwSFei+MoFSYegSvVoibCLsWvoPF1mHQBMTmQKlYBycWiwQLhn1J7UwjiHgbECpIym5f3KuqcuBO6cmcu9SHNT9sm/dgrjIaJxxE0CwJvK8vDIzqcTb/ghR1bU482pTq/keU7ig+4oif0mLWQY5DqGJ1NyzLPiiSdPh+ckOXPhqktsZZN5a/znCxQ/v4M13e292VLLSiiIjV81TF5PLVtIH0jimScuuucpC96r5X21XtcSP0dih6lEr2aBrXGR0+ouLTx5wLOAcKpJoD1Md+2PMfZy7NMh+E0K1ypg6UfSARdmetIvPq729xcblBHZnVVc5QWjF8BkjGDdFa1LwAQq0mQ8FpR0vDt6up/TKezhDN+uw4ws7vhZ2HLxdbNyUxp4jv/oKcpwS0IMmSilt0hKQCawpDO/AuSWMBBxmgBM0Diwyyae7Ic7rTQ3lxDEFhxYumx4Nnesv5PkayPN62FqeSmVPoEMHlaOHkjRTCtSkymtdhdA3l36YXE3sUbvwnwbcF4r8PxRpU8g4iYKzGE7U+jgr8wdau3kAkWBLqJt8nqRqpGReuVso3E330ZY5DkUTkg9aQZx72dG+lsi5Gqnduf7uYMjpBs7YBK0Z+lXOXI52d9HNtnMfmdJtKwPcdpQBbkf7oglfJF0Fw7Nm41FH2JtbWTMu88PkDQZAuCxJm2xOU9iG44eSginIMVphX1y/BeUmgontDLu0ez7YDuE5R4Yy+KlJKX5wsOGHEKmZ+8ilpTeOI6Br2rgJoH1oiyKVGVHIGzLUFFtgDNRiChe85Iv9ZiNjmSEsTSngpPPwzKdk484H127Z2vrzt9//gONfzo8vTs6O318dnm5tjeA80Hag9hsi8YBv5nlLYLo/JsZvW18KnIHO0U0IxpT5zrMxaV+I75GF3cKi/jKhpvtSMaWPXGDTHto70xITB/RbufL0reZfMHdeFEwPvFtaNG5wqWz5eKPm51KDK21TJcI6WX98HGOk62DrWsT3FQWh222iphhMW7s3t3WicsKUQsPETzSTHqs1lUL9KdqquWystkahaV8mPx5fqbr+C3IUoms=
+sidebar_class_name: "get api-method"
+info_path: docs/api-experimental/llama-stack-specification-experimental-apis
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List all connectors."}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v1alpha/connectors"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List all configured connectors.
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"properties":{"data":{"items":{"properties":{"connector_type":{"default":"mcp","type":"string","enum":["mcp"],"title":"ConnectorType","description":"Type of connector."},"connector_id":{"type":"string","title":"Connector Id","description":"Identifier for the connector"},"url":{"type":"string","title":"Url","description":"URL of the connector"},"server_label":{"anyOf":[{"type":"string"},{"type":"null"}],"description":"Label of the server"},"server_name":{"anyOf":[{"type":"string"},{"type":"null"}],"description":"Name of the server"},"server_description":{"anyOf":[{"type":"string"},{"type":"null"}],"description":"Description of the server"},"server_version":{"anyOf":[{"type":"string"},{"type":"null"}],"description":"Version of the server"}},"type":"object","required":["connector_id","url"],"title":"Connector","description":"A connector registered in Llama Stack"},"type":"array","title":"Data"}},"type":"object","required":["data"],"title":"ListConnectorsResponse","description":"Response containing a list of configured connectors"}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

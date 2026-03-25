@@ -1,0 +1,71 @@
+---
+id: list-connector-tools-v-1-alpha-connectors-connector-id-tools-get
+title: "List tools from a connector."
+description: "List all tools available from a connector."
+sidebar_label: "List tools from a connector."
+hide_title: true
+hide_table_of_contents: true
+api: eJztWFFv2zYQ/isHPq2BYqdFi65+y5psCNB2QZIBG9LAOIsniy1FquTJjWf4t+xxwH7dfsJAUrIl212RYRtQoH6xQR6Pd/d99+nklXDka2s8eTFZiScnJ+FLks+dqllZIybiuslz8r5oNFy1xiITuTVMhoM51rVWOQbz8TsfzqyEz0uqMPyqna3JsUo3SOS4qpgqv7/N1uq5s009VTK6NssfCzG5XQle1iQmwrNTZi7W2WbFNFqL9d06EwYrik4GpplgxTosvAn762yY3gPvUKZueLrNbnsYpVTBJerLXkrsGso6N3b2jnI+7Ng2/B95roixK/u/5HS9a5MJRx8a5UiKyW0C4m5b+Btr9RkVYqf0cR0kFcrEUKDxJEEZcI1hVRFEjt2zH4nthegcLnugnoXMPhdQTL8X0CvlOVzue4QehtZtxBhQGWXmgKCVZ7AFBJp6sV6He58e6pnvUMIVfWjI80N6Zejk3DnroGtQKJytgEuC08uLEVzZZl7qJRRWa/vRw9X3L+H5tyfPRyLb6SnPyE3qrjb967SyqZkyTHNyscrJZGt7E7+zvd4QkhiV7puepZUDtsp4RpPTw9otiz9wFpwHYoZq91H1mzTaGNuQekDHEop9Rgu6x6pOmXb1eXpysj04BLDLVdyUBC4tw0f0oMwCtZJgHVSoC+sqkh0vnrzYh/TGWniNZtn59l/Z8aWw48mLgaDtwbjhyC+2gRIXBHSfE0mSERaHTKBVpXgEl5rQE7BbAs5RGdDI5EYtcZ4dEpQLw+QMargmtyAHXehfyfMlkOdZX1o+BeWGQKcGGkP3NeVMEihCZfO8cW4jLpIKbDTvA3uWNv7RpPaVIv8PRRKEjHMf/Ly0xlDO1vlwdIhBmFMAtU4DB+ACVYwooYFhOElnQ91D1SO0F1JMRBhVppv9aXQwXTxGXZe4XffTno2S09ZuTuGpV6PDipicjwVL47Xo24tQXDERNXI5GLnSHLml1u5IviNukgyrQpGDwrrIss0tvVFvUym4kHtz/N87CfC28WPDpXXq11iqLoEPDbnlIIMCtR+k8BDmDCM77d8IbN+T6WU12N1P69DhcEVFXNoAdIcVl2Iixi3C4y3C41UfsfU4za6Z8FF9ErSNC7pTMteT8RjN8ri0nkkea40VHnvG/P0ot1W82FPeOMXLePCs06Hbu7CnTGH7PfkqnIfrcB6ua8pV0aoPHMP5fU1OVWQYdRAVv/96UCoPykco/eB0GMFLgr57LpGhdnahJPm3Bg58EDzF8Z2MrK0y7AFNfDorB7l1SetkGPWDJrkCc/LJMTpKPkOLWxee6fbwJbMwGmpakMN5F+FrK0n70VuTjhwd/fnb73/A+c+X51cXr8/f3Jy+OjqawKWjY0dpNAj1gG9aMDNYPJ4R46MUS4VLyEs0c4IZFbaLbEa5rULsnoNEBEUI+KZSLh4HZtXWc4VR9dtmiAKTxOWQpOy8KW+eJA8TprY7wqvcuNaoIssj5VYtb29Fm2p6XHV6mInJjtok8t5lIhA0nFutZujpJ6fX67Cc+jgwUyofAtp28idz+UR7Hgr6PS0PKMgCdRNsY3ss0Kn00HhQEN9ctcrzCD6nhocC616OzbIfTxfwoIjxP4GSUJKLMSaT0zynmnuH90aFgej8cH4j1uu/ANuUS44=
+sidebar_class_name: "get api-method"
+info_path: docs/api-experimental/llama-stack-specification-experimental-apis
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"List tools from a connector."}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/v1alpha/connectors/{connector_id}/tools"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+List all tools available from a connector.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"connector_id","in":"path","required":true,"schema":{"type":"string","description":"Identifier for the connector","title":"Connector Id"},"description":"Identifier for the connector"},{"name":"authorization","in":"query","required":false,"schema":{"anyOf":[{"type":"string"},{"type":"null"}],"description":"Authorization token","title":"Authorization"},"description":"Authorization token"}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"properties":{"data":{"items":{"properties":{"toolgroup_id":{"anyOf":[{"type":"string"},{"type":"null"}]},"name":{"type":"string","title":"Name"},"description":{"anyOf":[{"type":"string"},{"type":"null"}]},"input_schema":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}]},"output_schema":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}]},"metadata":{"anyOf":[{"additionalProperties":true,"type":"object"},{"type":"null"}]}},"type":"object","required":["name"],"title":"ToolDef","description":"Tool definition used in runtime contexts."},"type":"array","title":"Data"}},"type":"object","required":["data"],"title":"ListToolsResponse","description":"Response containing a list of tools"}}}},"400":{"description":"Bad Request","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":400,"title":"Bad Request","detail":"The request was invalid or malformed"}}}},"429":{"description":"Too Many Requests","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":429,"title":"Too Many Requests","detail":"You have exceeded the rate limit. Please try again later."}}}},"500":{"description":"Internal Server Error","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"},"example":{"status":500,"title":"Internal Server Error","detail":"An unexpected error occurred"}}}},"default":{"description":"Default Response","content":{"application/json":{"schema":{"description":"Error response from the API. Roughly follows RFC 7807.","properties":{"status":{"title":"Status","type":"integer"},"title":{"title":"Title","type":"string"},"detail":{"title":"Detail","type":"string"},"instance":{"anyOf":[{"type":"string"},{"type":"null"}],"nullable":true}},"required":["status","title","detail"],"title":"Error","type":"object"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
