@@ -7,6 +7,50 @@ Example: python3 inline-raw-loader.py versioned_docs/version-v0.4.1 /tmp/llama-s
 """
 import re, os, sys, glob
 
+
+def escape_for_mdx(text):
+    """Escape MDX-incompatible syntax in imported content."""
+    lines = text.split('\n')
+    result = []
+    in_code_fence = False
+
+    for line in lines:
+        stripped = line.strip()
+
+        # Track code fences
+        if stripped.startswith('```') or stripped.startswith('~~~'):
+            in_code_fence = not in_code_fence
+            result.append(line)
+            continue
+
+        if in_code_fence:
+            result.append(line)
+            continue
+
+        # Convert <URL> autolinks to [URL](URL) format
+        line = re.sub(r'<(https?://[^>]+)>', r'[\1](\1)', line)
+
+        # Escape <word-with-dashes> patterns that look like HTML tags to MDX
+        # e.g. <distro-name> -> \<distro-name\> or &lt;distro-name&gt;
+        line = re.sub(r'<([a-z][a-z0-9_-]+)>', r'`<\1>`', line)
+
+        # Escape { and } outside inline code spans
+        parts = re.split(r'(`[^`]+`)', line)
+        escaped_parts = []
+        for part in parts:
+            if part.startswith('`') and part.endswith('`'):
+                escaped_parts.append(part)
+            else:
+                part = re.sub(r'(?<!\\)(?<!\{)\{(?!\{)', r'\\{', part)
+                part = re.sub(r'(?<!\\)(?<!\})\}(?!\})', r'\\}', part)
+                escaped_parts.append(part)
+        line = ''.join(escaped_parts)
+
+        result.append(line)
+
+    return '\n'.join(result)
+
+
 def inline_raw_loader(versioned_dir, repo_root):
     if not os.path.isdir(versioned_dir):
         print(f'No dir: {versioned_dir}')
@@ -88,6 +132,9 @@ def inline_raw_loader(versioned_dir, repo_root):
                 '](llama_stack/',
                 '](https://github.com/llamastack/llama-stack/blob/main/llama_stack/'
             )
+
+            # Escape MDX-incompatible syntax in imported content
+            imported_content = escape_for_mdx(imported_content)
 
             # Replace <ReactMarkdown>{VarName}</ReactMarkdown> with inlined content
             content = re.sub(
