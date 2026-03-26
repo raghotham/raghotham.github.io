@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-providers/vector_io/inline_sqlite-vec" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.8.1">
+<title data-rh="true">inline::sqlite-vec | Llama Stack</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://llamastack.github.io/v0.3.0/img/llama-stack.png"><meta data-rh="true" name="twitter:image" content="https://llamastack.github.io/v0.3.0/img/llama-stack.png"><meta data-rh="true" property="og:url" content="https://llamastack.github.io/v0.3.0/docs/providers/vector_io/inline_sqlite-vec"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="inline::sqlite-vec | Llama Stack"><meta data-rh="true" name="description" content="[SQLite-Vec](https://github.com/asg017/sqlite-vec) is an inline vector database provider for Llama Stack. It
+allows you to store and query vectors directly within an SQLite database.
+That means you&#x27;re not limited to storing vectors in memory or in a separate service.
+
+## Features
+
+- Lightweight and easy to use
+- Fully integrated with Llama Stacks
+- Uses disk-based storage for persistence, allowing for larger vector storage
+
+### Comparison to Faiss
+
+The choice between Faiss and sqlite-vec should be made based on the needs of your application,
+as they have different strengths.
+
+#### Choosing the Right Provider
+
+Scenario | Recommended Tool | Reason
+-- |-----------------| --
+Online Analytical Processing (OLAP) | Faiss           | Fast, in-memory searches
+Online Transaction Processing (OLTP) | sqlite-vec      | Frequent writes and reads
+Frequent writes | sqlite-vec      | Efficient disk-based storage and incremental indexing
+Large datasets | sqlite-vec      | Disk-based storage for larger vector storage
+Datasets that can fit in memory, frequent reads | Faiss | Optimized for speed, indexing, and GPU acceleration
+
+#### Empirical Example
+
+Consider the histogram below in which 10,000 randomly generated strings were inserted
+in batches of 100 into both Faiss and sqlite-vec using `client.tool_runtime.rag_tool.insert()`.
+
+```{image} ../../../../_static/providers/vector_io/write_time_comparison_sqlite-vec-faiss.png
+:alt: Comparison of SQLite-Vec and Faiss write times
+:width: 400px
+```
+
+You will notice that the average write time for `sqlite-vec` was 788ms, compared to
+47,640ms for Faiss. While the number is jarring, if you look at the distribution, you can see that it is rather
+uniformly spread across the [1500, 100000] interval.
+
+Looking at each individual write in the order that the documents are inserted you&#x27;ll see the increase in
+write speed as Faiss reindexes the vectors after each write.
+```{image} ../../../../_static/providers/vector_io/write_time_sequence_sqlite-vec-faiss.png
+:alt: Comparison of SQLite-Vec and Faiss write times
+:width: 400px
+```
+
+In comparison, the read times for Faiss was on average 10% faster than sqlite-vec.
+The modes of the two distributions highlight the differences much further where Faiss
+will likely yield faster read performance.
+
+```{image} ../../../../_static/providers/vector_io/read_time_comparison_sqlite-vec-faiss.png
+:alt: Comparison of SQLite-Vec and Faiss read times
+:width: 400px
+```
+
+## Usage
+
+To use sqlite-vec in your Llama Stack project, follow these steps:
+
+1. Install the necessary dependencies.
+2. Configure your Llama Stack project to use SQLite-Vec.
+3. Start storing and querying vectors.
+
+The SQLite-vec provider supports three search modes:
+
+1. **Vector Search** (`mode=&quot;vector&quot;`): Performs pure vector similarity search using the embeddings.
+2. **Keyword Search** (`mode=&quot;keyword&quot;`): Performs full-text search using SQLite&#x27;s FTS5.
+3. **Hybrid Search** (`mode=&quot;hybrid&quot;`): Combines both vector and keyword search for better results. First performs keyword search to get candidate matches, then applies vector similarity search on those candidates.
+
+Example with hybrid search:
+```python
+response = await vector_io.query_chunks(
+    vector_db_id=&quot;my_db&quot;,
+    query=&quot;your query here&quot;,
+    params={&quot;mode&quot;: &quot;hybrid&quot;, &quot;max_chunks&quot;: 3, &quot;score_threshold&quot;: 0.7},
+)
+
+# Using RRF ranker
+response = await vector_io.query_chunks(
+    vector_db_id=&quot;my_db&quot;,
+    query=&quot;your query here&quot;,
+    params={
+        &quot;mode&quot;: &quot;hybrid&quot;,
+        &quot;max_chunks&quot;: 3,
+        &quot;score_threshold&quot;: 0.7,
+        &quot;ranker&quot;: {&quot;type&quot;: &quot;rrf&quot;, &quot;impact_factor&quot;: 60.0},
+    },
+)
+
+# Using weighted ranker
+response = await vector_io.query_chunks(
+    vector_db_id=&quot;my_db&quot;,
+    query=&quot;your query here&quot;,
+    params={
+        &quot;mode&quot;: &quot;hybrid&quot;,
+        &quot;max_chunks&quot;: 3,
+        &quot;score_threshold&quot;: 0.7,
+        &quot;ranker&quot;: {&quot;type&quot;: &quot;weighted&quot;, &quot;alpha&quot;: 0.7},  # 70% vector, 30% keyword
+    },
+)
+```
+
+Example with explicit vector search:
+```python
+response = await vector_io.query_chunks(
+    vector_db_id=&quot;my_db&quot;,
+    query=&quot;your query here&quot;,
+    params={&quot;mode&quot;: &quot;vector&quot;, &quot;max_chunks&quot;: 3, &quot;score_threshold&quot;: 0.7},
+)
+```
+
+Example with keyword search:
+```python
+response = await vector_io.query_chunks(
+    vector_db_id=&quot;my_db&quot;,
+    query=&quot;your query here&quot;,
+    params={&quot;mode&quot;: &quot;keyword&quot;, &quot;max_chunks&quot;: 3, &quot;score_threshold&quot;: 0.7},
+)
+```
+
+## Supported Search Modes
+
+The SQLite vector store supports three search modes:
+
+1. **Vector Search** (`mode=&quot;vector&quot;`): Uses vector similarity to find relevant chunks
+2. **Keyword Search** (`mode=&quot;keyword&quot;`): Uses keyword matching to find relevant chunks
+3. **Hybrid Search** (`mode=&quot;hybrid&quot;`): Combines both vector and keyword scores using a ranker
+
+### Hybrid Search
+
+Hybrid search combines the strengths of both vector and keyword search by:
+- Computing vector similarity scores
+- Computing keyword match scores
+- Using a ranker to combine these scores
+
+Two ranker types are supported:
+
+1. **RRF (Reciprocal Rank Fusion)**:
+   - Combines ranks from both vector and keyword results
+   - Uses an impact factor (default: 60.0) to control the weight of higher-ranked results
+   - Good for balancing between vector and keyword results
+   - The default impact factor of 60.0 comes from the original RRF paper by Cormack et al. (2009) [^1], which found this value to provide optimal performance across various retrieval tasks
+
+2. **Weighted**:
+   - Linearly combines normalized vector and keyword scores
+   - Uses an alpha parameter (0-1) to control the blend:
+     - alpha=0: Only use keyword scores
+     - alpha=1: Only use vector scores
+     - alpha=0.5: Equal weight to both (default)
+
+Example using RAGQueryConfig with different search modes:
+
+```python
+from llama_stack.apis.tools import RAGQueryConfig, RRFRanker, WeightedRanker
+
+# Vector search
+config = RAGQueryConfig(mode=&quot;vector&quot;, max_chunks=5)
+
+# Keyword search
+config = RAGQueryConfig(mode=&quot;keyword&quot;, max_chunks=5)
+
+# Hybrid search with custom RRF ranker
+config = RAGQueryConfig(
+    mode=&quot;hybrid&quot;,
+    max_chunks=5,
+    ranker=RRFRanker(impact_factor=50.0),  # Custom impact factor
+)
+
+# Hybrid search with weighted ranker
+config = RAGQueryConfig(
+    mode=&quot;hybrid&quot;,
+    max_chunks=5,
+    ranker=WeightedRanker(alpha=0.7),  # 70% vector, 30% keyword
+)
+
+# Hybrid search with default RRF ranker
+config = RAGQueryConfig(
+    mode=&quot;hybrid&quot;, max_chunks=5
+)  # Will use RRF with impact_factor=60.0
+```
+
+Note: The ranker configuration is only used in hybrid mode. For vector or keyword modes, the ranker parameter is ignored.
+
+## Installation
+
+You can install SQLite-Vec using pip:
+
+```bash
+pip install sqlite-vec
+```
+
+## Documentation
+
+See [sqlite-vec&#x27;s GitHub repo](https://github.com/asg017/sqlite-vec/tree/main) for more details about sqlite-vec in general.
+
+[^1]: Cormack, G. V., Clarke, C. L., &amp; Buettcher, S. (2009). [Reciprocal rank fusion outperforms condorcet and individual rank learning methods](https://dl.acm.org/doi/10.1145/1571941.1572114). In Proceedings of the 32nd international ACM SIGIR conference on Research and development in information retrieval (pp. 758-759).
+"><meta data-rh="true" property="og:description" content="[SQLite-Vec](https://github.com/asg017/sqlite-vec) is an inline vector database provider for Llama Stack. It
+allows you to store and query vectors directly within an SQLite database.
+That means you&#x27;re not limited to storing vectors in memory or in a separate service.
+
+## Features
+
+- Lightweight and easy to use
+- Fully integrated with Llama Stacks
+- Uses disk-based storage for persistence, allowing for larger vector storage
+
+### Comparison to Faiss
+
+The choice between Faiss and sqlite-vec should be made based on the needs of your application,
+as they have different strengths.
+
+#### Choosing the Right Provider
+
+Scenario | Recommended Tool | Reason
+-- |-----------------| --
+Online Analytical Processing (OLAP) | Faiss           | Fast, in-memory searches
+Online Transaction Processing (OLTP) | sqlite-vec      | Frequent writes and reads
+Frequent writes | sqlite-vec      | Efficient disk-based storage and incremental indexing
+Large datasets | sqlite-vec      | Disk-based storage for larger vector storage
+Datasets that can fit in memory, frequent reads | Faiss | Optimized for speed, indexing, and GPU acceleration
+
+#### Empirical Example
+
+Consider the histogram below in which 10,000 randomly generated strings were inserted
+in batches of 100 into both Faiss and sqlite-vec using `client.tool_runtime.rag_tool.insert()`.
+
+```{image} ../../../../_static/providers/vector_io/write_time_comparison_sqlite-vec-faiss.png
+:alt: Comparison of SQLite-Vec and Faiss write times
+:width: 400px
+```
+
+You will notice that the average write time for `sqlite-vec` was 788ms, compared to
+47,640ms for Faiss. While the number is jarring, if you look at the distribution, you can see that it is rather
+uniformly spread across the [1500, 100000] interval.
+
+Looking at each individual write in the order that the documents are inserted you&#x27;ll see the increase in
+write speed as Faiss reindexes the vectors after each write.
+```{image} ../../../../_static/providers/vector_io/write_time_sequence_sqlite-vec-faiss.png
+:alt: Comparison of SQLite-Vec and Faiss write times
+:width: 400px
+```
+
+In comparison, the read times for Faiss was on average 10% faster than sqlite-vec.
+The modes of the two distributions highlight the differences much further where Faiss
+will likely yield faster read performance.
+
+```{image} ../../../../_static/providers/vector_io/read_time_comparison_sqlite-vec-faiss.png
+:alt: Comparison of SQLite-Vec and Faiss read times
+:width: 400px
+```
+
+## Usage
+
+To use sqlite-vec in your Llama Stack project, follow these steps:
+
+1. Install the necessary dependencies.
+2. Configure your Llama Stack project to use SQLite-Vec.
+3. Start storing and querying vectors.
+
+The SQLite-vec provider supports three search modes:
+
+1. **Vector Search** (`mode=&quot;vector&quot;`): Performs pure vector similarity search using the embeddings.
+2. **Keyword Search** (`mode=&quot;keyword&quot;`): Performs full-text search using SQLite&#x27;s FTS5.
+3. **Hybrid Search** (`mode=&quot;hybrid&quot;`): Combines both vector and keyword search for better results. First performs keyword search to get candidate matches, then applies vector similarity search on those candidates.
+
+Example with hybrid search:
+```python
+response = await vector_io.query_chunks(
+    vector_db_id=&quot;my_db&quot;,
+    query=&quot;your query here&quot;,
+    params={&quot;mode&quot;: &quot;hybrid&quot;, &quot;max_chunks&quot;: 3, &quot;score_threshold&quot;: 0.7},
+)
+
+# Using RRF ranker
+response = await vector_io.query_chunks(
+    vector_db_id=&quot;my_db&quot;,
+    query=&quot;your query here&quot;,
+    params={
+        &quot;mode&quot;: &quot;hybrid&quot;,
+        &quot;max_chunks&quot;: 3,
+        &quot;score_threshold&quot;: 0.7,
+        &quot;ranker&quot;: {&quot;type&quot;: &quot;rrf&quot;, &quot;impact_factor&quot;: 60.0},
+    },
+)
+
+# Using weighted ranker
+response = await vector_io.query_chunks(
+    vector_db_id=&quot;my_db&quot;,
+    query=&quot;your query here&quot;,
+    params={
+        &quot;mode&quot;: &quot;hybrid&quot;,
+        &quot;max_chunks&quot;: 3,
+        &quot;score_threshold&quot;: 0.7,
+        &quot;ranker&quot;: {&quot;type&quot;: &quot;weighted&quot;, &quot;alpha&quot;: 0.7},  # 70% vector, 30% keyword
+    },
+)
+```
+
+Example with explicit vector search:
+```python
+response = await vector_io.query_chunks(
+    vector_db_id=&quot;my_db&quot;,
+    query=&quot;your query here&quot;,
+    params={&quot;mode&quot;: &quot;vector&quot;, &quot;max_chunks&quot;: 3, &quot;score_threshold&quot;: 0.7},
+)
+```
+
+Example with keyword search:
+```python
+response = await vector_io.query_chunks(
+    vector_db_id=&quot;my_db&quot;,
+    query=&quot;your query here&quot;,
+    params={&quot;mode&quot;: &quot;keyword&quot;, &quot;max_chunks&quot;: 3, &quot;score_threshold&quot;: 0.7},
+)
+```
+
+## Supported Search Modes
+
+The SQLite vector store supports three search modes:
+
+1. **Vector Search** (`mode=&quot;vector&quot;`): Uses vector similarity to find relevant chunks
+2. **Keyword Search** (`mode=&quot;keyword&quot;`): Uses keyword matching to find relevant chunks
+3. **Hybrid Search** (`mode=&quot;hybrid&quot;`): Combines both vector and keyword scores using a ranker
+
+### Hybrid Search
+
+Hybrid search combines the strengths of both vector and keyword search by:
+- Computing vector similarity scores
+- Computing keyword match scores
+- Using a ranker to combine these scores
+
+Two ranker types are supported:
+
+1. **RRF (Reciprocal Rank Fusion)**:
+   - Combines ranks from both vector and keyword results
+   - Uses an impact factor (default: 60.0) to control the weight of higher-ranked results
+   - Good for balancing between vector and keyword results
+   - The default impact factor of 60.0 comes from the original RRF paper by Cormack et al. (2009) [^1], which found this value to provide optimal performance across various retrieval tasks
+
+2. **Weighted**:
+   - Linearly combines normalized vector and keyword scores
+   - Uses an alpha parameter (0-1) to control the blend:
+     - alpha=0: Only use keyword scores
+     - alpha=1: Only use vector scores
+     - alpha=0.5: Equal weight to both (default)
+
+Example using RAGQueryConfig with different search modes:
+
+```python
+from llama_stack.apis.tools import RAGQueryConfig, RRFRanker, WeightedRanker
+
+# Vector search
+config = RAGQueryConfig(mode=&quot;vector&quot;, max_chunks=5)
+
+# Keyword search
+config = RAGQueryConfig(mode=&quot;keyword&quot;, max_chunks=5)
+
+# Hybrid search with custom RRF ranker
+config = RAGQueryConfig(
+    mode=&quot;hybrid&quot;,
+    max_chunks=5,
+    ranker=RRFRanker(impact_factor=50.0),  # Custom impact factor
+)
+
+# Hybrid search with weighted ranker
+config = RAGQueryConfig(
+    mode=&quot;hybrid&quot;,
+    max_chunks=5,
+    ranker=WeightedRanker(alpha=0.7),  # 70% vector, 30% keyword
+)
+
+# Hybrid search with default RRF ranker
+config = RAGQueryConfig(
+    mode=&quot;hybrid&quot;, max_chunks=5
+)  # Will use RRF with impact_factor=60.0
+```
+
+Note: The ranker configuration is only used in hybrid mode. For vector or keyword modes, the ranker parameter is ignored.
+
+## Installation
+
+You can install SQLite-Vec using pip:
+
+```bash
+pip install sqlite-vec
+```
+
+## Documentation
+
+See [sqlite-vec&#x27;s GitHub repo](https://github.com/asg017/sqlite-vec/tree/main) for more details about sqlite-vec in general.
+
+[^1]: Cormack, G. V., Clarke, C. L., &amp; Buettcher, S. (2009). [Reciprocal rank fusion outperforms condorcet and individual rank learning methods](https://dl.acm.org/doi/10.1145/1571941.1572114). In Proceedings of the 32nd international ACM SIGIR conference on Research and development in information retrieval (pp. 758-759).
+"><link data-rh="true" rel="icon" href="/v0.3.0/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://llamastack.github.io/v0.3.0/docs/providers/vector_io/inline_sqlite-vec"><link data-rh="true" rel="alternate" href="https://llamastack.github.io/v0.3.0/docs/providers/vector_io/inline_sqlite-vec" hreflang="en"><link data-rh="true" rel="alternate" href="https://llamastack.github.io/v0.3.0/docs/providers/vector_io/inline_sqlite-vec" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Sqlite-Vec","item":"https://llamastack.github.io/v0.3.0/docs/providers/vector_io/inline_sqlite-vec"}]}</script><link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/img/llama-stack-logo.png">
+<meta name="theme-color" content="#7C3AED">
+<link rel="manifest" href="/site.webmanifest"><link rel="stylesheet" href="/v0.3.0/assets/css/styles.7a0ad6d9.css">
+<script src="/v0.3.0/assets/js/runtime~main.5c735580.js" defer="defer"></script>
+<script src="/v0.3.0/assets/js/main.4d395f80.js" defer="defer"></script>
+</head>
+<body class="navigation-with-keyboard">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t="light";var e=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",e||t),document.documentElement.setAttribute("data-theme-choice",e||t)}(),function(){try{const n=new URLSearchParams(window.location.search).entries();for(var[t,e]of n)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}(),document.documentElement.setAttribute("data-announcement-bar-initially-dismissed",function(){try{return"true"===localStorage.getItem("docusaurus.announcement.dismiss")}catch(t){}return!1}())</script><div id="__docusaurus"><link rel="preload" as="image" href="/v0.3.0/img/llama-stack-logo.png"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><div class="theme-announcement-bar announcementBar_mb4j" style="background-color:#2b3137;color:#ffffff" role="banner"><div class="content_knG7 announcementBarContent_xLdY">This is documentation for <b>v0.3.0</b>. For the latest version, visit <a href="https://llamastack.github.io/">the main site</a>.</div></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><button aria-label="Toggle navigation bar" aria-expanded="false" class="navbar__toggle clean-btn" type="button"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/v0.3.0/"><div class="navbar__logo"><img src="/v0.3.0/img/llama-stack-logo.png" alt="Llama Stack Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"><img src="/v0.3.0/img/llama-stack-logo.png" alt="Llama Stack Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"></div><b class="navbar__title text--truncate">Llama Stack</b></a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/v0.3.0/docs">Docs</a><div class="navbar__item dropdown dropdown--hoverable"><a class="navbar__link" aria-haspopup="true" aria-expanded="false" role="button" href="/v0.3.0/docs/api-overview">API Reference</a><ul class="dropdown__menu"><li><a class="dropdown__link" href="/v0.3.0/docs/api/llama-stack-specification">🟢 Stable APIs</a></li><li><a class="dropdown__link" href="/v0.3.0/docs/api-experimental/llama-stack-specification-experimental-apis">🟡 Experimental APIs</a></li><li><a class="dropdown__link" href="/v0.3.0/docs/api-deprecated/llama-stack-specification-deprecated-apis">🔴 Deprecated APIs</a></li></ul></div></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><a href="https://github.com/llamastack/llama-stack" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link">GitHub<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"><div class="navbar__search searchBarContainer_NW3z" dir="ltr"><input placeholder="Search" aria-label="Search" class="navbar__search-input searchInput_YFbd" value=""><div class="loadingRing_RJI3 searchBarLoadingRing_YnHq"><div></div><div></div><div></div><div></div></div></div></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG menuWithAnnouncementBar_GW3s"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/v0.3.0/docs">Intro</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/v0.3.0/docs/getting_started/quickstart">Getting Started</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/v0.3.0/docs/concepts">Concepts</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/v0.3.0/docs/distributions">Distributions</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/v0.3.0/docs/providers">Providers</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/v0.3.0/docs/providers">Overview</a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/v0.3.0/docs/providers/inference">Inference</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/v0.3.0/docs/providers/safety">Safety</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" tabindex="0" href="/v0.3.0/docs/providers/vector_io">Vector IO</a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/v0.3.0/docs/providers/vector_io">Vector Io</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/v0.3.0/docs/providers/vector_io/inline_chromadb">Chromadb</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/v0.3.0/docs/providers/vector_io/inline_faiss">Faiss</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/v0.3.0/docs/providers/vector_io/inline_meta-reference">Meta-Reference</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/v0.3.0/docs/providers/vector_io/inline_milvus">Milvus</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/v0.3.0/docs/providers/vector_io/inline_qdrant">Qdrant</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/v0.3.0/docs/providers/vector_io/inline_sqlite-vec">Sqlite-Vec</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/v0.3.0/docs/providers/vector_io/remote_chromadb">Remote - Chromadb</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/v0.3.0/docs/providers/vector_io/remote_milvus">Remote - Milvus</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/v0.3.0/docs/providers/vector_io/remote_pgvector">Remote - Pgvector</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/v0.3.0/docs/providers/vector_io/remote_qdrant">Remote - Qdrant</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/v0.3.0/docs/providers/vector_io/remote_weaviate">Remote - Weaviate</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/v0.3.0/docs/providers/tool_runtime">Tool Runtime</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/v0.3.0/docs/providers/agents">Agents</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/v0.3.0/docs/providers/post_training">Post Training</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/v0.3.0/docs/providers/datasetio">DatasetIO</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/v0.3.0/docs/providers/scoring">Scoring</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/v0.3.0/docs/providers/files">Files</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/v0.3.0/docs/providers/eval">Eval</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/v0.3.0/docs/providers/telemetry">Telemetry</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/v0.3.0/docs/providers/batches">Batches</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/v0.3.0/docs/providers/external">External Providers</a></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-2 menu__list-item"><a class="menu__link" tabindex="0" href="/v0.3.0/docs/providers/openai">OpenAI Compatibility</a></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/v0.3.0/docs/building_applications">Building Applications</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/v0.3.0/docs/advanced_apis/post_training">Advanced APIs</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/v0.3.0/docs/deploying">Deploying</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/v0.3.0/docs/contributing">Contributing</a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/v0.3.0/docs/references">References</a></div></li></ul></nav><button type="button" title="Collapse sidebar" aria-label="Collapse sidebar" class="button button--secondary button--outline collapseSidebarButton_PEFL"><svg width="20" height="20" aria-hidden="true" class="collapseSidebarButtonIcon_kv0_"><g fill="#7a7a7a"><path d="M9.992 10.023c0 .2-.062.399-.172.547l-4.996 7.492a.982.982 0 01-.828.454H1c-.55 0-1-.453-1-1 0-.2.059-.403.168-.551l4.629-6.942L.168 3.078A.939.939 0 010 2.528c0-.548.45-.997 1-.997h2.996c.352 0 .649.18.828.45L9.82 9.472c.11.148.172.347.172.55zm0 0"></path><path d="M19.98 10.023c0 .2-.058.399-.168.547l-4.996 7.492a.987.987 0 01-.828.454h-3c-.547 0-.996-.453-.996-1 0-.2.059-.403.168-.551l4.625-6.942-4.625-6.945a.939.939 0 01-.168-.55 1 1 0 01.996-.997h3c.348 0 .649.18.828.45l4.996 7.492c.11.148.168.347.168.55zm0 0"></path></g></svg></button></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_xLCN"><div class="docItemContainer_jfFK"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/v0.3.0/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Providers</span></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">Vector IO</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">Sqlite-Vec</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><div class="row"><div class="col col--12 markdown"><header><h1>inline::sqlite-vec</h1></header>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="description">Description<a href="#description" class="hash-link" aria-label="Direct link to Description" title="Direct link to Description">​</a></h2>
+<p><a href="https://github.com/asg017/sqlite-vec" target="_blank" rel="noopener noreferrer">SQLite-Vec</a> is an inline vector database provider for Llama Stack. It
+allows you to store and query vectors directly within an SQLite database.
+That means you&#x27;re not limited to storing vectors in memory or in a separate service.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="features">Features<a href="#features" class="hash-link" aria-label="Direct link to Features" title="Direct link to Features">​</a></h2>
+<ul>
+<li>Lightweight and easy to use</li>
+<li>Fully integrated with Llama Stacks</li>
+<li>Uses disk-based storage for persistence, allowing for larger vector storage</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="comparison-to-faiss">Comparison to Faiss<a href="#comparison-to-faiss" class="hash-link" aria-label="Direct link to Comparison to Faiss" title="Direct link to Comparison to Faiss">​</a></h3>
+<p>The choice between Faiss and sqlite-vec should be made based on the needs of your application,
+as they have different strengths.</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="choosing-the-right-provider">Choosing the Right Provider<a href="#choosing-the-right-provider" class="hash-link" aria-label="Direct link to Choosing the Right Provider" title="Direct link to Choosing the Right Provider">​</a></h4>
+<table><thead><tr><th>Scenario</th><th>Recommended Tool</th><th>Reason</th></tr></thead><tbody><tr><td>Online Analytical Processing (OLAP)</td><td>Faiss</td><td>Fast, in-memory searches</td></tr><tr><td>Online Transaction Processing (OLTP)</td><td>sqlite-vec</td><td>Frequent writes and reads</td></tr><tr><td>Frequent writes</td><td>sqlite-vec</td><td>Efficient disk-based storage and incremental indexing</td></tr><tr><td>Large datasets</td><td>sqlite-vec</td><td>Disk-based storage for larger vector storage</td></tr><tr><td>Datasets that can fit in memory, frequent reads</td><td>Faiss</td><td>Optimized for speed, indexing, and GPU acceleration</td></tr></tbody></table>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="empirical-example">Empirical Example<a href="#empirical-example" class="hash-link" aria-label="Direct link to Empirical Example" title="Direct link to Empirical Example">​</a></h4>
+<p>Consider the histogram below in which 10,000 randomly generated strings were inserted
+in batches of 100 into both Faiss and sqlite-vec using <code>client.tool_runtime.rag_tool.insert()</code>.</p>
+<div class="language-{image} codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-{image} codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token plain">:alt: Comparison of SQLite-Vec and Faiss write times</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">:width: 400px</span><br></span></code></pre></div></div>
+<p>You will notice that the average write time for <code>sqlite-vec</code> was 788ms, compared to
+47,640ms for Faiss. While the number is jarring, if you look at the distribution, you can see that it is rather
+uniformly spread across the [1500, 100000] interval.</p>
+<p>Looking at each individual write in the order that the documents are inserted you&#x27;ll see the increase in
+write speed as Faiss reindexes the vectors after each write.</p>
+<div class="language-{image} codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-{image} codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token plain">:alt: Comparison of SQLite-Vec and Faiss write times</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">:width: 400px</span><br></span></code></pre></div></div>
+<p>In comparison, the read times for Faiss was on average 10% faster than sqlite-vec.
+The modes of the two distributions highlight the differences much further where Faiss
+will likely yield faster read performance.</p>
+<div class="language-{image} codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-{image} codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token plain">:alt: Comparison of SQLite-Vec and Faiss read times</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">:width: 400px</span><br></span></code></pre></div></div>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="usage">Usage<a href="#usage" class="hash-link" aria-label="Direct link to Usage" title="Direct link to Usage">​</a></h2>
+<p>To use sqlite-vec in your Llama Stack project, follow these steps:</p>
+<ol>
+<li>Install the necessary dependencies.</li>
+<li>Configure your Llama Stack project to use SQLite-Vec.</li>
+<li>Start storing and querying vectors.</li>
+</ol>
+<p>The SQLite-vec provider supports three search modes:</p>
+<ol>
+<li><strong>Vector Search</strong> (<code>mode=&quot;vector&quot;</code>): Performs pure vector similarity search using the embeddings.</li>
+<li><strong>Keyword Search</strong> (<code>mode=&quot;keyword&quot;</code>): Performs full-text search using SQLite&#x27;s FTS5.</li>
+<li><strong>Hybrid Search</strong> (<code>mode=&quot;hybrid&quot;</code>): Combines both vector and keyword search for better results. First performs keyword search to get candidate matches, then applies vector similarity search on those candidates.</li>
+</ol>
+<p>Example with hybrid search:</p>
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token plain">response </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">await</span><span class="token plain"> vector_io</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">query_chunks</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    vector_db_id</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;my_db&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    query</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;your query here&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    params</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;mode&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;hybrid&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;max_chunks&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">3</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;score_threshold&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">0.7</span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic"># Using RRF ranker</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">response </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">await</span><span class="token plain"> vector_io</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">query_chunks</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    vector_db_id</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;my_db&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    query</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;your query here&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    params</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">        </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;mode&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;hybrid&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">        </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;max_chunks&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">3</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">        </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;score_threshold&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">0.7</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">        </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;ranker&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;type&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;rrf&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;impact_factor&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">60.0</span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic"># Using weighted ranker</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">response </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">await</span><span class="token plain"> vector_io</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">query_chunks</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    vector_db_id</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;my_db&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    query</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;your query here&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    params</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">        </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;mode&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;hybrid&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">        </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;max_chunks&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">3</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">        </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;score_threshold&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">0.7</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">        </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;ranker&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;type&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;weighted&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;alpha&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">0.7</span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain">  </span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic"># 70% vector, 30% keyword</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></span></code></pre></div></div>
+<p>Example with explicit vector search:</p>
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token plain">response </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">await</span><span class="token plain"> vector_io</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">query_chunks</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    vector_db_id</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;my_db&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    query</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;your query here&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    params</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;mode&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;vector&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;max_chunks&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">3</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;score_threshold&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">0.7</span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></span></code></pre></div></div>
+<p>Example with keyword search:</p>
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token plain">response </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> </span><span class="token keyword" style="font-style:italic">await</span><span class="token plain"> vector_io</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">query_chunks</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    vector_db_id</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;my_db&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    query</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;your query here&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    params</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;mode&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;keyword&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;max_chunks&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">3</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> </span><span class="token string" style="color:rgb(195, 232, 141)">&quot;score_threshold&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> </span><span class="token number" style="color:rgb(247, 140, 108)">0.7</span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><br></span></code></pre></div></div>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="supported-search-modes">Supported Search Modes<a href="#supported-search-modes" class="hash-link" aria-label="Direct link to Supported Search Modes" title="Direct link to Supported Search Modes">​</a></h2>
+<p>The SQLite vector store supports three search modes:</p>
+<ol>
+<li><strong>Vector Search</strong> (<code>mode=&quot;vector&quot;</code>): Uses vector similarity to find relevant chunks</li>
+<li><strong>Keyword Search</strong> (<code>mode=&quot;keyword&quot;</code>): Uses keyword matching to find relevant chunks</li>
+<li><strong>Hybrid Search</strong> (<code>mode=&quot;hybrid&quot;</code>): Combines both vector and keyword scores using a ranker</li>
+</ol>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="hybrid-search">Hybrid Search<a href="#hybrid-search" class="hash-link" aria-label="Direct link to Hybrid Search" title="Direct link to Hybrid Search">​</a></h3>
+<p>Hybrid search combines the strengths of both vector and keyword search by:</p>
+<ul>
+<li>Computing vector similarity scores</li>
+<li>Computing keyword match scores</li>
+<li>Using a ranker to combine these scores</li>
+</ul>
+<p>Two ranker types are supported:</p>
+<ol>
+<li>
+<p><strong>RRF (Reciprocal Rank Fusion)</strong>:</p>
+<ul>
+<li>Combines ranks from both vector and keyword results</li>
+<li>Uses an impact factor (default: 60.0) to control the weight of higher-ranked results</li>
+<li>Good for balancing between vector and keyword results</li>
+<li>The default impact factor of 60.0 comes from the original RRF paper by Cormack et al. (2009) <sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref="true" aria-describedby="footnote-label">1</a></sup>, which found this value to provide optimal performance across various retrieval tasks</li>
+</ul>
+</li>
+<li>
+<p><strong>Weighted</strong>:</p>
+<ul>
+<li>Linearly combines normalized vector and keyword scores</li>
+<li>Uses an alpha parameter (0-1) to control the blend:<!-- -->
+<ul>
+<li>alpha=0: Only use keyword scores</li>
+<li>alpha=1: Only use vector scores</li>
+<li>alpha=0.5: Equal weight to both (default)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>Example using RAGQueryConfig with different search modes:</p>
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">from</span><span class="token plain"> llama_stack</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">apis</span><span class="token punctuation" style="color:rgb(199, 146, 234)">.</span><span class="token plain">tools </span><span class="token keyword" style="font-style:italic">import</span><span class="token plain"> RAGQueryConfig</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> RRFRanker</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> WeightedRanker</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic"># Vector search</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">config </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> RAGQueryConfig</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">mode</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;vector&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> max_chunks</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token number" style="color:rgb(247, 140, 108)">5</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic"># Keyword search</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">config </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> RAGQueryConfig</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">mode</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;keyword&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> max_chunks</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token number" style="color:rgb(247, 140, 108)">5</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic"># Hybrid search with custom RRF ranker</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">config </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> RAGQueryConfig</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    mode</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;hybrid&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    max_chunks</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token number" style="color:rgb(247, 140, 108)">5</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    ranker</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain">RRFRanker</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">impact_factor</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token number" style="color:rgb(247, 140, 108)">50.0</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain">  </span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic"># Custom impact factor</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic"># Hybrid search with weighted ranker</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">config </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> RAGQueryConfig</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    mode</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;hybrid&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    max_chunks</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token number" style="color:rgb(247, 140, 108)">5</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    ranker</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain">WeightedRanker</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain">alpha</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token number" style="color:rgb(247, 140, 108)">0.7</span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain">  </span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic"># 70% vector, 30% keyword</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic"># Hybrid search with default RRF ranker</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">config </span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token plain"> RAGQueryConfig</span><span class="token punctuation" style="color:rgb(199, 146, 234)">(</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    mode</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token string" style="color:rgb(195, 232, 141)">&quot;hybrid&quot;</span><span class="token punctuation" style="color:rgb(199, 146, 234)">,</span><span class="token plain"> max_chunks</span><span class="token operator" style="color:rgb(137, 221, 255)">=</span><span class="token number" style="color:rgb(247, 140, 108)">5</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">)</span><span class="token plain">  </span><span class="token comment" style="color:rgb(105, 112, 152);font-style:italic"># Will use RRF with impact_factor=60.0</span><br></span></code></pre></div></div>
+<p>Note: The ranker configuration is only used in hybrid mode. For vector or keyword modes, the ranker parameter is ignored.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="installation">Installation<a href="#installation" class="hash-link" aria-label="Direct link to Installation" title="Direct link to Installation">​</a></h2>
+<p>You can install SQLite-Vec using pip:</p>
+<div class="language-bash codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-bash codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token plain">pip </span><span class="token function" style="color:rgb(130, 170, 255)">install</span><span class="token plain"> sqlite-vec</span><br></span></code></pre></div></div>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="documentation">Documentation<a href="#documentation" class="hash-link" aria-label="Direct link to Documentation" title="Direct link to Documentation">​</a></h2>
+<p>See <a href="https://github.com/asg017/sqlite-vec/tree/main" target="_blank" rel="noopener noreferrer">sqlite-vec&#x27;s GitHub repo</a> for more details about sqlite-vec in general.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="configuration">Configuration<a href="#configuration" class="hash-link" aria-label="Direct link to Configuration" title="Direct link to Configuration">​</a></h2>
+<table><thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>db_path</code></td><td><code>&lt;class &#x27;str&#x27;&gt;</code></td><td>No</td><td></td><td>Path to the SQLite database file</td></tr><tr><td><code>persistence</code></td><td><code>&lt;class &#x27;llama_stack.core.storage.datatypes.KVStoreReference&#x27;&gt;</code></td><td>No</td><td></td><td>Config for KV store backend (SQLite only for now)</td></tr></tbody></table>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="sample-configuration">Sample Configuration<a href="#sample-configuration" class="hash-link" aria-label="Direct link to Sample Configuration" title="Direct link to Sample Configuration">​</a></h2>
+<div class="language-yaml codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-yaml codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token key atrule">db_path</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> $</span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain">env.SQLITE_STORE_DIR</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain">=~/.llama/dummy</span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><span class="token plain">/sqlite_vec.db</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token key atrule">persistence</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token key atrule">namespace</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> vector_io</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain">sqlite_vec</span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">  </span><span class="token key atrule">backend</span><span class="token punctuation" style="color:rgb(199, 146, 234)">:</span><span class="token plain"> kv_default</span><br></span></code></pre></div></div>
+<!-- -->
+<section data-footnotes="true" class="footnotes"><h2 class="anchor anchorWithStickyNavbar_LWe7 sr-only" id="footnote-label">Footnotes<a href="#footnote-label" class="hash-link" aria-label="Direct link to Footnotes" title="Direct link to Footnotes">​</a></h2>
+<ol>
+<li id="user-content-fn-1">
+<p>Cormack, G. V., Clarke, C. L., &amp; Buettcher, S. (2009). <a href="https://dl.acm.org/doi/10.1145/1571941.1572114" target="_blank" rel="noopener noreferrer">Reciprocal rank fusion outperforms condorcet and individual rank learning methods</a>. In Proceedings of the 32nd international ACM SIGIR conference on Research and development in information retrieval (pp. 758-759). <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section></div></div></div><div class="row"><div class="col col--12"></div></div></article><div class="row"><div class="col col--12"><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/v0.3.0/docs/providers/vector_io/inline_qdrant"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Qdrant</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/v0.3.0/docs/providers/vector_io/remote_chromadb"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Remote - Chromadb</div></a></nav></div></div></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#description" class="table-of-contents__link toc-highlight">Description</a></li><li><a href="#features" class="table-of-contents__link toc-highlight">Features</a><ul><li><a href="#comparison-to-faiss" class="table-of-contents__link toc-highlight">Comparison to Faiss</a></li></ul></li><li><a href="#usage" class="table-of-contents__link toc-highlight">Usage</a></li><li><a href="#supported-search-modes" class="table-of-contents__link toc-highlight">Supported Search Modes</a><ul><li><a href="#hybrid-search" class="table-of-contents__link toc-highlight">Hybrid Search</a></li></ul></li><li><a href="#installation" class="table-of-contents__link toc-highlight">Installation</a></li><li><a href="#documentation" class="table-of-contents__link toc-highlight">Documentation</a></li><li><a href="#configuration" class="table-of-contents__link toc-highlight">Configuration</a></li><li><a href="#sample-configuration" class="table-of-contents__link toc-highlight">Sample Configuration</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/v0.3.0/docs/getting_started/quickstart">Getting Started</a></li><li class="footer__item"><a class="footer__link-item" href="/v0.3.0/docs/concepts">Concepts</a></li><li class="footer__item"><a class="footer__link-item" href="/v0.3.0/docs/api-overview">API Reference</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://discord.gg/llama-stack" target="_blank" rel="noopener noreferrer" class="footer__link-item">Discord<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/llamastack/llama-stack/discussions" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub Discussions<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/llamastack/llama-stack/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">Issues<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/llamastack/llama-stack" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://pypi.org/project/llama-stack/" target="_blank" rel="noopener noreferrer" class="footer__link-item">PyPI<svg width="13.5" height="13.5" aria-hidden="true" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Meta Platforms, Inc. Built with Docusaurus.</div></div></div></footer></div>
+</body>
+</html>
