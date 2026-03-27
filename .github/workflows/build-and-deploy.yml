@@ -187,9 +187,14 @@ jobs:
         echo "✅ Docs source patched"
 
     - name: Import existing versioning artifacts
+      if: env.BUILDING_LATEST != 'true'
       run: |
         echo "📥 Importing existing versioning artifacts from repository..."
         cd "${{ env.TEMP_DIR }}/llama-stack/docs"
+
+        # Only import versioned_docs/versioned_sidebars for tagged version builds.
+        # For latest builds, archived versions are served as standalone static sites
+        # and linked via versionsArchived.json — Docusaurus doesn't need to build them.
 
         # Copy existing versioned_docs if they exist
         if [ -d "${{ github.workspace }}/versioned_docs" ]; then
@@ -375,6 +380,7 @@ jobs:
         fi
 
     - name: Inline raw-loader imports in versioned docs
+      if: env.BUILDING_LATEST != 'true'
       run: |
         cd "${{ env.TEMP_DIR }}/llama-stack/docs"
 
