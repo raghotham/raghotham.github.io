@@ -63,13 +63,13 @@ if [ -f "static/deprecated-llama-stack-spec.yaml" ]; then
   npm run gen-api-docs deprecated 2>&1 | grep -E "^Successfully" || true
 fi
 
-# Step 4: Inline raw-loader imports
+# Step 4: Patch docs source (sidebar validation, blog warnings, MDX compat)
+echo "--- Patching docs source ---"
+"$REPO_DIR/patch-docs-source.sh" --repo-dir "$REPO_DIR"
+
+# Step 5: Inline raw-loader imports
 echo "--- Inlining raw-loader imports ---"
 python3 "$REPO_DIR/inline-raw-loader.py" docs "$TEMP_DIR/llama-stack"
-
-# Step 5: Fix MDX compatibility issues
-echo "--- Fixing MDX compatibility ---"
-python3 "$REPO_DIR/fix-mdx-compat.py" docs
 
 # Step 6: Patch config for standalone archived build
 echo "--- Patching config for baseUrl: /$VERSION/ ---"
@@ -100,12 +100,6 @@ const bannerEntry = `
 config = config.replace(
   /themeConfig:\s*\{/,
   `themeConfig: {${bannerEntry}`
-);
-
-// Fix blog include pattern to support both .md and .mdx
-config = config.replace(
-  /include:\s*\['?\*\.md'?\]/g,
-  "include: ['*.{md,mdx}']"
 );
 
 fs.writeFileSync('docusaurus.config.ts', config);

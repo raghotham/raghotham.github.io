@@ -63,6 +63,11 @@ jobs:
       with:
         node-version: '20'
 
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
     - name: Setup caching for build artifacts
       uses: actions/cache@v4
       id: cache-npm
@@ -173,6 +178,13 @@ jobs:
         EOF
 
         echo "✅ Configuration patches applied"
+
+    - name: Patch docs source
+      run: |
+        cd "${{ env.TEMP_DIR }}/llama-stack/docs"
+        echo "🔧 Patching docs source (sidebar validation, blog warnings, MDX compat)..."
+        "${{ github.workspace }}/patch-docs-source.sh" --repo-dir "${{ github.workspace }}"
+        echo "✅ Docs source patched"
 
     - name: Import existing versioning artifacts
       run: |
@@ -362,34 +374,20 @@ jobs:
           echo "🏗️ Building latest version (no version snapshot needed)"
         fi
 
-    - name: Fix versioned docs relative imports
+    - name: Inline raw-loader imports in versioned docs
       run: |
         cd "${{ env.TEMP_DIR }}/llama-stack/docs"
 
-        echo "🔧 Fixing relative imports in versioned docs..."
+        echo "🔧 Inlining raw-loader imports in versioned docs..."
 
         if [ -d "versioned_docs" ]; then
-          # Fix relative paths (../../../file.md -> absolute path)
-          find versioned_docs -name "*.mdx" -type f \
-            -exec grep -l "!!raw-loader!\.\." {} \; | \
-            while read file; do
-              echo "Fixing relative raw-loader imports in $file"
-              # Pattern: !!raw-loader! followed by any number of ../ then a filename
-              # Replace with absolute path to repo root + filename
-              perl -i -pe "s|!!raw-loader!(\.\.\/)+([^'\"]*)|!!raw-loader!${{ env.TEMP_DIR }}/llama-stack/\$2|g" "$file"
-            done
-
-          # Fix hardcoded old temp paths (/tmp/tmp.XXXXXX/llama-stack/file.md -> current temp path)
-          find versioned_docs -name "*.mdx" -type f \
-            -exec grep -l "!!raw-loader!/tmp/tmp\." {} \; | \
-            while read file; do
-              echo "Fixing hardcoded temp path imports in $file"
-              # Pattern: !!raw-loader!/tmp/tmp.XXXXXX/llama-stack/filename
-              # Replace with current temp directory path
-              perl -i -pe "s|!!raw-loader!/tmp/tmp\.[^/]+/llama-stack/([^'\"]*)|!!raw-loader!${{ env.TEMP_DIR }}/llama-stack/\$1|g" "$file"
-            done
-
-          echo "✅ Versioned docs import paths corrected"
+          for version_dir in versioned_docs/version-*; do
+            if [ -d "$version_dir" ]; then
+              echo "  Processing $version_dir..."
+              python3 "${{ github.workspace }}/inline-raw-loader.py" "$version_dir" "${{ env.TEMP_DIR }}/llama-stack"
+            fi
+          done
+          echo "✅ Versioned docs raw-loader imports inlined"
         else
           echo "ℹ️ No versioned docs found"
         fi
