@@ -50,21 +50,16 @@ if (!fs.existsSync(sidebarsFile)) {
 let content = fs.readFileSync(sidebarsFile, 'utf8');
 const docsDir = 'docs';
 
-// Find doc IDs: standalone quoted strings on their own line (array items).
-// This avoids matching property values like label: 'Concepts' or type: 'category'.
-// A doc ID line looks like:   'some/doc_id',   (must contain a slash to distinguish from config values)
-// or a bare ID at top level like 'index'
+// Step 1: Remove standalone doc ID lines where the file doesn't exist
 const lines = content.split('\n');
 let removedCount = 0;
 
 const filteredLines = lines.filter(line => {
   // Match lines that are just a quoted string (optional comma), nothing else
   const match = line.match(/^(\s+)['"]([a-zA-Z0-9_\-\/]+)['"],?\s*$/);
-  if (!match) return true; // keep non-matching lines
+  if (!match) return true;
 
   const id = match[2];
-
-  // Check if the doc file exists
   const mdPath = path.join(docsDir, id + '.md');
   const mdxPath = path.join(docsDir, id + '.mdx');
   const indexMdPath = path.join(docsDir, id, 'index.md');
@@ -72,17 +67,37 @@ const filteredLines = lines.filter(line => {
 
   if (fs.existsSync(mdPath) || fs.existsSync(mdxPath) ||
       fs.existsSync(indexMdPath) || fs.existsSync(indexMdxPath)) {
-    return true; // file exists, keep it
+    return true;
   }
 
   console.log(`  Removed missing sidebar entry: ${id}`);
   removedCount++;
-  return false; // file doesn't exist, remove line
+  return false;
 });
 
+content = filteredLines.join('\n');
+
+// Step 2: Remove empty categories (items: [] with only whitespace inside)
+// A category with no items causes: "Sidebar category X has neither any subitem nor a link"
+// Match the entire category object { type: 'category', ... items: [\n  ], },
+let prevContent;
+do {
+  prevContent = content;
+  // Match category objects where items array is empty (only whitespace/newlines inside).
+  // Don't consume the leading comma — this preserves the comma between sibling items.
+  content = content.replace(
+    /\s*\{\s*type:\s*'category',\s*label:\s*'([^']*)',\s*collapsed:\s*(?:true|false),\s*items:\s*\[\s*\],?\s*\},?/g,
+    (match, label) => {
+      console.log(`  Removed empty category: ${label}`);
+      removedCount++;
+      return '';
+    }
+  );
+} while (content !== prevContent); // repeat in case of nested empty categories
+
 if (removedCount > 0) {
-  fs.writeFileSync(sidebarsFile, filteredLines.join('\n'));
-  console.log(`Removed ${removedCount} invalid sidebar entries`);
+  fs.writeFileSync(sidebarsFile, content);
+  console.log(`Removed ${removedCount} invalid sidebar entries/categories`);
 } else {
   console.log('All sidebar entries are valid');
 }
