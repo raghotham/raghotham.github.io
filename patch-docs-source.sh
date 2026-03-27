@@ -163,5 +163,8 @@ CONFIG_EOF
 # Step 3: Fix MDX compatibility issues
 echo "--- Fixing MDX compatibility ---"
 python3 "$REPO_DIR/fix-mdx-compat.py" docs
+if [ -d "blog" ]; then
+  python3 "$REPO_DIR/fix-mdx-compat.py" blog
+fi
 
 echo "=== Done patching docs source ==="

@@ -28,7 +28,11 @@ def needs_fixing(content):
             continue
         if in_code_fence:
             continue
-        if "<|" in line or "<<EOF" in line:
+        if "<|" in line or "<\\|" in line or "<<EOF" in line:
+            return True
+        # Detect <word> placeholder patterns that MDX misinterprets as JSX
+        # e.g. <brief description>, <service-name>, <region>
+        if re.search(r"<[a-z][a-z\-]*[\s>]", line):
             return True
     return False
 
@@ -46,9 +50,27 @@ def has_jsx_components(content):
 
 def fix_line(line):
     """Fix a single line outside code fences."""
-    # Escape <| and <<
+    # Escape <| and <\| (LLM special tokens like <|endoftext|> or <\|endoftext\|>)
+    line = line.replace("<\\|", "&lt;\\|")
     line = line.replace("<|", "&lt;|")
     line = re.sub(r"<<(\w+)", r"&lt;&lt;\1", line)
+
+    # Escape <lowercase-word> placeholder patterns that MDX misinterprets as JSX
+    # e.g. <brief description>, <service-name>, <region>
+    # Don't escape known HTML tags (p, a, b, i, em, strong, br, hr, div, span, etc.)
+    known_html = {
+        "a", "abbr", "b", "blockquote", "br", "code", "dd", "del", "details",
+        "div", "dl", "dt", "em", "h1", "h2", "h3", "h4", "h5", "h6", "hr",
+        "i", "img", "ins", "kbd", "li", "ol", "p", "pre", "s", "span",
+        "strong", "sub", "summary", "sup", "table", "tbody", "td", "th",
+        "thead", "tr", "u", "ul",
+    }
+    def escape_placeholder_tag(m):
+        tag = m.group(1)
+        if tag in known_html:
+            return m.group(0)
+        return "&lt;" + m.group(0)[1:]
+    line = re.sub(r"<([a-z][a-z\-]*)[\s>]", escape_placeholder_tag, line)
 
     # Escape { and } outside inline code spans
     parts = re.split(r"(`[^`]+`)", line)
