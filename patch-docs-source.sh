@@ -3,28 +3,14 @@ set -euo pipefail
 
 # patch-docs-source.sh - Patch llama-stack docs source for a clean Docusaurus build
 #
-# Usage: ./patch-docs-source.sh [--repo-dir <path>]
-#
 # Must be run from inside the llama-stack docs/ directory (where docusaurus.config.ts lives).
-# The --repo-dir flag points to the llamastack.github.io repo root (for finding helper scripts).
-# If omitted, it defaults to the directory containing this script.
 #
 # What it does:
-#   1. Validates sidebar entries and removes references to non-existent doc files
-#   2. Suppresses blog truncation warnings (onUntruncatedBlogPosts: 'warn')
-#   3. Fixes blog include pattern to support .mdx files
-#   4. Fixes MDX compatibility issues in doc files
-
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-REPO_DIR="$SCRIPT_DIR"
-
-# Parse arguments
-while [[ $# -gt 0 ]]; do
-  case $1 in
-    --repo-dir) REPO_DIR="$2"; shift 2 ;;
-    *) echo "Unknown option: $1"; exit 1 ;;
-  esac
-done
+#   1. Removes sidebar entries that reference non-existent doc files
+#   2. Patches docusaurus.config.ts:
+#      - markdown.format: 'detect' (.md = CommonMark, .mdx = MDX)
+#      - onUntruncatedBlogPosts: 'warn'
+#      - blog include pattern for .mdx support
 
 # Verify we're in a Docusaurus docs directory
 if [ ! -f "docusaurus.config.ts" ]; then
@@ -43,113 +29,93 @@ const path = require('path');
 
 const sidebarsFile = 'sidebars.ts';
 if (!fs.existsSync(sidebarsFile)) {
-  console.log('No sidebars.ts found, skipping sidebar validation');
+  console.log('No sidebars.ts found, skipping');
   process.exit(0);
 }
 
 let content = fs.readFileSync(sidebarsFile, 'utf8');
 const docsDir = 'docs';
-
-// Step 1: Remove standalone doc ID lines where the file doesn't exist
-const lines = content.split('\n');
 let removedCount = 0;
 
+// Remove standalone doc ID lines where the corresponding file doesn't exist.
+// Only matches lines that are a bare quoted string (array items in sidebars),
+// not property values like label: 'Foo' or type: 'category'.
+const lines = content.split('\n');
 const filteredLines = lines.filter(line => {
-  // Match lines that are just a quoted string (optional comma), nothing else
   const match = line.match(/^(\s+)['"]([a-zA-Z0-9_\-\/]+)['"],?\s*$/);
   if (!match) return true;
 
   const id = match[2];
-  const mdPath = path.join(docsDir, id + '.md');
-  const mdxPath = path.join(docsDir, id + '.mdx');
-  const indexMdPath = path.join(docsDir, id, 'index.md');
-  const indexMdxPath = path.join(docsDir, id, 'index.mdx');
-
-  if (fs.existsSync(mdPath) || fs.existsSync(mdxPath) ||
-      fs.existsSync(indexMdPath) || fs.existsSync(indexMdxPath)) {
+  if (fs.existsSync(path.join(docsDir, id + '.md')) ||
+      fs.existsSync(path.join(docsDir, id + '.mdx')) ||
+      fs.existsSync(path.join(docsDir, id, 'index.md')) ||
+      fs.existsSync(path.join(docsDir, id, 'index.mdx'))) {
     return true;
   }
 
-  console.log(`  Removed missing sidebar entry: ${id}`);
+  console.log(`  Removed: ${id}`);
   removedCount++;
   return false;
 });
-
 content = filteredLines.join('\n');
 
-// Step 2: Remove empty categories (items: [] with only whitespace inside)
-// A category with no items causes: "Sidebar category X has neither any subitem nor a link"
-// Match the entire category object { type: 'category', ... items: [\n  ], },
-let prevContent;
+// Remove categories left with empty items arrays.
+// Docusaurus errors: "Sidebar category X has neither any subitem nor a link"
+let prev;
 do {
-  prevContent = content;
-  // Match category objects where items array is empty (only whitespace/newlines inside).
-  // Don't consume the leading comma — this preserves the comma between sibling items.
+  prev = content;
   content = content.replace(
     /\s*\{\s*type:\s*'category',\s*label:\s*'([^']*)',\s*collapsed:\s*(?:true|false),\s*items:\s*\[\s*\],?\s*\},?/g,
-    (match, label) => {
-      console.log(`  Removed empty category: ${label}`);
-      removedCount++;
-      return '';
-    }
+    (_, label) => { console.log(`  Removed empty category: ${label}`); removedCount++; return ''; }
   );
-} while (content !== prevContent); // repeat in case of nested empty categories
+} while (content !== prev);
 
 if (removedCount > 0) {
   fs.writeFileSync(sidebarsFile, content);
   console.log(`Removed ${removedCount} invalid sidebar entries/categories`);
 } else {
-  console.log('All sidebar entries are valid');
+  console.log('All sidebar entries valid');
 }
 SIDEBAR_EOF
 
-# Step 2: Suppress blog truncation warnings and fix blog include pattern
+# Step 2: Patch docusaurus.config.ts
 echo "--- Patching docusaurus.config.ts ---"
 node << 'CONFIG_EOF'
 const fs = require('fs');
-
 let config = fs.readFileSync('docusaurus.config.ts', 'utf8');
 let changed = false;
 
-// Add onUntruncatedBlogPosts: 'warn' to blog plugin config if not already present
-if (!config.includes('onUntruncatedBlogPosts')) {
-  // Insert into the blog config section - look for blogSidebarCount or blog: {
-  // Try to find the blog plugin configuration
-  const blogConfigPatterns = [
-    // Pattern: blog: { ... blogSidebarCount: ...
-    /(blog:\s*\{)/,
-    // Pattern: preset blog options
-    /(blogSidebarCount:\s*[^,}]+)/,
-  ];
-
-  for (const pattern of blogConfigPatterns) {
-    const match = config.match(pattern);
-    if (match) {
-      if (pattern === blogConfigPatterns[0]) {
-        config = config.replace(pattern, `$1\n        onUntruncatedBlogPosts: 'warn',`);
-      } else {
-        config = config.replace(pattern, `$1,\n        onUntruncatedBlogPosts: 'warn'`);
-      }
-      changed = true;
-      console.log('  Added onUntruncatedBlogPosts: warn');
-      break;
-    }
-  }
-
-  if (!changed) {
-    // Fallback: look for any presets blog section
-    console.log('  WARNING: Could not find blog config section to patch onUntruncatedBlogPosts');
+// markdown.format: 'detect' — .md files use CommonMark (no JSX parsing),
+// .mdx files use MDX. This prevents MDX errors from upstream .md files
+// containing <tags>, {braces}, autolinks like <https://...>, etc.
+if (!config.includes("format: 'detect'") && !config.includes('format: "detect"')) {
+  const md = `\n  markdown: {\n    format: 'detect',\n  },`;
+  if (config.match(/baseUrl:\s*['"][^'"]*['"]/)) {
+    config = config.replace(/(baseUrl:\s*['"][^'"]*['"],?)/, `$1${md}`);
+    changed = true;
+    console.log("  Added markdown.format: 'detect'");
   }
 }
 
-// Fix blog include pattern to support both .md and .mdx
+// Suppress blog truncation errors (upstream posts lack <!-- truncate --> markers)
+if (!config.includes('onUntruncatedBlogPosts')) {
+  for (const p of [/(blog:\s*\{)/, /(blogSidebarCount:\s*[^,}]+)/]) {
+    if (config.match(p)) {
+      config = config.replace(p, p === /(blog:\s*\{)/ ?
+        `$1\n        onUntruncatedBlogPosts: 'warn',` :
+        `$1,\n        onUntruncatedBlogPosts: 'warn'`);
+      changed = true;
+      console.log("  Added onUntruncatedBlogPosts: 'warn'");
+      break;
+    }
+  }
+}
+
+// Blog include pattern: support .mdx files too
 if (config.match(/include:\s*\['?\*\.md'?\]/)) {
-  config = config.replace(
-    /include:\s*\['?\*\.md'?\]/g,
-    "include: ['*.{md,mdx}']"
-  );
+  config = config.replace(/include:\s*\['?\*\.md'?\]/g, "include: ['*.{md,mdx}']");
   changed = true;
-  console.log('  Fixed blog include pattern for .mdx support');
+  console.log("  Fixed blog include pattern");
 }
 
 if (changed) {
@@ -159,12 +125,5 @@ if (changed) {
   console.log('Config already up to date');
 }
 CONFIG_EOF
-
-# Step 3: Fix MDX compatibility issues
-echo "--- Fixing MDX compatibility ---"
-python3 "$REPO_DIR/fix-mdx-compat.py" docs
-if [ -d "blog" ]; then
-  python3 "$REPO_DIR/fix-mdx-compat.py" blog
-fi
 
 echo "=== Done patching docs source ==="

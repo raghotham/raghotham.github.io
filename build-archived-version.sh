@@ -65,7 +65,7 @@ fi
 
 # Step 4: Patch docs source (sidebar validation, blog warnings, MDX compat)
 echo "--- Patching docs source ---"
-"$REPO_DIR/patch-docs-source.sh" --repo-dir "$REPO_DIR"
+"$REPO_DIR/patch-docs-source.sh"
 
 # Step 5: Inline raw-loader imports
 echo "--- Inlining raw-loader imports ---"

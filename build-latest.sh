@@ -51,7 +51,7 @@ npm ci 2>&1 | tail -5
 
 # Step 3: Patch docs source for clean build
 echo "--- Patching docs source ---"
-"$REPO_DIR/patch-docs-source.sh" --repo-dir "$REPO_DIR"
+"$REPO_DIR/patch-docs-source.sh"
 
 # Step 4: Generate API docs
 echo "--- Generating API docs ---"
