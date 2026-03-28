@@ -99,15 +99,14 @@ if (!config.includes("format: 'detect'") && !config.includes('format: "detect"')
 
 // Suppress blog truncation errors (upstream posts lack <!-- truncate --> markers)
 if (!config.includes('onUntruncatedBlogPosts')) {
-  for (const p of [/(blog:\s*\{)/, /(blogSidebarCount:\s*[^,}]+)/]) {
-    if (config.match(p)) {
-      config = config.replace(p, p === /(blog:\s*\{)/ ?
-        `$1\n        onUntruncatedBlogPosts: 'warn',` :
-        `$1,\n        onUntruncatedBlogPosts: 'warn'`);
-      changed = true;
-      console.log("  Added onUntruncatedBlogPosts: 'warn'");
-      break;
-    }
+  if (config.match(/(blog:\s*\{)/)) {
+    config = config.replace(/(blog:\s*\{)/, `$1\n        onUntruncatedBlogPosts: 'warn',`);
+    changed = true;
+    console.log("  Added onUntruncatedBlogPosts: 'warn'");
+  } else if (config.match(/(blogSidebarCount:\s*[^,}]+)/)) {
+    config = config.replace(/(blogSidebarCount:\s*[^,}]+)/, `$1,\n        onUntruncatedBlogPosts: 'warn'`);
+    changed = true;
+    console.log("  Added onUntruncatedBlogPosts: 'warn'");
   }
 }
 
