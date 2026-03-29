@@ -17,6 +17,11 @@ on:
           - build-only
           - deploy-only
           - build-and-deploy
+      llama_stack_branch:
+        description: 'Branch of llama-stack to build from (default: main)'
+        required: false
+        default: 'main'
+        type: string
 
 permissions:
   contents: write
@@ -47,8 +52,10 @@ jobs:
         # Determine version to checkout
         VERSION="${{ github.event.inputs.version }}"
         if [ "$VERSION" = "latest" ] || [ -z "$VERSION" ]; then
-          git checkout main
-          echo "✅ Using main branch (latest)"
+          LSBRANCH="${{ github.event.inputs.llama_stack_branch }}"
+          LSBRANCH="${LSBRANCH:-main}"
+          git checkout "$LSBRANCH"
+          echo "✅ Using branch: $LSBRANCH"
           echo "BUILDING_LATEST=true" >> $GITHUB_ENV
           echo "VERSION_TAG=latest" >> $GITHUB_ENV
         else
