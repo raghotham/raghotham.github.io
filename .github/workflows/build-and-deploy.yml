@@ -186,13 +186,6 @@ jobs:
 
         echo "✅ Configuration patches applied"
 
-    - name: Patch docs source
-      run: |
-        cd "${{ env.TEMP_DIR }}/llama-stack/docs"
-        echo "🔧 Patching docs source (sidebar validation, blog warnings, MDX compat)..."
-        "${{ github.workspace }}/patch-docs-source.sh" --repo-dir "${{ github.workspace }}"
-        echo "✅ Docs source patched"
-
     - name: Import existing versioning artifacts
       run: |
         echo "📥 Importing existing versioning artifacts from repository..."
