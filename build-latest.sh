@@ -57,27 +57,10 @@ node - << 'NODEOF'
 const fs = require('fs');
 let config = fs.readFileSync('docusaurus.config.ts', 'utf8');
 
-const versioningCode = `
-const fs_ver = require('fs');
-const versionsArchived = (() => {
-  try { return JSON.parse(fs_ver.readFileSync('./versionsArchived.json', 'utf8')); }
-  catch (e) { return {}; }
-})();
-const archivedVersionsDropdownItems = Object.entries(versionsArchived).map(
-  ([label, href]) => ({ label, href })
-);
-`;
-
-config = config.replace(
-  /import type \* as OpenApiPlugin from "docusaurus-plugin-openapi-docs";/,
-  `import type * as OpenApiPlugin from "docusaurus-plugin-openapi-docs";\n${versioningCode}`
-);
-
-const versionDropdown = `\n        {\n          href: 'https://github.com/llamastack/llama-stack',\n          label: 'GitHub',\n          position: 'right',\n        },\n        {\n          type: 'docsVersionDropdown',\n          position: 'right',\n          dropdownItemsAfter: archivedVersionsDropdownItems.length > 0 ? [\n            { type: 'html', value: '<hr class="dropdown-separator">' },\n            { type: 'html', className: 'dropdown-archived-versions', value: '<b>Previous versions</b>' },\n            ...archivedVersionsDropdownItems,\n          ] : [],\n        },`;
 
 config = config.replace(
   /\s*\{\s*href:\s*'https:\/\/github\.com\/llamastack\/llama-stack',\s*label:\s*'GitHub',\s*position:\s*'right',\s*\},/,
-  versionDropdown
+  `\n        {\n          href: 'https://github.com/${ process.env.REPO_OWNER || 'llamastack' }/llama-stack',\n          label: 'GitHub',\n          position: 'right',\n        },\n        {\n          href: '/versions.html',\n          label: 'Versions',\n          position: 'right',\n        },`
 );
 
 fs.writeFileSync('docusaurus.config.ts', config);
@@ -94,6 +77,7 @@ rm -rf "$OUTPUT_DIR"
 mkdir -p "$OUTPUT_DIR"
 cp -r build/* "$OUTPUT_DIR/"
 touch "$OUTPUT_DIR/.nojekyll"
+cp "$REPO_DIR/versions.html" "$OUTPUT_DIR/versions.html"
 
 echo "=== Done ==="
 du -sh "$OUTPUT_DIR"

@@ -325,6 +325,7 @@ jobs:
 
         # Copy Docusaurus build output
         cp -r "${{ env.TEMP_DIR }}/llama-stack/docs/build/"* "$DOCS_DIR/"
+        cp "${{ github.workspace }}/versions.html" "$DOCS_DIR/versions.html"
 
         # Ensure .nojekyll exists
         touch "$DOCS_DIR/.nojekyll"
