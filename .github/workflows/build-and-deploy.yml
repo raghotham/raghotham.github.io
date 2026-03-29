@@ -40,7 +40,7 @@ jobs:
         TEMP_DIR=$(mktemp -d)
         echo "TEMP_DIR=$TEMP_DIR" >> $GITHUB_ENV
 
-        git clone https://github.com/llamastack/llama-stack.git "$TEMP_DIR/llama-stack"
+        git clone https://github.com/${{ github.repository_owner }}/llama-stack.git "$TEMP_DIR/llama-stack"
         cd "$TEMP_DIR/llama-stack"
         git fetch --all --tags
 
@@ -120,7 +120,7 @@ jobs:
         // Import fs for versioning configuration
         const fs = require('fs');
 
-        // Versioning configuration for llamastack.github.io
+        // Versioning configuration for ${{ github.repository_owner }}.github.io
         const versionsArchived = (() => {
           try {
             return JSON.parse(fs.readFileSync('./versionsArchived.json', 'utf8'));
@@ -147,7 +147,7 @@ jobs:
 
         // Add version dropdown to navbar (replace GitHub item)
         const versionDropdown = `        {
-          href: 'https://github.com/llamastack/llama-stack',
+          href: 'https://github.com/${{ github.repository_owner }}/llama-stack',
           label: 'GitHub',
           position: 'right',
         },
@@ -169,7 +169,7 @@ jobs:
         },`;
 
         config = config.replace(
-          /\s*{\s*href:\s*'https:\/\/github\.com\/llamastack\/llama-stack',\s*label:\s*'GitHub',\s*position:\s*'right',\s*},/,
+          /\s*{\s*href:\s*'https:\/\/github\.com\/[^/]+\/llama-stack',\s*label:\s*'GitHub',\s*position:\s*'right',\s*},/,
           versionDropdown
         );
 
@@ -231,7 +231,7 @@ jobs:
         if [ "${{ env.BUILDING_LATEST }}" = "true" ]; then
           # Try to get the last deployment hash from the deployed site
           LAST_HASH=""
-          if curl -s "https://llamastack.github.io/content-hash.txt" > /tmp/last_hash.txt 2>/dev/null; then
+          if curl -s "https://${{ github.repository_owner }}.github.io/content-hash.txt" > /tmp/last_hash.txt 2>/dev/null; then
             LAST_HASH=$(cat /tmp/last_hash.txt)
             echo "📊 Previous hash: $LAST_HASH"
           fi
@@ -363,7 +363,7 @@ jobs:
           mkdir -p versioned_docs/resources
           if [ ! -f "versioned_docs/resources/prompt-format.png" ]; then
             echo "📥 Downloading missing prompt-format.png..."
-            curl -o versioned_docs/resources/prompt-format.png https://raw.githubusercontent.com/llamastack/llama-stack/main/docs/static/img/prompt-format.png
+            curl -o versioned_docs/resources/prompt-format.png https://raw.githubusercontent.com/${{ github.repository_owner }}/llama-stack/main/docs/static/img/prompt-format.png
             echo "✅ Downloaded prompt-format.png to versioned_docs/resources/"
           else
             echo "✅ prompt-format.png already exists in versioned_docs/resources/"
