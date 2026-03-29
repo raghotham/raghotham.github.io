@@ -304,14 +304,12 @@ jobs:
       run: |
         cd "${{ env.TEMP_DIR }}/llama-stack/docs"
 
-        {
         # Patch out duplicate version badges from OpenAPI MDX files
-          echo "🔧 Patching out duplicate version badges..."
-          find . -name "llama-stack-specification.info.mdx" -type f -exec sed -i '/<span$/,/<\/span>$/d' {} \;
+        echo "🔧 Patching out duplicate version badges..."
+        find . -name "llama-stack-specification.info.mdx" -type f -exec sed -i '/<span$/,/<\/span>$/d' {} \;
 
-          echo "🏗️ Running Docusaurus build..."
-          npm run build
-        fi
+        echo "🏗️ Running Docusaurus build..."
+        npm run build
 
         echo "✅ Docusaurus build completed"
       env:
