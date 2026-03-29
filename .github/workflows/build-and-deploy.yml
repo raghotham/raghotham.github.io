@@ -91,7 +91,7 @@ jobs:
       run: |
         echo "📦 Installing dependencies..."
         cd "${{ env.TEMP_DIR }}/llama-stack/docs"
-        npm ci
+        npm ci --legacy-peer-deps
         echo "✅ Dependencies installed"
 
         echo "⚙️ Setting up versioning configuration..."
