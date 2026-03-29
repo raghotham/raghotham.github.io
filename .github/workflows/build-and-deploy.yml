@@ -96,25 +96,10 @@ jobs:
         # Copy persistent versionsArchived.json from repo
         cp "${{ github.workspace }}/versionsArchived.json" ./
 
-        # Load existing versions.json from deployed site or create empty
-        if [ -f "${{ github.workspace }}/docs/versions.json" ]; then
-          # If we're building a specific version, exclude it from the imported versions.json
-          if [ "${{ env.BUILDING_LATEST }}" != "true" ]; then
-            # Filter out the version we're about to build
-            node -e "
-            const versions = JSON.parse(require('fs').readFileSync('${{ github.workspace }}/docs/versions.json', 'utf8'));
-            const filtered = versions.filter(v => v !== '${{ env.VERSION_TAG }}');
-            require('fs').writeFileSync('versions.json', JSON.stringify(filtered, null, 2));
-            console.log('✅ Loaded versions.json (filtered out ${{ env.VERSION_TAG }})');
-            "
-          else
-            cp "${{ github.workspace }}/docs/versions.json" ./
-            echo "✅ Loaded existing versions.json"
-          fi
-        else
-          echo "[]" > versions.json
-          echo "✅ Created empty versions.json"
-        fi
+        # Archived versions are served as standalone static HTML under docs/vX.Y.Z/
+        # Docusaurus versioning is not used - always write empty versions.json
+        echo "[]" > versions.json
+        echo "✅ Created empty versions.json (archived versions are static HTML, not Docusaurus versions)" 
 
         # Patch Docusaurus config for versioning
         node << 'EOF'
@@ -186,36 +171,6 @@ jobs:
 
         echo "✅ Configuration patches applied"
 
-    - name: Import existing versioning artifacts
-      run: |
-        echo "📥 Importing existing versioning artifacts from repository..."
-        cd "${{ env.TEMP_DIR }}/llama-stack/docs"
-
-        # Copy existing versioned_docs if they exist
-        if [ -d "${{ github.workspace }}/versioned_docs" ]; then
-          cp -r "${{ github.workspace }}/versioned_docs" ./
-          echo "✅ Imported existing versioned_docs"
-        else
-          echo "ℹ️ No existing versioned_docs found (first version)"
-        fi
-
-        # Copy existing versioned_sidebars if they exist
-        if [ -d "${{ github.workspace }}/versioned_sidebars" ]; then
-          cp -r "${{ github.workspace }}/versioned_sidebars" ./
-          echo "✅ Imported existing versioned_sidebars"
-        else
-          echo "ℹ️ No existing versioned_sidebars found (first version)"
-        fi
-
-        # Copy existing versions.json if it exists (overrides what we loaded earlier)
-        if [ -f "${{ github.workspace }}/versions.json" ]; then
-          cp "${{ github.workspace }}/versions.json" ./
-          echo "✅ Imported existing versions.json"
-        else
-          echo "ℹ️ No existing versions.json found (first version)"
-        fi
-
-        echo "✅ Versioning artifacts import completed"
 
     - name: Check for content changes (optimization)
       id: content-changes
