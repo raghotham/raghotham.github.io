@@ -89,12 +89,14 @@ let changed = false;
 // .mdx files use MDX. This prevents MDX errors from upstream .md files
 // containing <tags>, {braces}, autolinks like <https://...>, etc.
 if (!config.includes("format: 'detect'") && !config.includes('format: "detect"')) {
-  const md = `\n  markdown: {\n    format: 'detect',\n  },`;
-  if (config.match(/baseUrl:\s*['"][^'"]*['"]/)) {
-    config = config.replace(/(baseUrl:\s*['"][^'"]*['"],?)/, `$1${md}`);
-    changed = true;
-    console.log("  Added markdown.format: 'detect'");
+  // Insert into existing markdown: { ... } block if present, otherwise create new block
+  if (config.match(/markdown:\s*\{/)) {
+    config = config.replace(/(markdown:\s*\{)/, `$1\n    format: 'detect',`);
+  } else {
+    config = config.replace(/(baseUrl:\s*['"][^'"]*['"],?)/, `$1\n  markdown: {\n    format: 'detect',\n  },`);
   }
+  changed = true;
+  console.log("  Added markdown.format: 'detect'");
 }
 
 // Suppress blog truncation errors (upstream posts lack <!-- truncate --> markers)
@@ -124,5 +126,26 @@ if (changed) {
   console.log('Config already up to date');
 }
 CONFIG_EOF
+
+# Step 3: Rename .mdx files that don't use JSX to .md
+# With format: 'detect', .md files use CommonMark (safe), .mdx uses MDX.
+# Some upstream .mdx files contain MDX-incompatible content (e.g. <|tokens|>)
+# but don't actually use JSX — renaming them avoids MDX parse errors.
+echo "--- Renaming non-JSX .mdx files to .md ---"
+renamed=0
+for f in $(find docs blog -name '*.mdx' -type f 2>/dev/null); do
+  # Skip files that use JSX (import statements or JSX component tags)
+  if grep -qE '^\s*import\s+' "$f" || grep -qE '<[A-Z][a-zA-Z]+[\s/>]' "$f"; then
+    continue
+  fi
+  mv "$f" "${f%.mdx}.md"
+  echo "  Renamed: $f -> ${f%.mdx}.md"
+  renamed=$((renamed + 1))
+done
+if [ "$renamed" -gt 0 ]; then
+  echo "Renamed $renamed files"
+else
+  echo "No files to rename"
+fi
 
 echo "=== Done patching docs source ==="
