@@ -51,7 +51,7 @@ npm ci 2>&1 | tail -5
 
 # Step 3: Patch docs source for clean build
 echo "--- Patching docs source ---"
-"$REPO_DIR/patch-docs-source.sh" --repo-dir "$REPO_DIR"
+"$REPO_DIR/patch-docs-source.sh"
 
 # Step 4: Generate API docs
 echo "--- Generating API docs ---"
@@ -85,25 +85,9 @@ else
   echo "Created empty versions.json"
 fi
 
-# Copy existing versioned_docs and versioned_sidebars if they exist
-if [ -d "$REPO_DIR/versioned_docs" ]; then
-  cp -r "$REPO_DIR/versioned_docs" ./
-  echo "Imported existing versioned_docs"
-fi
-
-if [ -d "$REPO_DIR/versioned_sidebars" ]; then
-  cp -r "$REPO_DIR/versioned_sidebars" ./
-  echo "Imported existing versioned_sidebars"
-fi
-
-# Inline raw-loader imports in versioned docs
-if [ -d "versioned_docs" ]; then
-  for version_dir in versioned_docs/version-*; do
-    if [ -d "$version_dir" ]; then
-      python3 "$REPO_DIR/inline-raw-loader.py" "$version_dir" "$TEMP_DIR/llama-stack"
-    fi
-  done
-fi
+# For latest builds, we do NOT import versioned_docs/versioned_sidebars.
+# Archived versions are served as standalone static sites under docs/vX.Y.Z/
+# and linked via versionsArchived.json — Docusaurus doesn't need to build them.
 
 # Patch Docusaurus config for versioning
 node << 'EOF'
