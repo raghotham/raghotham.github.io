@@ -58,9 +58,16 @@ const fs = require('fs');
 let config = fs.readFileSync('docusaurus.config.ts', 'utf8');
 
 
+// Replace GitHub link and remove docsVersionDropdown - use simple Versions link
+const owner = process.env.REPO_OWNER || 'llamastack';
 config = config.replace(
-  /\s*\{\s*href:\s*'https:\/\/github\.com\/llamastack\/llama-stack',\s*label:\s*'GitHub',\s*position:\s*'right',\s*\},/,
-  `\n        {\n          href: 'https://github.com/${ process.env.REPO_OWNER || 'llamastack' }/llama-stack',\n          label: 'GitHub',\n          position: 'right',\n        },\n        {\n          href: '/versions.html',\n          label: 'Versions',\n          position: 'right',\n        },`
+  "href: 'https://github.com/llamastack/llama-stack',\n          label: 'GitHub',\n          position: 'right',",
+  `href: 'https://github.com/${owner}/llama-stack',\n          label: 'GitHub',\n          position: 'right',`
+);
+// Inject Versions link after GitHub link
+config = config.replace(
+  `href: 'https://github.com/${owner}/llama-stack',\n          label: 'GitHub',\n          position: 'right',\n        },`,
+  `href: 'https://github.com/${owner}/llama-stack',\n          label: 'GitHub',\n          position: 'right',\n        },\n        {\n          href: '/versions.html',\n          label: 'Versions',\n          position: 'right',\n        },`
 );
 
 fs.writeFileSync('docusaurus.config.ts', config);
