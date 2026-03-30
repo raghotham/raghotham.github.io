@@ -101,75 +101,9 @@ jobs:
         echo "[]" > versions.json
         echo "✅ Created empty versions.json (archived versions are static HTML, not Docusaurus versions)" 
 
-        # Patch Docusaurus config for versioning
-        node << 'EOF'
-        const fs = require('fs');
-
-        let config = fs.readFileSync('docusaurus.config.ts', 'utf8');
-
-        // Add versioning imports after OpenAPI import
-        const versioningImports = `
-        // Import fs for versioning configuration
-        const fs = require('fs');
-
-        // Versioning configuration for ${{ github.repository_owner }}.github.io
-        const versionsArchived = (() => {
-          try {
-            return JSON.parse(fs.readFileSync('./versionsArchived.json', 'utf8'));
-          } catch (e) {
-            console.warn('Could not load versionsArchived.json:', e);
-            return {};
-          }
-        })();
-
-        const archivedVersionsDropdownItems = Object.entries(versionsArchived).map(
-          ([versionName, versionUrl]) => ({
-            label: versionName,
-            href: versionUrl,
-          })
-        );
-        `;
-
-        config = config.replace(
-          /import type \* as OpenApiPlugin from "docusaurus-plugin-openapi-docs";/,
-          `import type * as OpenApiPlugin from "docusaurus-plugin-openapi-docs";
-
-        ${versioningImports}`
-        );
-
-        // Add version dropdown to navbar (replace GitHub item)
-        const versionDropdown = `        {
-          href: 'https://github.com/${{ github.repository_owner }}/llama-stack',
-          label: 'GitHub',
-          position: 'right',
-        },
-        {
-          type: 'docsVersionDropdown',
-          position: 'right',
-          dropdownItemsAfter: archivedVersionsDropdownItems.length > 0 ? [
-            {
-              type: 'html',
-              value: '<hr class="dropdown-separator">',
-            },
-            {
-              type: 'html',
-              className: 'dropdown-archived-versions',
-              value: '<b>Previous versions</b>',
-            },
-            ...archivedVersionsDropdownItems,
-          ] : [],
-        },`;
-
-        config = config.replace(
-          /\s*{\s*href:\s*'https:\/\/github\.com\/[^/]+\/llama-stack',\s*label:\s*'GitHub',\s*position:\s*'right',\s*},/,
-          versionDropdown
-        );
-
-        fs.writeFileSync('docusaurus.config.ts', config);
-        console.log('✅ Configuration patched');
-        EOF
-
-        echo "✅ Configuration patches applied"
+        # Fix GitHub org to match this repo's owner
+        sed -i "s|https://github.com/llamastack/llama-stack|https://github.com/${{ github.repository_owner }}/llama-stack|g" docusaurus.config.ts
+        echo "✅ Configuration patched"
 
 
 
