@@ -99,7 +99,7 @@ jobs:
         # Archived versions are served as standalone static HTML under docs/vX.Y.Z/
         # Docusaurus versioning is not used - always write empty versions.json
         echo "[]" > versions.json
-        echo "✅ Created empty versions.json (archived versions are static HTML, not Docusaurus versions)" 
+        echo "✅ Created empty versions.json (archived versions are static HTML, not Docusaurus versions)"
 
         # Fix GitHub org to match this repo's owner
         sed -i "s|https://github.com/llamastack/llama-stack|https://github.com/${{ github.repository_owner }}/llama-stack|g" docusaurus.config.ts
