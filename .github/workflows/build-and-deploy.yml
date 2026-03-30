@@ -231,6 +231,7 @@ jobs:
         fi
 
     - name: Inline raw-loader imports in versioned docs
+      if: env.BUILDING_LATEST != 'true'
       run: |
         cd "${{ env.TEMP_DIR }}/llama-stack/docs"
 
