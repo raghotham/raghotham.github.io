@@ -12,7 +12,7 @@ set -euo pipefail
 # What it does:
 #   1. Validates sidebar entries and removes references to non-existent doc files
 #   2. Suppresses blog truncation warnings (onUntruncatedBlogPosts: 'warn')
-#   3. Fixes blog include pattern to support .mdx files
+#   3. Fixes blog include pattern to support .mdx files and exclude subdirectory files
 #   4. Fixes MDX compatibility issues in doc files
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -137,7 +137,7 @@ if (!config.includes('onUntruncatedBlogPosts')) {
   }
 }
 
-// Fix blog include pattern to support both .md and .mdx
+// Fix blog include pattern to support both .md and .mdx (top-level only, no subdirs)
 if (config.match(/include:\s*\['?\*\.md'?\]/)) {
   config = config.replace(
     /include:\s*\['?\*\.md'?\]/g,
@@ -145,6 +145,20 @@ if (config.match(/include:\s*\['?\*\.md'?\]/)) {
   );
   changed = true;
   console.log('  Fixed blog include pattern for .mdx support');
+}
+
+// If no explicit include in blog config, add one to prevent subdirectory .md files
+// from being picked up as blog posts (Docusaurus default is '**/*.{md,mdx}')
+if (!config.match(/blog[\s\S]*?include:/)) {
+  const blogMatch = config.match(/(blog:\s*\{)/);
+  if (blogMatch) {
+    config = config.replace(
+      /(blog:\s*\{)/,
+      "$1\n        include: ['*.{md,mdx}'],"
+    );
+    changed = true;
+    console.log('  Added blog include pattern to exclude subdirectory files');
+  }
 }
 
 if (changed) {

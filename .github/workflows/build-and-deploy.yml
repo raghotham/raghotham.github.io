@@ -103,6 +103,20 @@ jobs:
 
         # Fix GitHub org to match this repo's owner
         sed -i "s|https://github.com/llamastack/llama-stack|https://github.com/${{ github.repository_owner }}/llama-stack|g" docusaurus.config.ts
+
+        # Restrict blog to top-level .md/.mdx files only (exclude subdirectory files)
+        # Docusaurus defaults to '**/*.{md,mdx}' which picks up non-blog .md files from subfolders
+        node -e "
+          const fs = require('fs');
+          let c = fs.readFileSync('docusaurus.config.ts', 'utf8');
+          if (!c.match(/blog[\s\S]*?include:/)) {
+            c = c.replace(/(blog:\s*\{)/, \"\\\$1\\n        include: ['*.{md,mdx}'],\");
+            fs.writeFileSync('docusaurus.config.ts', c);
+            console.log('✅ Blog include pattern set to top-level only');
+          } else {
+            console.log('ℹ️ Blog already has explicit include pattern');
+          }
+        "
         echo "✅ Configuration patched"
 
 
